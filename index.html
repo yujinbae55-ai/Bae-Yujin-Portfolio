@@ -9,11 +9,18 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --w:#f9f9f7;--p:#f2f1ed;--ink:#141412;--i2:#3a3935;--i3:#78766e;--i4:#b5b3aa;
-  --rule:#e0dfd8;--blue:#2563eb;--blue-l:#eff6ff;--blue-m:#dbeafe;
-  --admin:#2563eb;
+  --rule:#e0dfd8;--blue:#2563eb;--blue-l:#eff6ff;--blue-m:#dbeafe;--admin:#2563eb;
 }
 html{scroll-behavior:smooth}
 body{background:var(--w);color:var(--ink);font-family:'Pretendard',-apple-system,sans-serif;font-size:13px;font-weight:300;line-height:1.8;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+
+/* loading screen */
+#loading-screen{position:fixed;inset:0;background:var(--w);z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;transition:opacity .5s ease}
+#loading-screen.done{opacity:0;pointer-events:none}
+.loading-name{font-size:1.5rem;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.loading-bar-wrap{width:180px;height:1px;background:var(--rule)}
+.loading-bar{height:1px;background:var(--blue);width:0;transition:width .4s ease}
+.loading-msg{font-size:10px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--i4)}
 
 /* cursor */
 .cur{width:5px;height:5px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:transform .12s,opacity .12s;mix-blend-mode:multiply}
@@ -25,6 +32,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .nav-items{display:flex;gap:2rem;list-style:none}
 .nav-items a{font-size:11px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--i3);text-decoration:none;transition:color .15s}
 .nav-items a:hover{color:var(--ink)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-sync{font-size:9px;font-weight:500;letter-spacing:.08em;color:var(--i4);display:none}
+.nav-sync.show{display:block}
 .nav-admin-btn{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--admin);background:none;border:.5px solid var(--admin);padding:.3rem .8rem;border-radius:3px;cursor:pointer;transition:background .15s,color .15s}
 .nav-admin-btn:hover{background:var(--admin);color:#fff}
 
@@ -48,31 +58,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .hero-nums{display:grid;grid-template-columns:repeat(3,1fr);border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
 .hero-num{border-right:.5px solid var(--rule);border-bottom:.5px solid var(--rule);padding:1.25rem 1rem}
 .hero-num-n{font-size:2.2rem;font-weight:700;letter-spacing:-.04em;color:var(--ink);line-height:1;margin-bottom:.3rem}
-.hero-num-n span{font-size:1.1rem;font-weight:300}
+.hero-num-n sup{font-size:1rem;font-weight:300}
 .hero-num-l{font-size:9px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--i4)}
 .hero-strip{display:grid;grid-template-columns:repeat(3,1fr)}
 .strip-item{padding:.9rem 3rem;border-right:.5px solid var(--rule);font-size:10px;font-weight:400;letter-spacing:.06em;color:var(--i3);display:flex;align-items:center;gap:.7rem}
 .strip-item:last-child{border-right:none}
 .strip-item::before{content:'→';font-size:10px;color:var(--i4);flex-shrink:0}
 
-/* year badge — blue */
+/* year badge */
 .year-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--blue);background:var(--blue-l);border:1px solid var(--blue-m);padding:.18rem .55rem;border-radius:3px;line-height:1.4}
 
-/* section commons */
+/* section */
 .sec-wrap{padding:5.5rem 3rem}
 .sec-head{display:flex;align-items:baseline;gap:1.25rem;border-bottom:.5px solid var(--rule);padding-bottom:1rem;margin-bottom:3rem}
 .sec-n{font-size:10px;font-weight:400;letter-spacing:.1em;color:var(--i4)}
 .sec-title{font-size:1.35rem;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
 .sec-kr{font-size:10px;font-weight:300;letter-spacing:.15em;color:var(--i4);margin-left:auto}
 
-/* ── RESEARCH with toggle ── */
+/* research */
 #research{background:var(--w)}
 .r-grid{display:grid;grid-template-columns:1fr 1fr;border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
 .r-card{border-right:.5px solid var(--rule);border-bottom:.5px solid var(--rule)}
 .r-card.wide{grid-column:1/-1}
-.r-card-header{padding:2rem 2rem 1.5rem;cursor:pointer;transition:background .2s;display:grid;gap:.8rem}
+.r-card-header{padding:2rem 2rem 1.5rem;cursor:pointer;transition:background .2s}
 .r-card.wide .r-card-header{display:grid;grid-template-columns:1fr 100px;gap:2rem;align-items:start}
 .r-card-header:hover{background:var(--p)}
+.r-card-header-main{}
 .r-status{display:inline-block;font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--i3);border:.5px solid var(--rule);padding:.22rem .55rem;margin-bottom:.6rem}
 .r-status.live{color:var(--ink);border-color:var(--i3)}
 .r-title{font-size:14px;font-weight:700;letter-spacing:-.02em;color:var(--ink);line-height:1.5;margin-bottom:.7rem}
@@ -82,12 +93,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .r-tag{font-size:9px;font-weight:400;letter-spacing:.06em;color:var(--i4);border:.5px solid var(--rule);padding:.18rem .5rem}
 .r-big-n{font-size:3.5rem;font-weight:700;letter-spacing:-.05em;color:var(--rule);line-height:1;text-align:right}
 .r-big-l{font-size:8.5px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--i4);text-align:right}
-.r-toggle-icon{font-size:11px;color:var(--i4);transition:transform .3s;margin-left:auto;align-self:center;flex-shrink:0}
+.r-toggle-row{display:flex;justify-content:flex-end;margin-top:.75rem}
+.r-toggle-icon{font-size:11px;color:var(--i4);transition:transform .3s;display:inline-block}
 .r-card.open .r-toggle-icon{transform:rotate(180deg)}
-
-/* research detail panel */
-.r-detail{display:none;border-top:.5px solid var(--rule);padding:2rem 2rem 2.5rem;background:var(--p);animation:fadeIn .25s ease}
-.r-card.open .r-detail{display:block}
+.r-detail{display:none;border-top:.5px solid var(--rule);padding:2rem 2rem 2.5rem;background:var(--p)}
+.r-card.open .r-detail{display:block;animation:fadeIn .25s ease}
 .r-detail-section{margin-bottom:1.75rem}
 .r-detail-section:last-child{margin-bottom:0}
 .r-detail-label{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:.6rem}
@@ -95,7 +105,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .r-detail-imgs{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.75rem}
 .r-detail-imgs img{height:120px;width:auto;border:.5px solid var(--rule);border-radius:3px;object-fit:cover}
 
-/* ── PUBLICATIONS ── */
+/* publications */
 #publications{background:var(--p)}
 .pub-list{border-top:.5px solid var(--rule)}
 .pub-row{display:grid;grid-template-columns:80px 1fr 80px;gap:1.5rem;align-items:start;padding:1.5rem 0;border-bottom:.5px solid var(--rule);transition:background .15s}
@@ -105,7 +115,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .pub-badge{font-size:8.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:.5px solid var(--rule);color:var(--i3);padding:.22rem .5rem;display:inline-block;white-space:nowrap;margin-top:.15rem;border-radius:2px}
 .pub-badge.ip{border-color:var(--i3);color:var(--i2)}
 
-/* ── PRODUCTS with detail modal ── */
+/* products */
 #products{background:var(--w)}
 .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
 .prod-card{border-right:.5px solid var(--rule);border-bottom:.5px solid var(--rule);display:flex;flex-direction:column;cursor:pointer;transition:background .2s}
@@ -120,7 +130,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .s-tag{font-size:9px;font-weight:400;letter-spacing:.06em;color:var(--i4);border:.5px solid var(--rule);padding:.18rem .5rem}
 .prod-open-hint{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-top:.85rem;opacity:.8}
 
-/* product detail modal */
+/* product modal */
 #prod-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(20,20,18,.55);backdrop-filter:blur(5px);overflow-y:auto}
 #prod-modal.open{display:flex;align-items:flex-start;justify-content:center;padding:3rem 1.5rem}
 .pm-inner{background:var(--w);width:min(860px,96vw);border:.5px solid var(--rule);border-radius:4px;overflow:hidden}
@@ -128,21 +138,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .pm-title{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
 .pm-close{font-size:20px;font-weight:200;color:var(--i4);background:none;border:none;cursor:pointer;line-height:1;padding:0 .2rem;transition:color .15s}
 .pm-close:hover{color:var(--ink)}
-/* tabs */
 .pm-tabs{display:flex;border-bottom:.5px solid var(--rule);overflow-x:auto}
 .pm-tab{flex-shrink:0;padding:.85rem 1.5rem;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--i3);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
 .pm-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
-/* tab content */
 .pm-tab-content{display:none;padding:2rem 2.5rem 3rem;animation:fadeIn .2s ease}
 .pm-tab-content.active{display:block}
 .pm-section-title{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:.75rem}
 .pm-text{font-size:13px;font-weight:300;color:var(--i2);line-height:2.1;margin-bottom:1.5rem}
-/* image slider */
 .pm-slider{position:relative;width:100%;aspect-ratio:16/7;background:var(--p);border:.5px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:1rem}
 .pm-slides{display:flex;height:100%;transition:transform .4s ease}
-.pm-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:300;color:var(--i4);flex-direction:column;gap:.5rem}
+.pm-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center}
 .pm-slide img{width:100%;height:100%;object-fit:contain}
-.pm-slide-empty{padding:2rem;text-align:center}
+.pm-slide-empty{font-size:12px;font-weight:300;color:var(--i4);text-align:center;padding:2rem}
 .slider-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(249,249,247,.85);border:.5px solid var(--rule);color:var(--i3);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;border-radius:2px;transition:background .15s}
 .slider-btn:hover{background:var(--w)}
 .slider-prev{left:.75rem}
@@ -192,7 +199,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .hero-right{animation:up 1s .38s ease both}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* ══════════ ADMIN ══════════ */
+/* ══ ADMIN ══ */
 #adm-ov{display:none;position:fixed;inset:0;z-index:800;background:rgba(20,20,18,.6);backdrop-filter:blur(5px);align-items:center;justify-content:center}
 #adm-ov.open{display:flex}
 #adm-box{background:var(--w);border:.5px solid var(--rule);width:min(740px,94vw);max-height:90vh;overflow-y:auto;border-radius:4px}
@@ -200,15 +207,11 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .adm-top-title{font-size:13px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
 .adm-top-close{font-size:18px;font-weight:300;color:var(--i4);background:none;border:none;cursor:pointer;line-height:1;padding:0 .3rem;transition:color .15s}
 .adm-top-close:hover{color:var(--ink)}
-
-/* admin tabs */
 .adm-tabs{display:flex;border-bottom:.5px solid var(--rule);overflow-x:auto}
 .adm-tab{flex-shrink:0;padding:.7rem 1.25rem;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--i3);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
 .adm-tab.on{color:var(--blue);border-bottom-color:var(--blue)}
 .adm-pane{display:none;padding:1.5rem 2rem 2rem}
 .adm-pane.on{display:block}
-
-/* admin login */
 #adm-login{padding:2.5rem 2rem}
 .af{margin-bottom:1.25rem}
 .af label{display:block;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--i3);margin-bottom:.4rem}
@@ -220,34 +223,27 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .pw-err{font-size:11px;color:#dc2626;margin-top:.4rem;display:none}
 .adm-btn{padding:.6rem 1.4rem;background:var(--ink);color:var(--w);font-family:'Pretendard',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;transition:opacity .15s}
 .adm-btn:hover{opacity:.82}
-.adm-btn-sm{padding:.45rem 1rem;background:var(--ink);color:var(--w);font-family:'Pretendard',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;transition:opacity .15s}
-.adm-btn-sm:hover{opacity:.82}
-.adm-btn-out{padding:.45rem 1rem;background:none;color:var(--i3);font-family:'Pretendard',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:.5px solid var(--rule);cursor:pointer;border-radius:2px;transition:border-color .15s}
+.adm-btn-out{padding:.6rem 1.4rem;background:none;color:var(--i3);font-family:'Pretendard',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:.5px solid var(--rule);cursor:pointer;border-radius:2px;transition:border-color .15s}
 .adm-btn-out:hover{border-color:var(--i3)}
 .adm-add{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--admin);background:none;border:.5px solid var(--admin);padding:.4rem .9rem;border-radius:2px;cursor:pointer;transition:background .15s,color .15s}
 .adm-add:hover{background:var(--admin);color:#fff}
 .adm-del{font-size:10px;font-weight:600;color:#dc2626;background:none;border:.5px solid #fecaca;padding:.35rem .7rem;border-radius:2px;cursor:pointer;transition:background .15s}
 .adm-del:hover{background:#fef2f2}
-.list-item{background:var(--p);border:.5px solid var(--rule);border-radius:3px;padding:1rem 1rem .75rem;margin-bottom:.75rem;position:relative}
+.list-item{background:var(--p);border:.5px solid var(--rule);border-radius:3px;padding:1rem 1rem .75rem;margin-bottom:.75rem}
 .list-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
 .list-item-num{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--i4)}
 .adm-actions{padding:1.25rem 2rem;display:flex;gap:.75rem;justify-content:flex-end;align-items:center;position:sticky;bottom:0;background:var(--w);border-top:.5px solid var(--rule)}
 .adm-saved{font-size:11px;font-weight:500;color:#16a34a;margin-right:auto;opacity:0;transition:opacity .3s}
 .adm-saved.show{opacity:1}
-
-/* img upload areas */
-.img-upload-area{border:.5px dashed var(--rule);border-radius:3px;padding:.75rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:.5rem;cursor:pointer;transition:border-color .2s}
-.img-upload-area:hover{border-color:var(--i3)}
+.adm-saving{font-size:11px;font-weight:500;color:var(--blue);margin-right:auto;opacity:0;transition:opacity .3s}
+.adm-saving.show{opacity:1}
+.img-upload-area{border:.5px dashed var(--rule);border-radius:3px;padding:.75rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:.5rem}
 .img-thumb-wrap{position:relative;display:inline-block}
 .img-thumb{width:60px;height:60px;object-fit:cover;border:.5px solid var(--rule);border-radius:2px}
-.img-thumb-del{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.img-thumb-del{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .img-add-btn{width:60px;height:60px;border:.5px dashed var(--rule);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--i4);cursor:pointer;transition:border-color .2s,color .2s}
 .img-add-btn:hover{border-color:var(--blue);color:var(--blue)}
 
-/* product modal step tabs */
-.pm-step-label{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:.5rem;display:block}
-
-/* responsive */
 @media(max-width:860px){
   nav{padding:0 1.5rem}
   .hero-main{grid-template-columns:1fr}
@@ -267,9 +263,16 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 </style>
 </head>
 <body>
+
+<!-- loading -->
+<div id="loading-screen">
+  <div class="loading-name">배유진</div>
+  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
+  <div class="loading-msg" id="loading-msg">데이터 불러오는 중...</div>
+</div>
+
 <div class="cur" id="cur"></div>
 
-<!-- NAV -->
 <nav>
   <a href="#" class="nav-mark" id="nav-name">배유진</a>
   <ul class="nav-items">
@@ -279,10 +282,12 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
     <li><a href="#awards">Awards</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <button class="nav-admin-btn" onclick="openAdm()">관리자</button>
+  <div class="nav-right">
+    <span class="nav-sync" id="nav-sync">저장 중...</span>
+    <button class="nav-admin-btn" onclick="openAdm()">관리자</button>
+  </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-main">
     <div class="hero-left">
@@ -297,7 +302,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
       <div><div class="hf-label">연구 관심</div><div class="hf-val" id="h-interest"><strong>디지털 웰빙</strong> · 교사 소진<br><strong>아동발달</strong> · SNS 자기조절<br>혼합연구방법론</div></div>
       <div><div class="hf-label">소속 팀</div><div class="hf-val" id="h-team"><strong>Caremate</strong> 연구팀 · BK21 참여 대학원생</div></div>
       <div class="hero-nums">
-        <div class="hero-num"><div class="hero-num-n" id="h-n1">3<span>+</span></div><div class="hero-num-l">Projects</div></div>
+        <div class="hero-num"><div class="hero-num-n" id="h-n1">3<sup>+</sup></div><div class="hero-num-l">Projects</div></div>
         <div class="hero-num"><div class="hero-num-n" id="h-n2">68</div><div class="hero-num-l">Participants</div></div>
         <div class="hero-num"><div class="hero-num-n" id="h-n3">2</div><div class="hero-num-l">Products</div></div>
       </div>
@@ -310,7 +315,6 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   </div>
 </div>
 
-<!-- RESEARCH -->
 <section id="research">
   <div class="sec-wrap">
     <div class="sec-head reveal"><span class="sec-n">01</span><h2 class="sec-title">Research</h2><span class="sec-kr">연구 프로젝트</span></div>
@@ -318,7 +322,6 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   </div>
 </section>
 
-<!-- PUBLICATIONS -->
 <section id="publications">
   <div class="sec-wrap">
     <div class="sec-head reveal"><span class="sec-n">02</span><h2 class="sec-title">Publications</h2><span class="sec-kr">논문·발표</span></div>
@@ -326,7 +329,6 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   </div>
 </section>
 
-<!-- PRODUCTS -->
 <section id="products">
   <div class="sec-wrap">
     <div class="sec-head reveal"><span class="sec-n">03</span><h2 class="sec-title">Digital Products</h2><span class="sec-kr">디지털 제품</span></div>
@@ -334,7 +336,6 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   </div>
 </section>
 
-<!-- AWARDS -->
 <section id="awards">
   <div class="sec-wrap">
     <div class="sec-head reveal"><span class="sec-n">04</span><h2 class="sec-title">Awards &amp; Certifications</h2><span class="sec-kr">수상·수료</span></div>
@@ -342,7 +343,6 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
   <div class="contact-grid">
     <div class="contact-left reveal">
@@ -359,31 +359,23 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 </section>
 <footer><span class="ft-l">배유진 · Bae Yujin</span><span class="ft-r">© 2026 — Research × Design × Wellbeing</span></footer>
 
-<!-- PRODUCT DETAIL MODAL -->
+<!-- product modal -->
 <div id="prod-modal">
   <div class="pm-inner">
-    <div class="pm-top">
-      <span class="pm-title" id="pm-title">프로젝트 상세</span>
-      <button class="pm-close" onclick="closeProdModal()">✕</button>
-    </div>
+    <div class="pm-top"><span class="pm-title" id="pm-title">프로젝트 상세</span><button class="pm-close" onclick="closeProdModal()">✕</button></div>
     <div class="pm-tabs" id="pm-tabs"></div>
     <div id="pm-contents"></div>
   </div>
 </div>
 
-<!-- ADMIN OVERLAY -->
+<!-- admin -->
 <div id="adm-ov">
   <div id="adm-box">
-    <div class="adm-top">
-      <span class="adm-top-title">관리자 패널</span>
-      <button class="adm-top-close" onclick="closeAdm()">✕</button>
-    </div>
-    <!-- login -->
+    <div class="adm-top"><span class="adm-top-title">관리자 패널</span><button class="adm-top-close" onclick="closeAdm()">✕</button></div>
     <div id="adm-login">
       <div class="af"><label>비밀번호</label><input type="password" id="pw" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')doLogin()"><p class="pw-err" id="pw-err">올바르지 않습니다.</p></div>
       <button class="adm-btn" onclick="doLogin()">로그인</button>
     </div>
-    <!-- editor -->
     <div id="adm-editor" style="display:none">
       <div class="adm-tabs">
         <div class="adm-tab on" onclick="switchAdmTab(0)">기본정보</div>
@@ -393,52 +385,25 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
         <div class="adm-tab" onclick="switchAdmTab(4)">수상·수료</div>
         <div class="adm-tab" onclick="switchAdmTab(5)">연락처</div>
       </div>
-
-      <!-- 0: 기본정보 -->
       <div class="adm-pane on" id="ap-0">
         <div class="af-row"><div class="af"><label>Nav 이름</label><input id="e-navname" value="배유진"></div><div class="af"><label>Eyebrow</label><input id="e-eyebrow" value="Researcher · Designer · Yonsei University"></div></div>
         <div class="af"><label>Hero 소개</label><textarea id="e-desc">아동·가족 연구자이자 디지털 디자이너. 문제를 발견하고, 측정하고, 실제로 쓸 수 있는 형태로 만듭니다. 연구에서 삶으로.</textarea></div>
-        <div class="af-row">
-          <div class="af"><label>소속</label><textarea id="e-affil">연세대학교 아동·가족학과&#10;융합전공 인간생활·혁신디자인&#10;석사과정 (2025–)</textarea></div>
-          <div class="af"><label>연구 관심</label><textarea id="e-interest">디지털 웰빙 · 교사 소진&#10;아동발달 · SNS 자기조절&#10;혼합연구방법론</textarea></div>
-        </div>
+        <div class="af-row"><div class="af"><label>소속</label><textarea id="e-affil">연세대학교 아동·가족학과&#10;융합전공 인간생활·혁신디자인&#10;석사과정 (2025–)</textarea></div><div class="af"><label>연구 관심</label><textarea id="e-interest">디지털 웰빙 · 교사 소진&#10;아동발달 · SNS 자기조절&#10;혼합연구방법론</textarea></div></div>
         <div class="af"><label>소속 팀</label><input id="e-team" value="Caremate 연구팀 · BK21 참여 대학원생"></div>
         <div class="af-row3"><div class="af"><label>통계 1</label><input id="e-n1" value="3+"></div><div class="af"><label>통계 2</label><input id="e-n2" value="68"></div><div class="af"><label>통계 3</label><input id="e-n3" value="2"></div></div>
         <div class="af-row3"><div class="af"><label>하단 띠 1</label><input id="e-s1" value="영유아 교사 소진 · 온숨 프로그램 개발"></div><div class="af"><label>하단 띠 2</label><input id="e-s2" value="Firebase · GitHub Pages 디지털 제품 배포"></div><div class="af"><label>하단 띠 3</label><input id="e-s3" value="ISSBD 2026 · 한국디자인문화학회지"></div></div>
       </div>
-
-      <!-- 1: 연구 -->
-      <div class="adm-pane" id="ap-1">
-        <div id="r-ed-list"></div>
-        <button class="adm-add" onclick="addResearch()">+ 연구 추가</button>
-      </div>
-
-      <!-- 2: 논문 -->
-      <div class="adm-pane" id="ap-2">
-        <div id="pub-ed-list"></div>
-        <button class="adm-add" onclick="addPub()">+ 논문 추가</button>
-      </div>
-
-      <!-- 3: 프로덕트 -->
-      <div class="adm-pane" id="ap-3">
-        <div id="prod-ed-list"></div>
-        <button class="adm-add" onclick="addProd()">+ 프로덕트 추가</button>
-      </div>
-
-      <!-- 4: 수상 -->
-      <div class="adm-pane" id="ap-4">
-        <div id="aw-ed-list"></div>
-        <button class="adm-add" onclick="addAward()">+ 수상 추가</button>
-      </div>
-
-      <!-- 5: 연락처 -->
+      <div class="adm-pane" id="ap-1"><div id="r-ed-list"></div><button class="adm-add" onclick="addResearch()">+ 연구 추가</button></div>
+      <div class="adm-pane" id="ap-2"><div id="pub-ed-list"></div><button class="adm-add" onclick="addPub()">+ 논문 추가</button></div>
+      <div class="adm-pane" id="ap-3"><div id="prod-ed-list"></div><button class="adm-add" onclick="addProd()">+ 프로덕트 추가</button></div>
+      <div class="adm-pane" id="ap-4"><div id="aw-ed-list"></div><button class="adm-add" onclick="addAward()">+ 수상 추가</button></div>
       <div class="adm-pane" id="ap-5">
         <div class="af-row"><div class="af"><label>이메일</label><input id="e-email" value="your.email@yonsei.ac.kr"></div><div class="af"><label>GitHub URL</label><input id="e-github" value="github.com/your-handle"></div></div>
         <div class="af"><label>Contact 본문</label><textarea id="e-cbody">연구 협업, 콘퍼런스 발표, 프로젝트 문의 등 어떤 이야기든 환영합니다. 메일이나 GitHub를 통해 편하게 연락주세요.</textarea></div>
       </div>
-
       <div class="adm-actions">
-        <span class="adm-saved" id="adm-saved">저장 완료 ✓</span>
+        <span class="adm-saving" id="adm-saving">Firebase에 저장 중...</span>
+        <span class="adm-saved" id="adm-saved">✓ Firebase 저장 완료</span>
         <button class="adm-btn-out" onclick="closeAdm()">닫기</button>
         <button class="adm-btn" onclick="applyAll()">저장하기</button>
       </div>
@@ -446,159 +411,175 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   </div>
 </div>
 
-<script>
-/* ═══════════════ DATA ═══════════════ */
+<!-- Firebase SDKs -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, set, get, child } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBulBXePn7kfRNoHgUskhme3QCg4AyloBw",
+  authDomain: "yujin-portfolio-e07ef.firebaseapp.com",
+  databaseURL: "https://yujin-portfolio-e07ef-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "yujin-portfolio-e07ef",
+  storageBucket: "yujin-portfolio-e07ef.firebasestorage.app",
+  messagingSenderId: "153300357769",
+  appId: "1:153300357769:web:6fb148501cef28565fec58"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 const PASS = '1734';
 const ROMAN = ['i.','ii.','iii.','iv.','v.','vi.','vii.','viii.','ix.','x.'];
-
-let researches = [
-  {
-    status:'진행 중 · 2025–2026', live:true,
-    title:'온숨 — 영유아 교사를 위한 요가 기반 웰니스 중재 프로그램 개발 및 검증',
-    body:'N=68 설문·N=7 심층인터뷰를 기반으로 교사 소진 유형(소진 위험형·눈치 과잉형·긴장 과다형)을 도출하고, 6모듈 요가 중재 프로그램과 디지털 플랫폼 사이사이를 개발·MVP 검증 중인 혼합연구 프로젝트.',
-    tags:'PSS-10, MAAS, K-BERQ, Nordic Checklist, HPLP-II, 혼합연구방법론, Firebase',
-    bigNum:'68', bigLabel:'Participants', wide:true,
-    detail:{
-      problem:'영유아 교사는 높은 정서노동과 열악한 처우로 인해 심각한 소진을 경험하지만, 이를 다루는 체계적 중재 프로그램은 부재한 상황이었습니다.',
-      rationale:'N=68 설문 분석 결과, 교사의 72%가 중간 이상의 직무 스트레스를 보고. N=7 심층인터뷰에서 신체적 긴장, 정서적 소진, 눈치 과부하 3개 핵심 유형 도출.',
-      theory:'마음챙김 기반 스트레스 완화(MBSR) 이론 + 요가 기반 체화 인지 이론을 접목하여, 짧은 시간 내 수행 가능한 교사 맞춤형 프로그램 설계.',
-      process:'① 문헌고찰 → ② 설문(N=68) → ③ 인터뷰(N=7) → ④ 페르소나 도출 → ⑤ 프로그램 설계 → ⑥ 사이사이 플랫폼 개발 → ⑦ MVP 검증(진행 중)',
-      result:'6모듈 요가 프로그램 + Firebase 기반 디지털 플랫폼 사이사이 MVP 배포. 3주 개입 후 PSS-10, MAAS 점수 변화 검증 중.',
-      images:{ problem:[], rationale:[], theory:[], process:[], result:[] }
-    }
-  },
-  {
-    status:'완료 · 2024–2025', live:false,
-    title:'Selftune — SNS 사용 자기조절 앱 연구',
-    body:'20대 성인의 SNS 과사용 문제를 탐색하고 앱 프로토타입을 설계. 6일 MVP 검증(N=6) 포함 혼합연구. 한국디자인문화학회지 게재.',
-    tags:'앱 프로토타입, 자기조절, 디자인 리서치',
-    bigNum:'', bigLabel:'', wide:false,
-    detail:{
-      problem:'20대 성인의 SNS 과사용은 자기통제력 저하·주의분산·수면 장애 등 복합적 문제를 야기하지만, 행동 변화를 유도하는 디지털 도구는 부족.',
-      rationale:'심층인터뷰(N=8) 결과, 사용자는 줄이고 싶지만 알림·습관적 접근으로 실패 반복. 자기모니터링과 리플렉션 기능의 필요성 확인.',
-      theory:'자기결정이론(SDT) + 행동 변화 바퀴(BCW) 모델을 기반으로 자율성·역량감·관계성을 지원하는 앱 기능 설계.',
-      process:'① 문헌고찰 → ② 사용자 인터뷰(N=8) → ③ 앱 설계(Figma) → ④ 프로토타입 제작 → ⑤ 6일 사용 실험(N=6) → ⑥ 효과 분석 → ⑦ 논문 작성',
-      result:'자기모니터링·리플렉션·알림 설정 3개 핵심 기능 앱 프로토타입. 6일 실험 결과 일일 SNS 사용 시간 평균 34분 감소, 주관적 통제감 유의미하게 증가.',
-      images:{ problem:[], rationale:[], theory:[], process:[], result:[] }
-    }
-  },
-  {
-    status:'발표 채택 · 2024–2025', live:false,
-    title:'또래 배제·우울·스마트폰 과의존의 종단적 관계',
-    body:'KCYPS 2018 패널 데이터를 활용한 중학생 대상 구조방정식 종단 분석. ISSBD 2026 포스터 발표 채택.',
-    tags:'Mplus, SEM, 종단 분석, KCYPS 2018',
-    bigNum:'', bigLabel:'', wide:false,
-    detail:{
-      problem:'또래 배제, 우울, 스마트폰 과의존은 청소년기 핵심 문제이지만, 세 변인 간의 종단적 상호영향 경로는 아직 불명확.',
-      rationale:'KCYPS 2018 데이터 활용, 중1~중3 패널 추적. 또래 배제→우울→스마트폰 과의존의 매개 경로 검증.',
-      theory:'Stress-Coping 이론 + 문제 행동 이론(Problem Behavior Theory) 기반. 스트레스 반응으로서 스마트폰 과의존을 개념화.',
-      process:'① 가설 설정 → ② KCYPS 데이터 정제 → ③ Mplus SEM 구성 → ④ 교차지연 모형 분석 → ⑤ 포스터 작성 → ⑥ ISSBD 2026 채택',
-      result:'또래 배제 → 우울 → 스마트폰 과의존의 순차적 매개 경로 확인 (β=.18, p<.01). 우울의 완전매개 역할 검증.',
-      images:{ problem:[], rationale:[], theory:[], process:[], result:[] }
-    }
-  }
-];
-
-let pubs = [
-  {year:'2026',title:'디지털 사회화 척도에 대한 체계적 문헌 고찰',venue:'Korean Journal of Human Development · 공동저자',badge:'Journal',ip:false},
-  {year:'2026',title:'또래 배제·우울·스마트폰 과의존의 종단적 관계 — 중학생 패널 자료를 중심으로',venue:'ISSBD 2026, 인천 송도 · 포스터 발표',badge:'Conf.',ip:false},
-  {year:'2026',title:'영유아 교사의 소진 경험에 관한 탐색적 연구 — 온숨 프로그램 개발 기초',venue:'한국육아지원학회 춘계학술대회 · 포스터 발표',badge:'Conf.',ip:false},
-  {year:'2026',title:'SNS 자기조절을 위한 앱 디자인 연구 — Selftune MVP 검증을 중심으로',venue:'한국디자인문화학회지 Vol. 32(1) · 제1저자',badge:'In Press',ip:true},
-];
-
-let products = [
-  {
-    name:'사이사이 (Saisai)', tag:'Research Platform', thumb:'사이사이',
-    desc:'온숨 연구를 위한 Firebase 기반 웹 플랫폼. 3주 요가 중재 참여자 관리·설문 수집·콘텐츠 제공 통합 지원.',
-    stack:'Firebase, HTML/CSS/JS, GitHub Pages',
-    detail:{
-      problem:'영유아 교사 대상 3주 요가 중재 프로그램의 참여 관리·설문 수집·콘텐츠 전달을 하나의 플랫폼에서 처리할 수 있는 연구 도구 부재.',
-      rationale:'연구팀 내부 조사 결과, 기존 Google Forms + 카카오톡 방식은 데이터 분산·참여율 저하·콘텐츠 접근 불편 등의 문제 확인.',
-      theory:'사용자 중심 디자인(UCD) + 서비스 디자인 방법론. 교사 사용자의 디지털 리터러시 수준을 고려하여 최소 인터랙션으로 최대 기능 구현.',
-      process:'① 요구사항 분석 → ② 와이어프레임(Figma) → ③ Firebase 설계 → ④ 단일 파일 HTML 구현 → ⑤ GitHub Pages 배포 → ⑥ MVP 테스트 → ⑦ 반복 개선',
-      result:'Firebase Realtime Database 기반 참여자 인증·설문·콘텐츠 플랫폼 완성. 3주 MVP 테스트 진행 중. 참여율 89% 유지.',
-      images:{ problem:[], rationale:[], theory:[], process:[], result:[] }
-    }
-  },
-  {
-    name:'ADDI+er', tag:'Team Tool', thumb:'ADDI+er',
-    desc:'연구팀 출결 관리 웹앱. 2인 팀 일정 추적·업무 조율용으로 직접 설계·개발·배포한 단일 파일 앱.',
-    stack:'Firebase, Single-file HTML, GitHub Pages',
-    detail:{
-      problem:'소규모 연구팀의 출결·업무 현황을 실시간으로 공유할 수 있는 경량 도구 부재. 기존 엑셀·메모 방식의 비효율.',
-      rationale:'팀 워크플로우 분석 결과, 하루 평균 3회 이상의 "지금 어디야?" 메시지 발생. 실시간 상태 공유 기능 필요성 확인.',
-      theory:'린(Lean) UX 방법론. 최소 기능 제품(MVP)으로 빠르게 배포 후 사용 데이터 기반 반복 개선.',
-      process:'① 문제 정의 → ② Firebase 구조 설계 → ③ 단일 파일 HTML 구현 → ④ GitHub Pages 배포 → ⑤ 팀 내 사용 → ⑥ 기능 개선',
-      result:'출결 체크·일정 표시·실시간 동기화 기능 구현. 2인 팀 6개월 이상 안정적 운용 중.',
-      images:{ problem:[], rationale:[], theory:[], process:[], result:[] }
-    }
-  },
-  {
-    name:'Selftune', tag:'Research Prototype', thumb:'Selftune',
-    desc:'SNS 사용 자기조절 앱 프로토타입. 6일 MVP 검증(N=6) 통해 효과성 검토 후 논문 발표.',
-    stack:'Figma, UX Research, MVP Testing',
-    detail:{
-      problem:'SNS 과사용으로 인한 자기통제력 저하, 주의분산, 수면 장애 등 복합적 문제를 행동 변화 관점에서 해결할 디지털 도구 부재.',
-      rationale:'사용자 인터뷰(N=8) 결과, 줄이고 싶지만 습관적·자동적 접근이 반복됨. 자기모니터링 + 리플렉션 기능이 핵심.',
-      theory:'자기결정이론(SDT) + 행동 변화 바퀴(BCW). 앱 기능별로 자율성·역량감·관계성 지원 요소 매핑.',
-      process:'① 사용자 인터뷰 → ② 친화도 분석 → ③ 페르소나 도출 → ④ Figma 프로토타입 → ⑤ 6일 사용 실험(N=6) → ⑥ 분석·논문 작성',
-      result:'일일 SNS 사용 시간 평균 34분 감소. 주관적 자기통제감 유의미하게 증가. 한국디자인문화학회지 게재(In Press).',
-      images:{ problem:[], rationale:[], theory:[], process:[], result:[] }
-    }
-  }
-];
-
-let awards = [
-  {title:'BK21 미래교육디자인연구유닛 참여 대학원생',org:'연세대학교',year:'2025–'},
-  {title:'IHEI WORKSTATION 사회혁신 프로그램 수료',org:'연세대학교 IHEI',year:'2025'},
-  {title:'아동권리보장원 제5기 서포터즈 선발',org:'아동권리보장원 · 팀 Translators',year:'2025–2026'},
-  {title:'ISSBD 2026 포스터 발표 채택',org:'ISSBD · 인천 송도',year:'2026'},
-];
-
 const STEP_KEYS = ['problem','rationale','theory','process','result'];
 const STEP_LABELS = {problem:'문제의식',rationale:'연구 근거',theory:'이론적 배경',process:'진행 과정',result:'결과물'};
 
-/* ═══════════════ RENDER ═══════════════ */
+/* ── default data ── */
+const DEFAULT = {
+  basic:{
+    navname:'배유진', eyebrow:'Researcher · Designer · Yonsei University',
+    desc:'아동·가족 연구자이자 디지털 디자이너. 문제를 발견하고, 측정하고, 실제로 쓸 수 있는 형태로 만듭니다. 연구에서 삶으로.',
+    affil:'연세대학교 아동·가족학과\n융합전공 인간생활·혁신디자인\n석사과정 (2025–)',
+    interest:'디지털 웰빙 · 교사 소진\n아동발달 · SNS 자기조절\n혼합연구방법론',
+    team:'Caremate 연구팀 · BK21 참여 대학원생',
+    n1:'3+', n2:'68', n3:'2',
+    s1:'영유아 교사 소진 · 온숨 프로그램 개발',
+    s2:'Firebase · GitHub Pages 디지털 제품 배포',
+    s3:'ISSBD 2026 · 한국디자인문화학회지',
+    email:'your.email@yonsei.ac.kr', github:'github.com/your-handle',
+    cbody:'연구 협업, 콘퍼런스 발표, 프로젝트 문의 등 어떤 이야기든 환영합니다. 메일이나 GitHub를 통해 편하게 연락주세요.'
+  },
+  researches:[
+    {status:'진행 중 · 2025–2026',live:true,title:'온숨 — 영유아 교사를 위한 요가 기반 웰니스 중재 프로그램 개발 및 검증',body:'N=68 설문·N=7 심층인터뷰를 기반으로 교사 소진 유형(소진 위험형·눈치 과잉형·긴장 과다형)을 도출하고, 6모듈 요가 중재 프로그램과 디지털 플랫폼 사이사이를 개발·MVP 검증 중인 혼합연구 프로젝트.',tags:'PSS-10, MAAS, K-BERQ, Nordic Checklist, HPLP-II, 혼합연구방법론, Firebase',bigNum:'68',bigLabel:'Participants',wide:true,detail:{problem:'영유아 교사는 높은 정서노동과 열악한 처우로 인해 심각한 소진을 경험하지만, 이를 다루는 체계적 중재 프로그램은 부재한 상황이었습니다.',rationale:'N=68 설문 분석 결과, 교사의 72%가 중간 이상의 직무 스트레스를 보고. N=7 심층인터뷰에서 신체적 긴장, 정서적 소진, 눈치 과부하 3개 핵심 유형 도출.',theory:'마음챙김 기반 스트레스 완화(MBSR) 이론 + 요가 기반 체화 인지 이론을 접목하여, 짧은 시간 내 수행 가능한 교사 맞춤형 프로그램 설계.',process:'① 문헌고찰 → ② 설문(N=68) → ③ 인터뷰(N=7) → ④ 페르소나 도출 → ⑤ 프로그램 설계 → ⑥ 사이사이 플랫폼 개발 → ⑦ MVP 검증(진행 중)',result:'6모듈 요가 프로그램 + Firebase 기반 디지털 플랫폼 사이사이 MVP 배포. 3주 개입 후 PSS-10, MAAS 점수 변화 검증 중.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
+    {status:'완료 · 2024–2025',live:false,title:'Selftune — SNS 사용 자기조절 앱 연구',body:'20대 성인의 SNS 과사용 문제를 탐색하고 앱 프로토타입을 설계. 6일 MVP 검증(N=6) 포함 혼합연구. 한국디자인문화학회지 게재.',tags:'앱 프로토타입, 자기조절, 디자인 리서치',bigNum:'',bigLabel:'',wide:false,detail:{problem:'20대 성인의 SNS 과사용은 자기통제력 저하·주의분산·수면 장애 등 복합적 문제를 야기하지만, 행동 변화를 유도하는 디지털 도구는 부족.',rationale:'심층인터뷰(N=8) 결과, 사용자는 줄이고 싶지만 알림·습관적 접근으로 실패 반복. 자기모니터링과 리플렉션 기능의 필요성 확인.',theory:'자기결정이론(SDT) + 행동 변화 바퀴(BCW) 모델을 기반으로 자율성·역량감·관계성을 지원하는 앱 기능 설계.',process:'① 문헌고찰 → ② 사용자 인터뷰(N=8) → ③ 앱 설계(Figma) → ④ 프로토타입 제작 → ⑤ 6일 사용 실험(N=6) → ⑥ 효과 분석 → ⑦ 논문 작성',result:'자기모니터링·리플렉션·알림 설정 3개 핵심 기능 앱 프로토타입. 6일 실험 결과 일일 SNS 사용 시간 평균 34분 감소.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
+    {status:'발표 채택 · 2024–2025',live:false,title:'또래 배제·우울·스마트폰 과의존의 종단적 관계',body:'KCYPS 2018 패널 데이터를 활용한 중학생 대상 구조방정식 종단 분석. ISSBD 2026 포스터 발표 채택.',tags:'Mplus, SEM, 종단 분석, KCYPS 2018',bigNum:'',bigLabel:'',wide:false,detail:{problem:'또래 배제, 우울, 스마트폰 과의존은 청소년기 핵심 문제이지만, 세 변인 간의 종단적 상호영향 경로는 아직 불명확.',rationale:'KCYPS 2018 데이터 활용, 중1~중3 패널 추적. 또래 배제→우울→스마트폰 과의존의 매개 경로 검증.',theory:'Stress-Coping 이론 + 문제 행동 이론(Problem Behavior Theory) 기반. 스트레스 반응으로서 스마트폰 과의존을 개념화.',process:'① 가설 설정 → ② KCYPS 데이터 정제 → ③ Mplus SEM 구성 → ④ 교차지연 모형 분석 → ⑤ 포스터 작성 → ⑥ ISSBD 2026 채택',result:'또래 배제 → 우울 → 스마트폰 과의존의 순차적 매개 경로 확인 (β=.18, p<.01). 우울의 완전매개 역할 검증.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}}
+  ],
+  pubs:[
+    {year:'2026',title:'디지털 사회화 척도에 대한 체계적 문헌 고찰',venue:'Korean Journal of Human Development · 공동저자',badge:'Journal',ip:false},
+    {year:'2026',title:'또래 배제·우울·스마트폰 과의존의 종단적 관계 — 중학생 패널 자료를 중심으로',venue:'ISSBD 2026, 인천 송도 · 포스터 발표',badge:'Conf.',ip:false},
+    {year:'2026',title:'영유아 교사의 소진 경험에 관한 탐색적 연구 — 온숨 프로그램 개발 기초',venue:'한국육아지원학회 춘계학술대회 · 포스터 발표',badge:'Conf.',ip:false},
+    {year:'2026',title:'SNS 자기조절을 위한 앱 디자인 연구 — Selftune MVP 검증을 중심으로',venue:'한국디자인문화학회지 Vol. 32(1) · 제1저자',badge:'In Press',ip:true}
+  ],
+  products:[
+    {name:'사이사이 (Saisai)',tag:'Research Platform',thumb:'사이사이',desc:'온숨 연구를 위한 Firebase 기반 웹 플랫폼. 3주 요가 중재 참여자 관리·설문 수집·콘텐츠 제공 통합 지원.',stack:'Firebase, HTML/CSS/JS, GitHub Pages',detail:{problem:'영유아 교사 대상 3주 요가 중재 프로그램의 참여 관리·설문 수집·콘텐츠 전달을 하나의 플랫폼에서 처리할 수 있는 연구 도구 부재.',rationale:'연구팀 내부 조사 결과, 기존 방식은 데이터 분산·참여율 저하·콘텐츠 접근 불편 등의 문제 확인.',theory:'사용자 중심 디자인(UCD) + 서비스 디자인 방법론 적용.',process:'① 요구사항 분석 → ② 와이어프레임 → ③ Firebase 설계 → ④ HTML 구현 → ⑤ GitHub Pages 배포 → ⑥ MVP 테스트',result:'Firebase Realtime Database 기반 참여자 인증·설문·콘텐츠 플랫폼 완성. 참여율 89% 유지.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
+    {name:'ADDI+er',tag:'Team Tool',thumb:'ADDI+er',desc:'연구팀 출결 관리 웹앱. 2인 팀 일정 추적·업무 조율용으로 직접 설계·개발·배포한 단일 파일 앱.',stack:'Firebase, Single-file HTML, GitHub Pages',detail:{problem:'소규모 연구팀의 출결·업무 현황을 실시간으로 공유할 수 있는 경량 도구 부재.',rationale:'팀 워크플로우 분석 결과, 하루 평균 3회 이상의 상태 확인 메시지 발생. 실시간 공유 기능 필요성 확인.',theory:'린(Lean) UX 방법론. 최소 기능 제품(MVP)으로 빠르게 배포 후 반복 개선.',process:'① 문제 정의 → ② Firebase 구조 설계 → ③ HTML 구현 → ④ GitHub Pages 배포 → ⑤ 팀 내 사용 → ⑥ 개선',result:'출결 체크·일정 표시·실시간 동기화 기능 구현. 2인 팀 6개월 이상 안정적 운용 중.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
+    {name:'Selftune',tag:'Research Prototype',thumb:'Selftune',desc:'SNS 사용 자기조절 앱 프로토타입. 6일 MVP 검증(N=6) 통해 효과성 검토 후 논문 발표.',stack:'Figma, UX Research, MVP Testing',detail:{problem:'SNS 과사용으로 인한 자기통제력 저하 문제를 행동 변화 관점에서 해결할 디지털 도구 부재.',rationale:'사용자 인터뷰(N=8) 결과, 줄이고 싶지만 습관적 접근이 반복됨. 자기모니터링 + 리플렉션 기능이 핵심.',theory:'자기결정이론(SDT) + 행동 변화 바퀴(BCW). 앱 기능별로 자율성·역량감·관계성 지원 요소 매핑.',process:'① 사용자 인터뷰 → ② 친화도 분석 → ③ 페르소나 도출 → ④ Figma 프로토타입 → ⑤ 6일 실험(N=6) → ⑥ 논문 작성',result:'일일 SNS 사용 시간 평균 34분 감소. 주관적 자기통제감 유의미하게 증가. 한국디자인문화학회지 게재(In Press).',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}}
+  ],
+  awards:[
+    {title:'BK21 미래교육디자인연구유닛 참여 대학원생',org:'연세대학교',year:'2025–'},
+    {title:'IHEI WORKSTATION 사회혁신 프로그램 수료',org:'연세대학교 IHEI',year:'2025'},
+    {title:'아동권리보장원 제5기 서포터즈 선발',org:'아동권리보장원 · 팀 Translators',year:'2025–2026'},
+    {title:'ISSBD 2026 포스터 발표 채택',org:'ISSBD · 인천 송도',year:'2026'}
+  ]
+};
+
+/* ── state ── */
+let DATA = JSON.parse(JSON.stringify(DEFAULT));
+
+/* ── Firebase load ── */
+async function loadFromFirebase(){
+  setLoadMsg('Firebase 연결 중...');
+  setLoadBar(30);
+  try {
+    const snap = await get(child(ref(db), 'portfolio'));
+    setLoadBar(80);
+    if(snap.exists()){
+      const d = snap.val();
+      DATA = {
+        basic: d.basic || DEFAULT.basic,
+        researches: d.researches || DEFAULT.researches,
+        pubs: d.pubs || DEFAULT.pubs,
+        products: d.products || DEFAULT.products,
+        awards: d.awards || DEFAULT.awards
+      };
+      setLoadMsg('데이터 로드 완료');
+    } else {
+      setLoadMsg('기본 데이터로 시작합니다');
+      await saveToFirebase(false);
+    }
+  } catch(e){
+    console.warn('Firebase load error:', e);
+    setLoadMsg('오프라인 모드');
+  }
+  setLoadBar(100);
+  applyBasicToPage();
+  renderAll();
+  setTimeout(()=>{
+    document.getElementById('loading-screen').classList.add('done');
+  }, 600);
+}
+
+async function saveToFirebase(showMsg=true){
+  const syncEl = document.getElementById('nav-sync');
+  const savingEl = document.getElementById('adm-saving');
+  const savedEl = document.getElementById('adm-saved');
+  if(showMsg){ syncEl.classList.add('show'); savingEl.classList.add('show'); }
+  try {
+    await set(ref(db,'portfolio'), {
+      basic: DATA.basic,
+      researches: DATA.researches,
+      pubs: DATA.pubs,
+      products: DATA.products,
+      awards: DATA.awards
+    });
+    if(showMsg){
+      syncEl.classList.remove('show');
+      savingEl.classList.remove('show');
+      savedEl.classList.add('show');
+      setTimeout(()=>savedEl.classList.remove('show'), 2500);
+    }
+  } catch(e){
+    console.error('Firebase save error:', e);
+    alert('저장 실패. 네트워크를 확인해주세요.');
+    syncEl.classList.remove('show');
+    savingEl.classList.remove('show');
+  }
+}
+
+function setLoadBar(pct){ document.getElementById('loading-bar').style.width=pct+'%'; }
+function setLoadMsg(msg){ document.getElementById('loading-msg').textContent=msg; }
+
+/* ── render ── */
 function renderAll(){ renderResearch(); renderPubs(); renderProds(); renderAwards(); }
 
-/* --- research --- */
 function renderResearch(){
-  document.getElementById('r-grid').innerHTML = researches.map((r,i)=>`
+  document.getElementById('r-grid').innerHTML = DATA.researches.map((r,i)=>`
   <div class="r-card${r.wide?' wide':''}" id="rc-${i}">
     <div class="r-card-header" onclick="toggleR(${i})">
-      ${r.wide ? `<div>
+      ${r.wide?`
+      <div class="r-card-header-main">
         <span class="r-status${r.live?' live':''}">${r.status}</span>
         <h3 class="r-title">${r.title}</h3>
         <p class="r-body">${r.body}</p>
         <div class="r-tags">${r.tags.split(',').map(t=>`<span class="r-tag">${t.trim()}</span>`).join('')}</div>
+        <div class="r-toggle-row"><span class="r-toggle-icon">▾</span></div>
       </div>
-      <div>${r.bigNum?`<div class="r-big-n">${r.bigNum}</div><div class="r-big-l">${r.bigLabel}</div>`:''}<div class="r-toggle-icon" style="margin-top:1rem;text-align:right;font-size:14px">▾</div></div>`
-      : `<span class="r-status${r.live?' live':''}">${r.status}</span>
-         <h3 class="r-title">${r.title}</h3>
-         <p class="r-body">${r.body}</p>
-         <div class="r-tags">${r.tags.split(',').map(t=>`<span class="r-tag">${t.trim()}</span>`).join('')}</div>
-         <div class="r-toggle-icon">▾</div>`}
+      <div>${r.bigNum?`<div class="r-big-n">${r.bigNum}</div><div class="r-big-l">${r.bigLabel}</div>`:''}</div>`
+      :`<span class="r-status${r.live?' live':''}">${r.status}</span>
+       <h3 class="r-title">${r.title}</h3>
+       <p class="r-body">${r.body}</p>
+       <div class="r-tags">${r.tags.split(',').map(t=>`<span class="r-tag">${t.trim()}</span>`).join('')}</div>
+       <div class="r-toggle-row"><span class="r-toggle-icon">▾</span></div>`}
     </div>
     <div class="r-detail">
       ${STEP_KEYS.map(k=>`
-        <div class="r-detail-section">
-          <div class="r-detail-label">${STEP_LABELS[k]}</div>
-          <div class="r-detail-text">${r.detail[k]||'—'}</div>
-          ${(r.detail.images&&r.detail.images[k]&&r.detail.images[k].length)?
-            `<div class="r-detail-imgs">${r.detail.images[k].map(src=>`<img src="${src}" alt="">`).join('')}</div>`:'' }
-        </div>`).join('')}
+      <div class="r-detail-section">
+        <div class="r-detail-label">${STEP_LABELS[k]}</div>
+        <div class="r-detail-text">${(r.detail&&r.detail[k])||'—'}</div>
+        ${(r.detail&&r.detail.images&&r.detail.images[k]&&r.detail.images[k].length)?
+          `<div class="r-detail-imgs">${r.detail.images[k].map(s=>`<img src="${s}" alt="">`).join('')}</div>`:''
+        }
+      </div>`).join('')}
     </div>
   </div>`).join('');
 }
 
 function toggleR(i){
-  const el = document.getElementById(`rc-${i}`);
-  el.classList.toggle('open');
+  document.getElementById(`rc-${i}`).classList.toggle('open');
 }
 
-/* --- pubs --- */
 function renderPubs(){
-  document.getElementById('pub-list').innerHTML = pubs.map(p=>`
+  document.getElementById('pub-list').innerHTML = DATA.pubs.map(p=>`
   <div class="pub-row">
     <div><span class="year-badge">${p.year}</span></div>
     <div><div class="pub-title">${p.title}</div><div class="pub-venue">${p.venue}</div></div>
@@ -606,9 +587,8 @@ function renderPubs(){
   </div>`).join('');
 }
 
-/* --- products --- */
 function renderProds(){
-  document.getElementById('prod-grid').innerHTML = products.map((p,i)=>`
+  document.getElementById('prod-grid').innerHTML = DATA.products.map((p,i)=>`
   <div class="prod-card" onclick="openProdModal(${i})">
     <div class="prod-thumb"><div class="prod-thumb-word">${p.thumb}</div><span class="prod-thumb-tag">${p.tag}</span></div>
     <div class="prod-body">
@@ -620,30 +600,50 @@ function renderProds(){
   </div>`).join('');
 }
 
-/* --- awards --- */
 function renderAwards(){
-  document.getElementById('aw-grid').innerHTML = awards.map((a,i)=>`
-  <div class="aw-card">
-    <span class="aw-n">${ROMAN[i]||`${i+1}.`}</span>
-    <div><div class="aw-title">${a.title}</div><div class="aw-org">${a.org}</div><div class="aw-year">${a.year}</div></div>
-  </div>`).join('');
+  document.getElementById('aw-grid').innerHTML = DATA.awards.map((a,i)=>`
+  <div class="aw-card"><span class="aw-n">${ROMAN[i]||`${i+1}.`}</span>
+  <div><div class="aw-title">${a.title}</div><div class="aw-org">${a.org}</div><div class="aw-year">${a.year}</div></div></div>`).join('');
 }
 
-/* ═══════════════ PRODUCT MODAL ═══════════════ */
-let curProd = 0;
-function openProdModal(i){
-  curProd = i;
-  const p = products[i];
+function applyBasicToPage(){
+  const b = DATA.basic;
+  document.getElementById('nav-name').textContent = b.navname||'배유진';
+  document.getElementById('h-eyebrow').textContent = b.eyebrow||'';
+  document.getElementById('h-desc').innerHTML = b.desc||'';
+  document.getElementById('h-affil').innerHTML = (b.affil||'').replace(/\n/g,'<br>');
+  document.getElementById('h-interest').innerHTML = (b.interest||'').replace(/\n/g,'<br>');
+  document.getElementById('h-team').textContent = b.team||'';
+  document.getElementById('h-n1').innerHTML = b.n1||'';
+  document.getElementById('h-n2').textContent = b.n2||'';
+  document.getElementById('h-n3').textContent = b.n3||'';
+  document.getElementById('strip1').innerHTML = '→ '+(b.s1||'');
+  document.getElementById('strip2').innerHTML = '→ '+(b.s2||'');
+  document.getElementById('strip3').innerHTML = '→ '+(b.s3||'');
+  const em = b.email||'';
+  document.getElementById('c-email').textContent = em;
+  document.getElementById('c-email-link').href = 'mailto:'+em;
+  const gh = b.github||'';
+  document.getElementById('c-github').textContent = gh;
+  document.getElementById('c-gh-link').href = 'https://'+gh.replace('https://','');
+  document.getElementById('c-body').textContent = b.cbody||'';
+
+  // sync editor fields
+  const flds = ['navname','eyebrow','desc','affil','interest','team','n1','n2','n3','s1','s2','s3','email','github','cbody'];
+  flds.forEach(f=>{ const el=document.getElementById('e-'+f); if(el) el.value=b[f]||''; });
+}
+
+/* ── product modal ── */
+const sliderIdx={};
+window.openProdModal = function(i){
+  const p = DATA.products[i];
   document.getElementById('pm-title').textContent = p.name;
-  // tabs
   const tabLabels = ['개요', ...STEP_KEYS.map(k=>STEP_LABELS[k])];
   document.getElementById('pm-tabs').innerHTML = tabLabels.map((l,ti)=>
     `<div class="pm-tab${ti===0?' active':''}" onclick="switchPmTab(${ti})">${l}</div>`).join('');
-  // contents
-  const imgs = p.detail.images || {};
+  const imgs = (p.detail&&p.detail.images)||{};
   let html = `<div class="pm-tab-content active" id="pmt-0">
-    <p class="pm-section-title">프로젝트 소개</p>
-    <p class="pm-text">${p.desc}</p>
+    <p class="pm-section-title">프로젝트 소개</p><p class="pm-text">${p.desc}</p>
     <p class="pm-section-title" style="margin-top:1.5rem">기술 스택</p>
     <div class="prod-stack" style="margin-top:.4rem">${p.stack.split(',').map(s=>`<span class="s-tag">${s.trim()}</span>`).join('')}</div>
   </div>`;
@@ -651,255 +651,221 @@ function openProdModal(i){
     const slides = imgs[k]||[];
     html += `<div class="pm-tab-content" id="pmt-${ki+1}">
       <p class="pm-section-title">${STEP_LABELS[k]}</p>
-      <p class="pm-text">${p.detail[k]||'내용을 입력해주세요.'}</p>
-      ${buildSlider(`slider-${i}-${k}`, slides)}
+      <p class="pm-text">${(p.detail&&p.detail[k])||'내용을 입력해주세요.'}</p>
+      ${buildSlider(`sl-${i}-${k}`, slides)}
     </div>`;
   });
   document.getElementById('pm-contents').innerHTML = html;
-  // init sliders
-  STEP_KEYS.forEach((k,ki)=>{ initSlider(`slider-${i}-${k}`, (imgs[k]||[])); });
+  STEP_KEYS.forEach((k)=>{ sliderIdx[`sl-${i}-${k}`]=0; });
   document.getElementById('prod-modal').classList.add('open');
   document.body.style.overflow='hidden';
-}
-function closeProdModal(){
+};
+window.closeProdModal = function(){
   document.getElementById('prod-modal').classList.remove('open');
   document.body.style.overflow='';
-}
+};
 document.getElementById('prod-modal').addEventListener('click',e=>{
-  if(e.target===document.getElementById('prod-modal')) closeProdModal();
+  if(e.target===document.getElementById('prod-modal')) window.closeProdModal();
 });
-function switchPmTab(i){
+window.switchPmTab = function(i){
   document.querySelectorAll('.pm-tab').forEach((t,ti)=>t.classList.toggle('active',ti===i));
   document.querySelectorAll('.pm-tab-content').forEach((c,ci)=>c.classList.toggle('active',ci===i));
-}
-
-/* slider */
-function buildSlider(id, slides){
-  if(!slides.length) return `<div class="pm-slider" id="${id}"><div class="pm-slides"><div class="pm-slide pm-slide-empty"><span>이미지를 추가해주세요</span></div></div></div>`;
+};
+function buildSlider(id,slides){
+  if(!slides.length) return `<div class="pm-slider" id="${id}"><div class="pm-slides"><div class="pm-slide pm-slide-empty">이미지를 추가해주세요</div></div></div>`;
   return `<div class="pm-slider" id="${id}">
     <div class="pm-slides">${slides.map(s=>`<div class="pm-slide"><img src="${s}" alt=""></div>`).join('')}</div>
     <button class="slider-btn slider-prev" onclick="slideMove('${id}',-1)">‹</button>
     <button class="slider-btn slider-next" onclick="slideMove('${id}',1)">›</button>
-    <div class="slider-dots" id="${id}-dots">${slides.map((_,i)=>`<div class="slider-dot${i===0?' on':''}" onclick="slideTo('${id}',${i})"></div>`).join('')}</div>
+    <div class="slider-dots">${slides.map((_,i)=>`<div class="slider-dot${i===0?' on':''}" onclick="slideTo('${id}',${i})"></div>`).join('')}</div>
   </div>`;
 }
-const sliderIdx={};
-function initSlider(id,slides){ sliderIdx[id]=0; }
-function slideMove(id,dir){
+window.slideMove = function(id,dir){
   const el=document.getElementById(id); if(!el) return;
   const slides=el.querySelectorAll('.pm-slide');
-  if(!slides.length) return;
-  sliderIdx[id]=(sliderIdx[id]+dir+slides.length)%slides.length;
+  sliderIdx[id]=((sliderIdx[id]||0)+dir+slides.length)%slides.length;
   el.querySelector('.pm-slides').style.transform=`translateX(-${sliderIdx[id]*100}%)`;
   el.querySelectorAll('.slider-dot').forEach((d,i)=>d.classList.toggle('on',i===sliderIdx[id]));
-}
-function slideTo(id,i){
+};
+window.slideTo = function(id,i){
   const el=document.getElementById(id); if(!el) return;
   sliderIdx[id]=i;
   el.querySelector('.pm-slides').style.transform=`translateX(-${i*100}%)`;
   el.querySelectorAll('.slider-dot').forEach((d,di)=>d.classList.toggle('on',di===i));
-}
+};
 
-/* ═══════════════ ADMIN ═══════════════ */
-function openAdm(){ document.getElementById('adm-ov').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeAdm(){ document.getElementById('adm-ov').classList.remove('open'); document.body.style.overflow=''; }
-document.getElementById('adm-ov').addEventListener('click',e=>{ if(e.target===document.getElementById('adm-ov')) closeAdm(); });
+/* ── admin ── */
+window.openAdm = function(){ document.getElementById('adm-ov').classList.add('open'); document.body.style.overflow='hidden'; };
+window.closeAdm = function(){ document.getElementById('adm-ov').classList.remove('open'); document.body.style.overflow=''; };
+document.getElementById('adm-ov').addEventListener('click',e=>{ if(e.target===document.getElementById('adm-ov')) window.closeAdm(); });
 
-function doLogin(){
+window.doLogin = function(){
   if(document.getElementById('pw').value===PASS){
     document.getElementById('adm-login').style.display='none';
     document.getElementById('adm-editor').style.display='block';
     buildAdmResearch(); buildAdmPubs(); buildAdmProds(); buildAdmAwards();
+    applyBasicToPage();
   } else { document.getElementById('pw-err').style.display='block'; }
-}
+};
 
-function switchAdmTab(i){
+window.switchAdmTab = function(i){
   document.querySelectorAll('.adm-tab').forEach((t,ti)=>t.classList.toggle('on',ti===i));
   document.querySelectorAll('.adm-pane').forEach((p,pi)=>p.classList.toggle('on',pi===i));
-}
+};
 
-/* ── admin: research ── */
-function buildAdmResearch(){
-  document.getElementById('r-ed-list').innerHTML = researches.map((r,i)=>`
-  <div class="list-item" id="red-${i}">
-    <div class="list-item-head"><span class="list-item-num">연구 ${i+1}</span><button class="adm-del" onclick="delResearch(${i})">삭제</button></div>
-    <div class="af-row"><div class="af"><label>상태 레이블</label><input class="r-status-in" data-i="${i}" value="${r.status}"></div><div class="af"><label>진행 중 여부</label><select class="r-live-in" data-i="${i}"><option value="1"${r.live?' selected':''}>진행 중</option><option value="0"${!r.live?' selected':''}>완료</option></select></div></div>
-    <div class="af"><label>제목</label><input class="r-title-in" data-i="${i}" value="${r.title}"></div>
-    <div class="af"><label>본문 요약</label><textarea class="r-body-in" data-i="${i}">${r.body}</textarea></div>
-    <div class="af"><label>태그 (쉼표 구분)</label><input class="r-tags-in" data-i="${i}" value="${r.tags}"></div>
-    <div class="af-row"><div class="af"><label>큰 숫자</label><input class="r-bignum-in" data-i="${i}" value="${r.bigNum}"></div><div class="af"><label>숫자 레이블</label><input class="r-biglabel-in" data-i="${i}" value="${r.bigLabel}"></div><div class="af"><label>와이드 카드</label><select class="r-wide-in" data-i="${i}"><option value="1"${r.wide?' selected':''}>예</option><option value="0"${!r.wide?' selected':''}>아니오</option></select></div></div>
-    <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0">
-    <div class="list-item-num" style="margin-bottom:.5rem">상세 내용 (토글 펼침)</div>
-    ${STEP_KEYS.map(k=>`
-    <div class="af"><label>${STEP_LABELS[k]}</label><textarea class="rd-${k}-in" data-i="${i}">${r.detail[k]||''}</textarea></div>
-    <div class="af"><label>${STEP_LABELS[k]} 이미지</label>${buildAdmImgArea(`ri-${i}-${k}`, r.detail.images&&r.detail.images[k]?r.detail.images[k]:[])}</div>`).join('')}
-  </div>`).join('');
-  // bind img areas
-  researches.forEach((_,i)=>STEP_KEYS.forEach(k=>bindImgArea(`ri-${i}-${k}`)));
-}
-function delResearch(i){ if(confirm('삭제할까요?')){ researches.splice(i,1); buildAdmResearch(); } }
-function addResearch(){
-  researches.push({status:'신규 · 2026',live:false,title:'새 연구 제목',body:'연구 요약을 입력하세요.',tags:'키워드',bigNum:'',bigLabel:'',wide:false,detail:{problem:'',rationale:'',theory:'',process:'',result:'',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}});
-  buildAdmResearch();
-}
-function readResearch(){
-  researches.forEach((_,i)=>{
-    researches[i].status=document.querySelector(`.r-status-in[data-i="${i}"]`).value;
-    researches[i].live=document.querySelector(`.r-live-in[data-i="${i}"]`).value==='1';
-    researches[i].title=document.querySelector(`.r-title-in[data-i="${i}"]`).value;
-    researches[i].body=document.querySelector(`.r-body-in[data-i="${i}"]`).value;
-    researches[i].tags=document.querySelector(`.r-tags-in[data-i="${i}"]`).value;
-    researches[i].bigNum=document.querySelector(`.r-bignum-in[data-i="${i}"]`).value;
-    researches[i].bigLabel=document.querySelector(`.r-biglabel-in[data-i="${i}"]`).value;
-    researches[i].wide=document.querySelector(`.r-wide-in[data-i="${i}"]`).value==='1';
-    STEP_KEYS.forEach(k=>{
-      researches[i].detail[k]=document.querySelector(`.rd-${k}-in[data-i="${i}"]`).value;
-      researches[i].detail.images[k]=getImgAreaData(`ri-${i}-${k}`);
-    });
-  });
-}
-
-/* ── admin: pubs ── */
-function buildAdmPubs(){
-  document.getElementById('pub-ed-list').innerHTML = pubs.map((p,i)=>`
-  <div class="list-item">
-    <div class="list-item-head"><span class="list-item-num">논문 ${i+1}</span><button class="adm-del" onclick="delPub(${i})">삭제</button></div>
-    <div class="af-row"><div class="af"><label>연도</label><input class="pub-yr-in" data-i="${i}" value="${p.year}"></div><div class="af"><label>배지</label><input class="pub-bd-in" data-i="${i}" value="${p.badge}"></div></div>
-    <div class="af"><label>제목</label><input class="pub-tt-in" data-i="${i}" value="${p.title}"></div>
-    <div class="af"><label>출처</label><input class="pub-vn-in" data-i="${i}" value="${p.venue}"></div>
-  </div>`).join('');
-}
-function delPub(i){ if(confirm('삭제?')){ pubs.splice(i,1); buildAdmPubs(); } }
-function addPub(){ pubs.push({year:'2026',title:'논문 제목',venue:'저널 · 저자',badge:'Conf.',ip:false}); buildAdmPubs(); }
-function readPubs(){
-  pubs.forEach((_,i)=>{
-    pubs[i].year=document.querySelector(`.pub-yr-in[data-i="${i}"]`).value;
-    pubs[i].badge=document.querySelector(`.pub-bd-in[data-i="${i}"]`).value;
-    pubs[i].title=document.querySelector(`.pub-tt-in[data-i="${i}"]`).value;
-    pubs[i].venue=document.querySelector(`.pub-vn-in[data-i="${i}"]`).value;
-    pubs[i].ip=pubs[i].badge.toLowerCase().includes('press');
-  });
-}
-
-/* ── admin: products ── */
-function buildAdmProds(){
-  document.getElementById('prod-ed-list').innerHTML = products.map((p,i)=>`
-  <div class="list-item">
-    <div class="list-item-head"><span class="list-item-num">프로덕트 ${i+1}</span><button class="adm-del" onclick="delProd(${i})">삭제</button></div>
-    <div class="af-row"><div class="af"><label>이름</label><input class="pd-name-in" data-i="${i}" value="${p.name}"></div><div class="af"><label>태그</label><input class="pd-tag-in" data-i="${i}" value="${p.tag}"></div></div>
-    <div class="af-row"><div class="af"><label>썸네일 텍스트</label><input class="pd-thumb-in" data-i="${i}" value="${p.thumb}"></div><div class="af"><label>기술 스택 (쉼표 구분)</label><input class="pd-stack-in" data-i="${i}" value="${p.stack}"></div></div>
-    <div class="af"><label>카드 요약</label><textarea class="pd-desc-in" data-i="${i}">${p.desc}</textarea></div>
-    <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0">
-    <div class="list-item-num" style="margin-bottom:.5rem">상세 탭 내용</div>
-    ${STEP_KEYS.map(k=>`
-    <div class="af"><label>${STEP_LABELS[k]}</label><textarea class="pdd-${k}-in" data-i="${i}">${p.detail[k]||''}</textarea></div>
-    <div class="af"><label>${STEP_LABELS[k]} 이미지</label>${buildAdmImgArea(`pi-${i}-${k}`, p.detail.images&&p.detail.images[k]?p.detail.images[k]:[])}</div>`).join('')}
-  </div>`).join('');
-  products.forEach((_,i)=>STEP_KEYS.forEach(k=>bindImgArea(`pi-${i}-${k}`)));
-}
-function delProd(i){ if(confirm('삭제?')){ products.splice(i,1); buildAdmProds(); } }
-function addProd(){
-  products.push({name:'새 프로덕트',tag:'Project',thumb:'New',desc:'설명',stack:'기술스택',detail:{problem:'',rationale:'',theory:'',process:'',result:'',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}});
-  buildAdmProds();
-}
-function readProds(){
-  products.forEach((_,i)=>{
-    products[i].name=document.querySelector(`.pd-name-in[data-i="${i}"]`).value;
-    products[i].tag=document.querySelector(`.pd-tag-in[data-i="${i}"]`).value;
-    products[i].thumb=document.querySelector(`.pd-thumb-in[data-i="${i}"]`).value;
-    products[i].stack=document.querySelector(`.pd-stack-in[data-i="${i}"]`).value;
-    products[i].desc=document.querySelector(`.pd-desc-in[data-i="${i}"]`).value;
-    STEP_KEYS.forEach(k=>{
-      products[i].detail[k]=document.querySelector(`.pdd-${k}-in[data-i="${i}"]`).value;
-      products[i].detail.images[k]=getImgAreaData(`pi-${i}-${k}`);
-    });
-  });
-}
-
-/* ── admin: awards ── */
-function buildAdmAwards(){
-  document.getElementById('aw-ed-list').innerHTML = awards.map((a,i)=>`
-  <div class="list-item">
-    <div class="list-item-head"><span class="list-item-num">수상 ${i+1}</span><button class="adm-del" onclick="delAward(${i})">삭제</button></div>
-    <div class="af"><label>제목</label><input class="aw-tt-in" data-i="${i}" value="${a.title}"></div>
-    <div class="af-row"><div class="af"><label>기관</label><input class="aw-or-in" data-i="${i}" value="${a.org}"></div><div class="af"><label>연도</label><input class="aw-yr-in" data-i="${i}" value="${a.year}"></div></div>
-  </div>`).join('');
-}
-function delAward(i){ if(confirm('삭제?')){ awards.splice(i,1); buildAdmAwards(); } }
-function addAward(){ awards.push({title:'수상 명칭',org:'기관',year:'2026'}); buildAdmAwards(); }
-function readAwards(){
-  awards.forEach((_,i)=>{
-    awards[i].title=document.querySelector(`.aw-tt-in[data-i="${i}"]`).value;
-    awards[i].org=document.querySelector(`.aw-or-in[data-i="${i}"]`).value;
-    awards[i].year=document.querySelector(`.aw-yr-in[data-i="${i}"]`).value;
-  });
-}
-
-/* ── image areas ── */
+/* img store */
 const imgStore={};
-function buildAdmImgArea(id, imgs){
-  imgStore[id]=[...imgs];
-  return `<div class="img-upload-area" id="img-area-${id}"></div><input type="file" id="img-file-${id}" accept="image/*" multiple style="display:none" onchange="handleImgUpload('${id}',this)">`;
+function buildImgArea(id, imgs){
+  imgStore[id]=[...(imgs||[])];
+  return `<div class="img-upload-area" id="ia-${id}"></div><input type="file" id="if-${id}" accept="image/*" multiple style="display:none" onchange="handleImg('${id}',this)">`;
 }
-function bindImgArea(id){ renderImgArea(id); }
 function renderImgArea(id){
-  const el=document.getElementById(`img-area-${id}`); if(!el) return;
-  el.innerHTML=(imgStore[id]||[]).map((src,i)=>`<div class="img-thumb-wrap"><img class="img-thumb" src="${src}"><button class="img-thumb-del" onclick="removeImg('${id}',${i})">×</button></div>`).join('')+
-    `<div class="img-add-btn" onclick="document.getElementById('img-file-${id}').click()">+</div>`;
+  const el=document.getElementById(`ia-${id}`); if(!el) return;
+  el.innerHTML=(imgStore[id]||[]).map((s,i)=>`<div class="img-thumb-wrap"><img class="img-thumb" src="${s}"><button class="img-thumb-del" onclick="removeImg('${id}',${i})">×</button></div>`).join('')+
+    `<div class="img-add-btn" onclick="document.getElementById('if-${id}').click()">+</div>`;
 }
-function handleImgUpload(id, inp){
-  const files=[...inp.files];
-  files.forEach(f=>{
+window.handleImg = function(id,inp){
+  [...inp.files].forEach(f=>{
     const r=new FileReader();
-    r.onload=e=>{ if(!imgStore[id]) imgStore[id]=[]; imgStore[id].push(e.target.result); renderImgArea(id); };
+    r.onload=e=>{ (imgStore[id]=imgStore[id]||[]).push(e.target.result); renderImgArea(id); };
     r.readAsDataURL(f);
   });
   inp.value='';
-}
-function removeImg(id,i){ imgStore[id].splice(i,1); renderImgArea(id); }
-function getImgAreaData(id){ return imgStore[id]||[]; }
+};
+window.removeImg = function(id,i){ imgStore[id].splice(i,1); renderImgArea(id); };
 
-/* ── apply all ── */
-function applyAll(){
-  readResearch(); readPubs(); readProds(); readAwards();
-  // basic info
-  const v=id=>document.getElementById(id).value;
-  document.getElementById('nav-name').textContent=v('e-navname');
-  document.getElementById('h-eyebrow').textContent=v('e-eyebrow');
-  document.getElementById('h-desc').innerHTML=v('e-desc');
-  document.getElementById('h-affil').innerHTML=v('e-affil').replace(/\n/g,'<br>');
-  document.getElementById('h-interest').innerHTML=v('e-interest').replace(/\n/g,'<br>');
-  document.getElementById('h-team').textContent=v('e-team');
-  document.getElementById('h-n1').innerHTML=v('e-n1');
-  document.getElementById('h-n2').textContent=v('e-n2');
-  document.getElementById('h-n3').textContent=v('e-n3');
-  document.getElementById('strip1').childNodes[1].textContent=' '+v('e-s1');
-  document.getElementById('strip2').childNodes[1].textContent=' '+v('e-s2');
-  document.getElementById('strip3').childNodes[1].textContent=' '+v('e-s3');
-  // contact
-  const em=v('e-email');
-  document.getElementById('c-email').textContent=em;
-  document.getElementById('c-email-link').href='mailto:'+em;
-  const gh=v('e-github');
-  document.getElementById('c-github').textContent=gh;
-  document.getElementById('c-gh-link').href='https://'+gh.replace('https://','');
-  document.getElementById('c-body').textContent=v('e-cbody');
-  // render
+/* build admin sections */
+function buildAdmResearch(){
+  document.getElementById('r-ed-list').innerHTML = DATA.researches.map((r,i)=>`
+  <div class="list-item">
+    <div class="list-item-head"><span class="list-item-num">연구 ${i+1}</span><button class="adm-del" onclick="delResearch(${i})">삭제</button></div>
+    <div class="af-row"><div class="af"><label>상태 레이블</label><input class="rs-in" data-i="${i}" value="${r.status}"></div><div class="af"><label>진행 상태</label><select class="rl-in" data-i="${i}"><option value="1"${r.live?'selected':''}>진행 중</option><option value="0"${!r.live?'selected':''}>완료</option></select></div></div>
+    <div class="af"><label>제목</label><input class="rt-in" data-i="${i}" value="${r.title}"></div>
+    <div class="af"><label>본문 요약</label><textarea class="rb-in" data-i="${i}">${r.body}</textarea></div>
+    <div class="af"><label>태그 (쉼표 구분)</label><input class="rg-in" data-i="${i}" value="${r.tags}"></div>
+    <div class="af-row3"><div class="af"><label>큰 숫자</label><input class="rn-in" data-i="${i}" value="${r.bigNum}"></div><div class="af"><label>숫자 레이블</label><input class="rln-in" data-i="${i}" value="${r.bigLabel}"></div><div class="af"><label>와이드 카드</label><select class="rw-in" data-i="${i}"><option value="1"${r.wide?'selected':''}>예</option><option value="0"${!r.wide?'selected':''}>아니오</option></select></div></div>
+    <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0">
+    ${STEP_KEYS.map(k=>`
+    <div class="af"><label>${STEP_LABELS[k]}</label><textarea class="rd${k}-in" data-i="${i}">${(r.detail&&r.detail[k])||''}</textarea></div>
+    <div class="af"><label>${STEP_LABELS[k]} 이미지</label>${buildImgArea(`ri${i}${k}`,(r.detail&&r.detail.images&&r.detail.images[k])||[])}</div>`).join('')}
+  </div>`).join('');
+  DATA.researches.forEach((_,i)=>STEP_KEYS.forEach(k=>renderImgArea(`ri${i}${k}`)));
+}
+window.delResearch=function(i){if(confirm('삭제할까요?')){DATA.researches.splice(i,1);buildAdmResearch();}};
+window.addResearch=function(){DATA.researches.push({status:'신규 · 2026',live:false,title:'새 연구 제목',body:'연구 요약.',tags:'키워드',bigNum:'',bigLabel:'',wide:false,detail:{problem:'',rationale:'',theory:'',process:'',result:'',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}});buildAdmResearch();};
+
+function buildAdmPubs(){
+  document.getElementById('pub-ed-list').innerHTML = DATA.pubs.map((p,i)=>`
+  <div class="list-item">
+    <div class="list-item-head"><span class="list-item-num">논문 ${i+1}</span><button class="adm-del" onclick="delPub(${i})">삭제</button></div>
+    <div class="af-row"><div class="af"><label>연도</label><input class="py-in" data-i="${i}" value="${p.year}"></div><div class="af"><label>배지</label><input class="pb-in" data-i="${i}" value="${p.badge}"></div></div>
+    <div class="af"><label>제목</label><input class="pt-in" data-i="${i}" value="${p.title}"></div>
+    <div class="af"><label>출처</label><input class="pv-in" data-i="${i}" value="${p.venue}"></div>
+  </div>`).join('');
+}
+window.delPub=function(i){if(confirm('삭제?')){DATA.pubs.splice(i,1);buildAdmPubs();}};
+window.addPub=function(){DATA.pubs.push({year:'2026',title:'논문 제목',venue:'저널 · 저자',badge:'Conf.',ip:false});buildAdmPubs();};
+
+function buildAdmProds(){
+  document.getElementById('prod-ed-list').innerHTML = DATA.products.map((p,i)=>`
+  <div class="list-item">
+    <div class="list-item-head"><span class="list-item-num">프로덕트 ${i+1}</span><button class="adm-del" onclick="delProd(${i})">삭제</button></div>
+    <div class="af-row"><div class="af"><label>이름</label><input class="pdn-in" data-i="${i}" value="${p.name}"></div><div class="af"><label>태그</label><input class="pdt-in" data-i="${i}" value="${p.tag}"></div></div>
+    <div class="af-row"><div class="af"><label>썸네일 텍스트</label><input class="pdth-in" data-i="${i}" value="${p.thumb}"></div><div class="af"><label>기술 스택</label><input class="pds-in" data-i="${i}" value="${p.stack}"></div></div>
+    <div class="af"><label>카드 요약</label><textarea class="pdd-in" data-i="${i}">${p.desc}</textarea></div>
+    <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0">
+    ${STEP_KEYS.map(k=>`
+    <div class="af"><label>${STEP_LABELS[k]}</label><textarea class="pd${k}-in" data-i="${i}">${(p.detail&&p.detail[k])||''}</textarea></div>
+    <div class="af"><label>${STEP_LABELS[k]} 이미지</label>${buildImgArea(`pi${i}${k}`,(p.detail&&p.detail.images&&p.detail.images[k])||[])}</div>`).join('')}
+  </div>`).join('');
+  DATA.products.forEach((_,i)=>STEP_KEYS.forEach(k=>renderImgArea(`pi${i}${k}`)));
+}
+window.delProd=function(i){if(confirm('삭제?')){DATA.products.splice(i,1);buildAdmProds();}};
+window.addProd=function(){DATA.products.push({name:'새 프로덕트',tag:'Project',thumb:'New',desc:'설명',stack:'기술스택',detail:{problem:'',rationale:'',theory:'',process:'',result:'',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}});buildAdmProds();};
+
+function buildAdmAwards(){
+  document.getElementById('aw-ed-list').innerHTML = DATA.awards.map((a,i)=>`
+  <div class="list-item">
+    <div class="list-item-head"><span class="list-item-num">수상 ${i+1}</span><button class="adm-del" onclick="delAward(${i})">삭제</button></div>
+    <div class="af"><label>제목</label><input class="awt-in" data-i="${i}" value="${a.title}"></div>
+    <div class="af-row"><div class="af"><label>기관</label><input class="awo-in" data-i="${i}" value="${a.org}"></div><div class="af"><label>연도</label><input class="awy-in" data-i="${i}" value="${a.year}"></div></div>
+  </div>`).join('');
+}
+window.delAward=function(i){if(confirm('삭제?')){DATA.awards.splice(i,1);buildAdmAwards();}};
+window.addAward=function(){DATA.awards.push({title:'수상 명칭',org:'기관',year:'2026'});buildAdmAwards();};
+
+/* read all fields → DATA */
+function readAll(){
+  // basic
+  const b={};
+  ['navname','eyebrow','desc','affil','interest','team','n1','n2','n3','s1','s2','s3','email','github','cbody'].forEach(f=>{
+    const el=document.getElementById('e-'+f); b[f]=el?el.value:'';
+  });
+  DATA.basic=b;
+  // research
+  DATA.researches.forEach((_,i)=>{
+    DATA.researches[i].status=document.querySelector(`.rs-in[data-i="${i}"]`)?.value||'';
+    DATA.researches[i].live=document.querySelector(`.rl-in[data-i="${i}"]`)?.value==='1';
+    DATA.researches[i].title=document.querySelector(`.rt-in[data-i="${i}"]`)?.value||'';
+    DATA.researches[i].body=document.querySelector(`.rb-in[data-i="${i}"]`)?.value||'';
+    DATA.researches[i].tags=document.querySelector(`.rg-in[data-i="${i}"]`)?.value||'';
+    DATA.researches[i].bigNum=document.querySelector(`.rn-in[data-i="${i}"]`)?.value||'';
+    DATA.researches[i].bigLabel=document.querySelector(`.rln-in[data-i="${i}"]`)?.value||'';
+    DATA.researches[i].wide=document.querySelector(`.rw-in[data-i="${i}"]`)?.value==='1';
+    if(!DATA.researches[i].detail) DATA.researches[i].detail={images:{}};
+    if(!DATA.researches[i].detail.images) DATA.researches[i].detail.images={};
+    STEP_KEYS.forEach(k=>{
+      DATA.researches[i].detail[k]=document.querySelector(`.rd${k}-in[data-i="${i}"]`)?.value||'';
+      DATA.researches[i].detail.images[k]=imgStore[`ri${i}${k}`]||[];
+    });
+  });
+  // pubs
+  DATA.pubs.forEach((_,i)=>{
+    DATA.pubs[i].year=document.querySelector(`.py-in[data-i="${i}"]`)?.value||'';
+    DATA.pubs[i].badge=document.querySelector(`.pb-in[data-i="${i}"]`)?.value||'';
+    DATA.pubs[i].title=document.querySelector(`.pt-in[data-i="${i}"]`)?.value||'';
+    DATA.pubs[i].venue=document.querySelector(`.pv-in[data-i="${i}"]`)?.value||'';
+    DATA.pubs[i].ip=DATA.pubs[i].badge.toLowerCase().includes('press');
+  });
+  // products
+  DATA.products.forEach((_,i)=>{
+    DATA.products[i].name=document.querySelector(`.pdn-in[data-i="${i}"]`)?.value||'';
+    DATA.products[i].tag=document.querySelector(`.pdt-in[data-i="${i}"]`)?.value||'';
+    DATA.products[i].thumb=document.querySelector(`.pdth-in[data-i="${i}"]`)?.value||'';
+    DATA.products[i].stack=document.querySelector(`.pds-in[data-i="${i}"]`)?.value||'';
+    DATA.products[i].desc=document.querySelector(`.pdd-in[data-i="${i}"]`)?.value||'';
+    if(!DATA.products[i].detail) DATA.products[i].detail={images:{}};
+    if(!DATA.products[i].detail.images) DATA.products[i].detail.images={};
+    STEP_KEYS.forEach(k=>{
+      DATA.products[i].detail[k]=document.querySelector(`.pd${k}-in[data-i="${i}"]`)?.value||'';
+      DATA.products[i].detail.images[k]=imgStore[`pi${i}${k}`]||[];
+    });
+  });
+  // awards
+  DATA.awards.forEach((_,i)=>{
+    DATA.awards[i].title=document.querySelector(`.awt-in[data-i="${i}"]`)?.value||'';
+    DATA.awards[i].org=document.querySelector(`.awo-in[data-i="${i}"]`)?.value||'';
+    DATA.awards[i].year=document.querySelector(`.awy-in[data-i="${i}"]`)?.value||'';
+  });
+}
+
+window.applyAll = async function(){
+  readAll();
+  applyBasicToPage();
   renderAll();
-  const msg=document.getElementById('adm-saved');
-  msg.classList.add('show'); setTimeout(()=>msg.classList.remove('show'),2500);
-}
+  await saveToFirebase(true);
+};
 
-/* ═══════════════ CURSOR + REVEAL ═══════════════ */
+/* ── cursor + reveal ── */
 const cur=document.getElementById('cur');
 document.addEventListener('mousemove',e=>{ cur.style.left=(e.clientX-2.5)+'px'; cur.style.top=(e.clientY-2.5)+'px'; });
 document.querySelectorAll('a,button').forEach(el=>{ el.addEventListener('mouseenter',()=>cur.classList.add('big')); el.addEventListener('mouseleave',()=>cur.classList.remove('big')); });
-
-const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });},{threshold:.08});
+const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* init */
-renderAll();
+/* ── init ── */
+setLoadBar(10);
+loadFromFirebase();
 </script>
 </body>
 </html>
