@@ -10,10 +10,6 @@
 :root{
   --w:#f9f9f7;--p:#f2f1ed;--ink:#141412;--i2:#3a3935;--i3:#78766e;--i4:#b5b3aa;--rule:#e0dfd8;
   --blue:#2563eb;--blue-l:#eff6ff;--blue-m:#dbeafe;
-  --sage:#3d7a5e;--sage-l:#edf5f0;--sage-m:#c3e0d2;
-  --terra:#c0522a;--terra-l:#fdf0eb;--terra-m:#f5c9b3;
-  --gold:#9a7a2e;--gold-l:#fdf8ed;--gold-m:#f0dfa0;
-  --violet:#6d4fc2;--violet-l:#f3f0fb;--violet-m:#d4c8f5;
 }
 html{scroll-behavior:smooth}
 body{background:var(--w);color:var(--ink);font-family:'Pretendard',-apple-system,sans-serif;font-size:13px;font-weight:300;line-height:1.8;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
@@ -109,12 +105,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 /* ── PUBLICATIONS ── */
 #publications{background:var(--p)}
 .pub-list{border-top:.5px solid var(--rule)}
-.pub-row{display:grid;grid-template-columns:80px 1fr 80px;gap:1.5rem;align-items:start;padding:1.5rem 0;border-bottom:.5px solid var(--rule);transition:background .15s}
+.pub-row{display:grid;grid-template-columns:80px 1fr 100px;gap:1.5rem;align-items:start;padding:1.75rem 0;border-bottom:.5px solid var(--rule);transition:background .15s}
 .pub-row:hover{background:rgba(20,20,18,.02)}
-.pub-title{font-size:12.5px;font-weight:700;letter-spacing:-.01em;color:var(--ink);line-height:1.6;margin-bottom:.3rem}
-.pub-venue{font-size:11px;font-weight:300;color:var(--i4);line-height:1.6}
-.pub-badge{font-size:8.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:.5px solid var(--rule);color:var(--i3);padding:.22rem .5rem;display:inline-block;white-space:nowrap;margin-top:.15rem;border-radius:2px}
-.pub-badge.ip{border-color:var(--i3);color:var(--i2)}
+.pub-content{min-width:0}
+.pub-title{font-size:12.5px;font-weight:700;letter-spacing:-.01em;color:var(--ink);line-height:1.7;margin-bottom:.4rem;word-break:keep-all;overflow-wrap:break-word}
+.pub-venue{font-size:11px;font-weight:300;color:var(--i4);line-height:1.6;margin-bottom:.4rem;word-break:keep-all}
+.pub-link{display:inline-flex;align-items:center;gap:.35rem;font-size:9.5px;font-weight:500;letter-spacing:.04em;color:var(--blue);text-decoration:none;border-bottom:.5px solid var(--blue-m);padding-bottom:1px;transition:border-color .15s,color .15s}
+.pub-link:hover{border-color:var(--blue)}
+.pub-badge-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:.4rem;padding-top:.1rem}
+.pub-badge{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:.5px solid var(--rule);color:var(--i3);padding:.22rem .55rem;display:inline-block;white-space:nowrap;border-radius:2px;text-align:center}
+.pub-badge.ip{border-color:var(--ink);color:var(--ink)}
 
 /* ── PRODUCTS ── */
 #products{background:var(--w)}
@@ -131,52 +131,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .s-tag{font-size:9px;font-weight:400;letter-spacing:.06em;color:var(--i4);border:.5px solid var(--rule);padding:.18rem .5rem}
 .prod-open-hint{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-top:.5rem;opacity:.8}
 
-/* ── EXPERIENCE CARDS ── */
-/* 공통 경험 카드 */
+/* ── EXPERIENCE CARDS — 흑백 통일 ── */
 .exp-grid{display:grid;grid-template-columns:1fr 1fr;border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
 .exp-grid.three{grid-template-columns:repeat(3,1fr)}
 .exp-card{border-right:.5px solid var(--rule);border-bottom:.5px solid var(--rule);padding:2rem 2rem 2.25rem;transition:background .2s;display:flex;flex-direction:column;gap:1.1rem}
 .exp-card:hover{background:var(--p)}
-
-/* 상단 메타 */
 .exp-meta{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem}
-.exp-cat{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.22rem .6rem;border-radius:2px}
-.exp-cat.research{background:var(--blue-l);color:var(--blue);border:.5px solid var(--blue-m)}
-.exp-cat.design{background:var(--sage-l);color:var(--sage);border:.5px solid var(--sage-m)}
-.exp-cat.public{background:var(--gold-l);color:var(--gold);border:.5px solid var(--gold-m)}
-.exp-cat.product{background:var(--terra-l);color:var(--terra);border:.5px solid var(--terra-m)}
-.exp-cat.edu{background:var(--violet-l);color:var(--violet);border:.5px solid var(--violet-m)}
+/* 카테고리 뱃지 — 흑백 */
+.exp-cat{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.22rem .6rem;border-radius:2px;background:transparent;color:var(--i3);border:.5px solid var(--rule)}
 .exp-year{font-size:9px;font-weight:400;letter-spacing:.08em;color:var(--i4)}
-
-/* 제목 */
 .exp-title{font-size:14px;font-weight:700;letter-spacing:-.02em;color:var(--ink);line-height:1.4}
 .exp-subtitle{font-size:11px;font-weight:400;color:var(--i3);margin-top:.2rem}
-
-/* 문제발굴 블록 */
-.exp-problem{background:var(--w);border:.5px solid var(--rule);border-left:2.5px solid var(--blue);padding:.75rem 1rem;border-radius:0 3px 3px 0}
-.exp-problem-label{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:.3rem}
+/* 문제발굴 — 왼쪽 선 흑으로 */
+.exp-problem{background:var(--p);border:.5px solid var(--rule);border-left:2px solid var(--ink);padding:.75rem 1rem;border-radius:0 2px 2px 0}
+.exp-problem-label{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--i2);margin-bottom:.3rem}
 .exp-problem-text{font-size:11.5px;font-weight:300;color:var(--i2);line-height:1.75}
-
-/* 내용 행들 */
 .exp-row{display:flex;flex-direction:column;gap:.3rem}
 .exp-row-label{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--i4)}
 .exp-row-text{font-size:11.5px;font-weight:300;color:var(--i2);line-height:1.75}
-
-/* 툴 태그 */
+/* 툴 태그 — 테두리만 */
 .exp-tools{display:flex;flex-wrap:wrap;gap:.35rem}
-.exp-tool{font-size:9px;font-weight:500;letter-spacing:.04em;color:var(--i3);background:var(--p);border:.5px solid var(--rule);padding:.2rem .55rem;border-radius:2px}
-
-/* 역량 뱃지 */
+.exp-tool{font-size:9px;font-weight:500;letter-spacing:.04em;color:var(--i3);background:transparent;border:.5px solid var(--rule);padding:.2rem .55rem;border-radius:2px}
+/* 역량 뱃지 — 모두 흑백 */
 .exp-skills{display:flex;flex-wrap:wrap;gap:.35rem}
-.exp-skill{font-size:9px;font-weight:600;letter-spacing:.04em;padding:.22rem .6rem;border-radius:100px}
-.sk-blue{background:var(--blue-l);color:var(--blue)}
-.sk-sage{background:var(--sage-l);color:var(--sage)}
-.sk-terra{background:var(--terra-l);color:var(--terra)}
-.sk-gold{background:var(--gold-l);color:var(--gold)}
-.sk-violet{background:var(--violet-l);color:var(--violet)}
-
+.exp-skill{font-size:9px;font-weight:600;letter-spacing:.04em;padding:.22rem .65rem;border-radius:2px;background:var(--ink);color:var(--w)}
+/* 색상 클래스 무효화 — 동일하게 흑백 처리 */
+.sk-blue,.sk-sage,.sk-terra,.sk-gold,.sk-violet{background:var(--ink);color:var(--w)}
 /* 결과 */
-.exp-result{font-size:11px;font-weight:500;color:var(--ink);line-height:1.7;padding-top:.5rem;border-top:.5px solid var(--rule)}
+.exp-result{font-size:11.5px;font-weight:600;color:var(--ink);line-height:1.7;padding-top:.75rem;border-top:.5px solid var(--rule)}
 
 /* ── COLLAB ── */
 #collaboration{background:var(--p)}
@@ -298,6 +280,10 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .rte-size{font-size:10px;font-weight:500;padding:.25rem .4rem;border:.5px solid var(--rule);border-radius:2px;background:var(--w);color:var(--i2);cursor:pointer;font-family:'Pretendard',sans-serif}
 .rte-body{min-height:70px;padding:.65rem .8rem;font-size:12px;font-weight:300;line-height:1.8;color:var(--ink);outline:none;font-family:'Pretendard',sans-serif}
 .rte-body:empty::before{content:attr(data-ph);color:var(--i4)}
+.rte-body b,.rte-body strong{font-weight:900!important;color:var(--ink)!important}
+.rte-body i,.rte-body em{font-style:italic!important}
+.rte-body u{text-decoration:underline!important}
+.rte-body font{font-family:'Pretendard',-apple-system,sans-serif!important}
 .img-upload-area{border:.5px dashed var(--rule);border-radius:3px;padding:.75rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:.4rem}
 .img-thumb-wrap{position:relative;display:inline-block}
 .img-thumb{width:60px;height:60px;object-fit:cover;border:.5px solid var(--rule);border-radius:2px}
@@ -340,7 +326,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
     <li><a href="#research">Research</a></li>
     <li><a href="#publications">Publications</a></li>
     <li><a href="#products">Products</a></li>
-    <li><a href="#collaboration">Collab</a></li>
+    <li><a href="#collaboration">Project Work</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#awards">Awards</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -401,7 +387,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 </div></section>
 
 <section id="collaboration"><div class="sec-wrap">
-  <div class="sec-head reveal"><span class="sec-n">04</span><h2 class="sec-title">Collaboration</h2><span class="sec-kr">기관 협력</span></div>
+  <div class="sec-head reveal"><span class="sec-n">04</span><h2 class="sec-title">Project Work</h2><span class="sec-kr">위탁·용역 프로젝트</span></div>
   <div class="exp-grid reveal" id="collab-grid"></div>
 </div></section>
 
@@ -533,10 +519,11 @@ const DEF={
     {status:'발표 채택 · 2024–2025',live:false,title:'또래 배제·우울·스마트폰 과의존의 종단적 관계',bodyHtml:'KCYPS 2018 패널 데이터 활용 <strong>구조방정식 종단 분석</strong>. ISSBD 2026 포스터 채택.',tags:'Mplus 8.11, SEM, 종단분석, KCYPS 2018',bigNum:'',bigLabel:'',wide:false,detail:{problem:'또래 배제·우울·스마트폰 과의존 세 변인의 종단적 경로 불명확.',rationale:'KCYPS 2018 중1~중3 패널 추적 분석.',theory:'Stress-Coping 이론 + 문제 행동 이론(Problem Behavior Theory).',process:'① 가설 설정 → ② Mplus SEM → ③ 교차지연 모형 → ④ ISSBD 2026 채택',result:'또래 배제 → 우울 → 스마트폰 과의존 경로 확인 (β=.18, p<.01).',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}}
   ],
   pubs:[
-    {year:'2026',title:'디지털 사회화 척도에 대한 체계적 문헌 고찰',venue:'Korean Journal of Human Development · 공동저자',badge:'Journal',ip:false},
-    {year:'2026',title:'또래 배제·우울·스마트폰 과의존의 종단적 관계 — 중학생 패널 자료를 중심으로',venue:'ISSBD 2026, 인천 송도 · 포스터 발표',badge:'Conf.',ip:false},
-    {year:'2026',title:'영유아 교사의 소진 경험에 관한 탐색적 연구 — 온숨 프로그램 개발 기초',venue:'한국육아지원학회 춘계학술대회 · 포스터 발표',badge:'Conf.',ip:false},
-    {year:'2026',title:'SNS 자기조절을 위한 앱 디자인 연구 — Selftune MVP 검증을 중심으로',venue:'한국디자인문화학회지 Vol. 32(1) · 제1저자',badge:'In Press',ip:true}
+    {year:'2025',title:'배유진, 한단비, 안현주, 유린, 로빈, 박주희, 백준상. (2025. 06.) 시각장애 성인의 정서 지원 서비스를 위한 디자인 탐색. 2025 한국디자인학회 학술발표대회.',venue:'2025 한국디자인인학회 춘계학술대회 · 구두 발표 · 제1저자',badge:'Oral Pres.',ip:false,url:''},
+    {year:'2025',title:'이예슬, 박소희, 배유진, 김현경. (2025. 12.) 알파세대 청소년의 정서조절 곤란이 온라인 및 오프라인 또래관계에 미치는 영향: 성차에 따른 매개모형 검증. 2025 한국인간발달학회 추계 학술대회.',venue:'2025 한국인간발달학회 추계 학술대회 · 포스터 발표',badge:'Conf.',ip:false,url:''},
+    {year:'2025',title:'주수산나, 김예진, 배유진, 김현경 (2025.12.). 디지털 사회화 척도 타당화 연구의 심리측정적 고찰과 주제 동향: 국내 문헌 분석(2011-2025년). 한국인간발달학회 추계학술대회.',venue:'2025 한국인간발달학회 추계 학술대회 · 포스터 발표',badge:'Conf.',ip:false,url:''},
+    {year:'2026',title:'주수산나, 김예진, 배유진, 김현경 (2026.03.31). 한국 디지털 사회화 척도 타당화 연구 현황: 심리측정학적 분석 및 주제 동향(2011-2025년). 인간발달연구, 33(1), 97-116.',venue:'인간발달연구 Vol. 33(1) · 공동저자',badge:'Journal',ip:false,url:'https://doi.org/10.15284/kjhd.2026.33.1.97'},
+    {year:'2026',title:'SNS 자기조절을 위한 앱 디자인 연구 — Selftune MVP 검증을 중심으로',venue:'한국디자인문화학회지 Vol. 32(1) · 제1저자',badge:'In Press',ip:true,url:''}
   ],
   products:[
     {name:'사이사이 (Saisai)',tag:'Research Platform',thumb:'사이사이',desc:'온숨 연구를 위한 Firebase 기반 웹 플랫폼.',stack:'Firebase, HTML/CSS/JS, GitHub Pages',detail:{problem:'영유아 교사 대상 3주 요가 중재의 참여 관리·설문·콘텐츠 전달 플랫폼 부재.',rationale:'기존 Google Forms + SNS 방식은 데이터 분산·참여율 저하 문제.',theory:'UCD + 서비스 디자인 방법론.',process:'① 요구사항 분석 → ② Figma 와이어프레임 → ③ Firebase 설계 → ④ HTML 구현 → ⑤ 배포 → ⑥ MVP 테스트',result:'참여자 인증·설문·콘텐츠 플랫폼 완성. 참여율 89% 유지.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
@@ -657,9 +644,15 @@ window.toggleR=i=>document.getElementById(`rc-${i}`)?.classList.toggle('open');
 
 function renderPubs(){
   document.getElementById('pub-list').innerHTML=DATA.pubs.map(p=>`
-  <div class="pub-row"><div><span class="year-badge">${p.year}</span></div>
-  <div><div class="pub-title">${p.title}</div><div class="pub-venue">${p.venue}</div></div>
-  <span class="pub-badge${p.ip?' ip':''}">${p.badge}</span></div>`).join('');
+  <div class="pub-row">
+    <div><span class="year-badge">${p.year}</span></div>
+    <div class="pub-content">
+      <div class="pub-title">${p.title}</div>
+      <div class="pub-venue">${p.venue}</div>
+      ${p.url?`<a href="${p.url}" target="_blank" rel="noopener" class="pub-link">↗ 논문 링크</a>`:''}
+    </div>
+    <div class="pub-badge-wrap"><span class="pub-badge${p.ip?' ip':''}">${p.badge}</span></div>
+  </div>`).join('');
 }
 
 function renderProds(){
@@ -757,11 +750,31 @@ window.removePhoto=function(){photoBase64='';['photo-preview-img','hero-photo-im
 /* ── RTE ── */
 function makeRTE(id,html='',ph='입력...'){
   const w=document.getElementById(id);if(!w)return;
-  const szs=[11,12,13,14,16,18,20,24];
-  w.innerHTML=`<div class="rte-toolbar"><button class="rte-btn" data-cmd="bold"><b>B</b></button><button class="rte-btn" data-cmd="italic"><i>I</i></button><button class="rte-btn" data-cmd="underline"><u>U</u></button><div class="rte-sep"></div><select class="rte-size">${szs.map(s=>`<option value="${s}"${s===13?' selected':''}>${s}px</option>`).join('')}</select><div class="rte-sep"></div><button class="rte-btn" data-cmd="removeFormat">✕</button></div><div class="rte-body" contenteditable="true" data-ph="${ph}">${html}</div>`;
+  const szs=[11,12,13,14,15,16,18,20,24];
+  w.innerHTML=`<div class="rte-toolbar"><button class="rte-btn" data-cmd="bold" title="굵게"><b>B</b></button><button class="rte-btn" data-cmd="italic" title="기울임"><i>I</i></button><button class="rte-btn" data-cmd="underline" title="밑줄"><u>U</u></button><div class="rte-sep"></div><select class="rte-size" title="글씨 크기">${szs.map(s=>`<option value="${s}"${s===13?' selected':''}>${s}px</option>`).join('')}</select><div class="rte-sep"></div><button class="rte-btn" data-cmd="removeFormat" title="서식 제거">✕</button></div><div class="rte-body" contenteditable="true" data-ph="${ph}">${html}</div>`;
   const tb=w.querySelector('.rte-toolbar'),body=w.querySelector('.rte-body'),sz=w.querySelector('.rte-size');
-  tb.querySelectorAll('[data-cmd]').forEach(b=>b.addEventListener('mousedown',e=>{e.preventDefault();document.execCommand(b.dataset.cmd,false,null);body.focus();}));
-  sz.addEventListener('change',()=>{document.execCommand('fontSize',false,'7');body.querySelectorAll('font[size="7"]').forEach(el=>{el.removeAttribute('size');el.style.fontSize=sz.value+'px';});body.focus();});
+  tb.querySelectorAll('[data-cmd]').forEach(b=>b.addEventListener('mousedown',e=>{
+    e.preventDefault();
+    if(b.dataset.cmd==='bold'){
+      // execCommand bold 후 선택 영역 span으로 강제 적용
+      document.execCommand('bold',false,null);
+      // 선택된 b 태그에 font-weight:900 강제 적용
+      body.querySelectorAll('b,strong').forEach(el=>{ el.style.fontWeight='900'; el.style.color='var(--ink)'; });
+    } else {
+      document.execCommand(b.dataset.cmd,false,null);
+    }
+    body.focus();
+  }));
+  sz.addEventListener('change',()=>{
+    const sel=window.getSelection();
+    if(!sel.rangeCount||sel.isCollapsed) return;
+    const range=sel.getRangeAt(0);
+    const span=document.createElement('span');
+    span.style.fontSize=sz.value+'px';
+    span.style.fontFamily="'Pretendard',-apple-system,sans-serif";
+    try{ range.surroundContents(span); } catch(e){ document.execCommand('fontSize',false,'7'); body.querySelectorAll('font[size="7"]').forEach(el=>{ const s=document.createElement('span'); s.style.fontSize=sz.value+'px'; s.style.fontFamily="'Pretendard',-apple-system,sans-serif"; el.parentNode.replaceChild(s,el); s.appendChild(document.createTextNode(el.textContent)); }); }
+    body.focus();
+  });
   body.addEventListener('keyup',upTb);body.addEventListener('mouseup',upTb);
   function upTb(){tb.querySelectorAll('[data-cmd]').forEach(b=>{if(['bold','italic','underline'].includes(b.dataset.cmd))b.classList.toggle('active',document.queryCommandState(b.dataset.cmd));});}
 }
@@ -868,8 +881,10 @@ function buildAdmPubs(){
   document.getElementById('pub-ed-list').innerHTML=DATA.pubs.map((p,i)=>`
   <div class="list-item"><div class="list-item-head"><span class="list-item-num">논문 ${i+1}</span><button class="adm-del" onclick="delPub(${i})">삭제</button></div>
   <div class="af-row"><div class="af"><label>연도</label><input class="py-in" data-i="${i}" value="${p.year||''}"></div><div class="af"><label>배지</label><input class="pb-in" data-i="${i}" value="${p.badge||''}"></div></div>
-  <div class="af"><label>제목</label><input class="pt-in" data-i="${i}" value="${p.title||''}"></div>
-  <div class="af"><label>출처</label><input class="pv-in" data-i="${i}" value="${p.venue||''}"></div></div>`).join('');
+  <div class="af"><label>제목 (전체 인용문 포함)</label><input class="pt-in" data-i="${i}" value="${(p.title||'').replace(/"/g,'&quot;')}"></div>
+  <div class="af"><label>출처·저자 정보</label><input class="pv-in" data-i="${i}" value="${p.venue||''}"></div>
+  <div class="af"><label>논문 링크 URL (없으면 빈칸)</label><input class="pu-in" data-i="${i}" value="${p.url||''}" placeholder="https://doi.org/..."></div>
+  </div>`).join('');
 }
 window.delPub=i=>{if(confirm('삭제?')){DATA.pubs.splice(i,1);buildAdmPubs();}};
 window.addPub=()=>{DATA.pubs.push({year:'2026',title:'논문 제목',venue:'저널 · 저자',badge:'Conf.',ip:false});buildAdmPubs();};
@@ -928,7 +943,7 @@ function readAll(){
     if(!DATA.researches[i].detail.images)DATA.researches[i].detail.images={};
     STEP_KEYS.forEach(k=>{DATA.researches[i].detail[k]=getRTE(`rte-rd${k}-${i}`);DATA.researches[i].detail.images[k]=imgStore[`ri${i}${k}`]||[];});
   });
-  DATA.pubs.forEach((_,i)=>{DATA.pubs[i].year=document.querySelector(`.py-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].badge=document.querySelector(`.pb-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].title=document.querySelector(`.pt-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].venue=document.querySelector(`.pv-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].ip=DATA.pubs[i].badge.toLowerCase().includes('press');});
+  DATA.pubs.forEach((_,i)=>{DATA.pubs[i].year=document.querySelector(`.py-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].badge=document.querySelector(`.pb-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].title=document.querySelector(`.pt-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].venue=document.querySelector(`.pv-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].url=document.querySelector(`.pu-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].ip=DATA.pubs[i].badge.toLowerCase().includes('press');});
   DATA.products.forEach((_,i)=>{DATA.products[i].name=document.querySelector(`.pdn-in[data-i="${i}"]`)?.value||'';DATA.products[i].tag=document.querySelector(`.pdt-in[data-i="${i}"]`)?.value||'';DATA.products[i].thumb=document.querySelector(`.pdth-in[data-i="${i}"]`)?.value||'';DATA.products[i].stack=document.querySelector(`.pds-in[data-i="${i}"]`)?.value||'';DATA.products[i].desc=document.querySelector(`.pdd-in[data-i="${i}"]`)?.value||'';if(!DATA.products[i].detail)DATA.products[i].detail={images:{}};if(!DATA.products[i].detail.images)DATA.products[i].detail.images={};STEP_KEYS.forEach(k=>{DATA.products[i].detail[k]=getRTE(`rte-pd${k}-${i}`);DATA.products[i].detail.images[k]=imgStore[`pi${i}${k}`]||[];});});
   readExpItems('cl',DATA.collabs);
   readExpItems('ex',DATA.experiences);
