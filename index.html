@@ -7,7 +7,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--w:#f9f9f7;--p:#f2f1ed;--ink:#141412;--i2:#3a3935;--i3:#78766e;--i4:#b5b3aa;--rule:#e0dfd8;--blue:#2563eb;--blue-l:#eff6ff;--blue-m:#dbeafe;--admin:#2563eb}
+:root{
+  --w:#f9f9f7;--p:#f2f1ed;--ink:#141412;--i2:#3a3935;--i3:#78766e;--i4:#b5b3aa;--rule:#e0dfd8;
+  --blue:#2563eb;--blue-l:#eff6ff;--blue-m:#dbeafe;
+  --sage:#3d7a5e;--sage-l:#edf5f0;--sage-m:#c3e0d2;
+  --terra:#c0522a;--terra-l:#fdf0eb;--terra-m:#f5c9b3;
+  --gold:#9a7a2e;--gold-l:#fdf8ed;--gold-m:#f0dfa0;
+  --violet:#6d4fc2;--violet-l:#f3f0fb;--violet-m:#d4c8f5;
+}
 html{scroll-behavior:smooth}
 body{background:var(--w);color:var(--ink);font-family:'Pretendard',-apple-system,sans-serif;font-size:13px;font-weight:300;line-height:1.8;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
 
@@ -15,9 +22,9 @@ body{background:var(--w);color:var(--ink);font-family:'Pretendard',-apple-system
 #ls{position:fixed;inset:0;background:var(--w);z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;transition:opacity .5s}
 #ls.done{opacity:0;pointer-events:none}
 .ls-name{font-size:1.5rem;font-weight:700;letter-spacing:-.03em}
-.ls-bar-w{width:180px;height:1px;background:var(--rule)}
-.ls-bar{height:1px;background:var(--blue);width:0;transition:width .4s}
-.ls-msg{font-size:10px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--i4)}
+.ls-bw{width:180px;height:1px;background:var(--rule)}
+.ls-b{height:1px;background:var(--blue);width:0;transition:width .4s}
+.ls-m{font-size:10px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--i4)}
 
 /* cursor */
 .cur{width:5px;height:5px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:transform .12s,opacity .12s;mix-blend-mode:multiply}
@@ -26,16 +33,16 @@ body{background:var(--w);color:var(--ink);font-family:'Pretendard',-apple-system
 /* nav */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;background:rgba(249,249,247,.93);backdrop-filter:blur(10px);border-bottom:.5px solid var(--rule)}
 .nav-mark{font-size:13px;font-weight:700;color:var(--ink);text-decoration:none}
-.nav-items{display:flex;gap:2rem;list-style:none}
-.nav-items a{font-size:11px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--i3);text-decoration:none;transition:color .15s}
+.nav-items{display:flex;gap:1.75rem;list-style:none}
+.nav-items a{font-size:10.5px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--i3);text-decoration:none;transition:color .15s}
 .nav-items a:hover{color:var(--ink)}
 .nav-r{display:flex;align-items:center;gap:1rem}
 .nav-sync{font-size:9px;font-weight:500;letter-spacing:.08em;color:var(--i4);display:none}
 .nav-sync.show{display:block}
-.nav-adm{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--admin);background:none;border:.5px solid var(--admin);padding:.3rem .8rem;border-radius:3px;cursor:pointer;transition:background .15s,color .15s}
-.nav-adm:hover{background:var(--admin);color:#fff}
+.nav-adm{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:none;border:.5px solid var(--blue);padding:.3rem .8rem;border-radius:3px;cursor:pointer;transition:background .15s,color .15s}
+.nav-adm:hover{background:var(--blue);color:#fff}
 
-/* hero */
+/* ── HERO ── */
 .hero{padding-top:50px;min-height:100vh;display:grid;grid-template-rows:1fr auto}
 .hero-main{display:grid;grid-template-columns:1fr 1fr;border-bottom:.5px solid var(--rule)}
 .hero-left{padding:6rem 4rem 5rem 3rem;border-right:.5px solid var(--rule);display:flex;flex-direction:column;justify-content:flex-end}
@@ -47,65 +54,59 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .hero-cta{display:flex;gap:1.5rem}
 .hero-cta a{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--i2);text-decoration:none;border-bottom:1px solid var(--i3);padding-bottom:1px;transition:color .15s,border-color .15s}
 .hero-cta a:hover{color:var(--ink);border-color:var(--ink)}
-
-/* hero right — photo + info */
-.hero-right{padding:0;display:flex;flex-direction:column}
+.hero-right{display:flex;flex-direction:column}
 .hero-photo-wrap{flex:1;position:relative;overflow:hidden;border-bottom:.5px solid var(--rule);min-height:260px;background:var(--p);display:flex;align-items:center;justify-content:center}
-.hero-photo{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-.hero-photo-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--i4);font-size:11px;font-weight:400;letter-spacing:.08em;text-transform:uppercase}
-.hero-photo-placeholder svg{width:48px;height:48px;stroke:var(--rule);stroke-width:1;fill:none}
+.hero-photo{width:100%;height:100%;object-fit:cover;object-position:top;display:none}
+.hero-photo-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--i4);font-size:11px;font-weight:400;letter-spacing:.08em;text-transform:uppercase}
+.hero-photo-ph svg{width:48px;height:48px;stroke:var(--rule);stroke-width:1;fill:none}
 .hero-info{padding:2.5rem 3rem}
 .hf-label{font-size:9px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--i4);margin-bottom:.45rem}
 .hf-val{font-size:12.5px;font-weight:300;color:var(--i2);line-height:1.85;margin-bottom:2rem}
 .hero-nums{display:grid;grid-template-columns:repeat(3,1fr);border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
 .hero-num{border-right:.5px solid var(--rule);border-bottom:.5px solid var(--rule);padding:1.25rem 1rem}
 .hero-num-n{font-size:2.2rem;font-weight:700;letter-spacing:-.04em;color:var(--ink);line-height:1;margin-bottom:.3rem}
-.hero-num-n sup{font-size:1rem;font-weight:300}
 .hero-num-l{font-size:9px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--i4)}
 .hero-strip{display:grid;grid-template-columns:repeat(3,1fr)}
 .strip-item{padding:.9rem 3rem;border-right:.5px solid var(--rule);font-size:10px;font-weight:400;letter-spacing:.06em;color:var(--i3);display:flex;align-items:center;gap:.7rem}
 .strip-item:last-child{border-right:none}
 .strip-item::before{content:'→';color:var(--i4);flex-shrink:0}
 
-/* year badge */
-.year-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--blue);background:var(--blue-l);border:1px solid var(--blue-m);padding:.18rem .55rem;border-radius:3px;line-height:1.4}
-
-/* section */
+/* ── SECTION COMMON ── */
 .sec-wrap{padding:5.5rem 3rem}
 .sec-head{display:flex;align-items:baseline;gap:1.25rem;border-bottom:.5px solid var(--rule);padding-bottom:1rem;margin-bottom:3rem}
 .sec-n{font-size:10px;font-weight:400;letter-spacing:.1em;color:var(--i4)}
 .sec-title{font-size:1.35rem;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
 .sec-kr{font-size:10px;font-weight:300;letter-spacing:.15em;color:var(--i4);margin-left:auto}
+.year-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--blue);background:var(--blue-l);border:1px solid var(--blue-m);padding:.18rem .55rem;border-radius:3px;line-height:1.4}
 
-/* research */
+/* ── RESEARCH ── */
 #research{background:var(--w)}
 .r-grid{display:grid;grid-template-columns:1fr 1fr;border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
 .r-card{border-right:.5px solid var(--rule);border-bottom:.5px solid var(--rule)}
 .r-card.wide{grid-column:1/-1}
-.r-card-header{padding:2rem 2rem 1.5rem;cursor:pointer;transition:background .2s}
-.r-card.wide .r-card-header{display:grid;grid-template-columns:1fr 100px;gap:2rem;align-items:start}
-.r-card-header:hover{background:var(--p)}
+.r-ch{padding:2rem 2rem 1.5rem;cursor:pointer;transition:background .2s}
+.r-card.wide .r-ch{display:grid;grid-template-columns:1fr 100px;gap:2rem;align-items:start}
+.r-ch:hover{background:var(--p)}
 .r-status{display:inline-block;font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--i3);border:.5px solid var(--rule);padding:.22rem .55rem;margin-bottom:.6rem}
 .r-status.live{color:var(--ink);border-color:var(--i3)}
 .r-title{font-size:14px;font-weight:700;letter-spacing:-.02em;color:var(--ink);line-height:1.5;margin-bottom:.7rem}
 .r-body{font-size:11.5px;font-weight:300;color:var(--i3);line-height:2;margin-bottom:1rem}
-.r-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+.r-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem}
 .r-tag{font-size:9px;font-weight:400;letter-spacing:.06em;color:var(--i4);border:.5px solid var(--rule);padding:.18rem .5rem}
 .r-big-n{font-size:3.5rem;font-weight:700;letter-spacing:-.05em;color:var(--rule);line-height:1;text-align:right}
 .r-big-l{font-size:8.5px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--i4);text-align:right}
-.r-toggle-row{display:flex;justify-content:flex-end;margin-top:.75rem}
-.r-toggle-icon{font-size:11px;color:var(--i4);transition:transform .3s;display:inline-block}
-.r-card.open .r-toggle-icon{transform:rotate(180deg)}
+.r-tog{display:flex;justify-content:flex-end;margin-top:.75rem}
+.r-tog-icon{font-size:11px;color:var(--i4);transition:transform .3s}
+.r-card.open .r-tog-icon{transform:rotate(180deg)}
 .r-detail{display:none;border-top:.5px solid var(--rule);padding:2rem 2rem 2.5rem;background:var(--p)}
 .r-card.open .r-detail{display:block;animation:fadeIn .25s ease}
-.r-detail-section{margin-bottom:1.75rem}
-.r-detail-section:last-child{margin-bottom:0}
-.r-detail-label{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:.6rem}
-.r-detail-text{font-size:12px;font-weight:300;color:var(--i2);line-height:2}
-.r-detail-imgs{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.75rem}
-.r-detail-imgs img{height:120px;width:auto;border:.5px solid var(--rule);border-radius:3px;object-fit:cover}
+.r-dl{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:.6rem;margin-top:1.25rem}
+.r-dl:first-child{margin-top:0}
+.r-dt{font-size:12px;font-weight:300;color:var(--i2);line-height:2}
+.r-dimgs{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.75rem}
+.r-dimgs img{height:120px;width:auto;border:.5px solid var(--rule);border-radius:3px;object-fit:cover}
 
-/* publications */
+/* ── PUBLICATIONS ── */
 #publications{background:var(--p)}
 .pub-list{border-top:.5px solid var(--rule)}
 .pub-row{display:grid;grid-template-columns:80px 1fr 80px;gap:1.5rem;align-items:start;padding:1.5rem 0;border-bottom:.5px solid var(--rule);transition:background .15s}
@@ -115,49 +116,75 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .pub-badge{font-size:8.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:.5px solid var(--rule);color:var(--i3);padding:.22rem .5rem;display:inline-block;white-space:nowrap;margin-top:.15rem;border-radius:2px}
 .pub-badge.ip{border-color:var(--i3);color:var(--i2)}
 
-/* products */
+/* ── PRODUCTS ── */
 #products{background:var(--w)}
 .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
 .prod-card{border-right:.5px solid var(--rule);border-bottom:.5px solid var(--rule);display:flex;flex-direction:column;cursor:pointer;transition:background .2s}
 .prod-card:hover{background:var(--p)}
 .prod-thumb{border-bottom:.5px solid var(--rule);padding:2rem;aspect-ratio:4/3;display:flex;align-items:flex-end;justify-content:space-between;position:relative;overflow:hidden}
-.prod-thumb-word{font-size:clamp(1.6rem,3vw,2.6rem);font-weight:700;letter-spacing:-.04em;color:var(--rule);user-select:none;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.prod-thumb-word{font-size:clamp(1.4rem,2.5vw,2.4rem);font-weight:700;letter-spacing:-.04em;color:var(--rule);user-select:none;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .prod-thumb-tag{position:relative;z-index:1;font-size:8.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--i3);border:.5px solid var(--rule);padding:.22rem .55rem;background:var(--w)}
 .prod-body{padding:1.5rem 1.75rem 2rem;flex:1}
-.prod-name{font-size:14px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:.65rem}
+.prod-name{font-size:14px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:.5rem}
 .prod-desc{font-size:11.5px;font-weight:300;color:var(--i3);line-height:2;margin-bottom:1rem}
-.prod-stack{display:flex;flex-wrap:wrap;gap:.3rem}
+.prod-stack{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.6rem}
 .s-tag{font-size:9px;font-weight:400;letter-spacing:.06em;color:var(--i4);border:.5px solid var(--rule);padding:.18rem .5rem}
-.prod-open-hint{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-top:.85rem;opacity:.8}
+.prod-open-hint{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-top:.5rem;opacity:.8}
 
-/* product modal */
-#prod-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(20,20,18,.55);backdrop-filter:blur(5px);overflow-y:auto}
-#prod-modal.open{display:flex;align-items:flex-start;justify-content:center;padding:3rem 1.5rem}
-.pm-inner{background:var(--w);width:min(860px,96vw);border:.5px solid var(--rule);border-radius:4px;overflow:hidden}
-.pm-top{padding:1.5rem 2rem;border-bottom:.5px solid var(--rule);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--w);z-index:1}
-.pm-title{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
-.pm-close{font-size:20px;font-weight:200;color:var(--i4);background:none;border:none;cursor:pointer;transition:color .15s}
-.pm-close:hover{color:var(--ink)}
-.pm-tabs{display:flex;border-bottom:.5px solid var(--rule);overflow-x:auto}
-.pm-tab{flex-shrink:0;padding:.85rem 1.5rem;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--i3);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
-.pm-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
-.pm-tab-content{display:none;padding:2rem 2.5rem 3rem;animation:fadeIn .2s ease}
-.pm-tab-content.active{display:block}
-.pm-section-title{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:.75rem}
-.pm-text{font-size:13px;font-weight:300;color:var(--i2);line-height:2.1;margin-bottom:1.5rem}
-.pm-slider{position:relative;width:100%;aspect-ratio:16/7;background:var(--p);border:.5px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:1rem}
-.pm-slides{display:flex;height:100%;transition:transform .4s ease}
-.pm-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center}
-.pm-slide img{width:100%;height:100%;object-fit:contain}
-.pm-slide-empty{font-size:12px;font-weight:300;color:var(--i4);padding:2rem;text-align:center}
-.slider-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(249,249,247,.85);border:.5px solid var(--rule);color:var(--i3);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;border-radius:2px;transition:background .15s}
-.slider-btn:hover{background:var(--w)}
-.slider-prev{left:.75rem}.slider-next{right:.75rem}
-.slider-dots{display:flex;gap:.4rem;justify-content:center;margin-top:.6rem}
-.slider-dot{width:5px;height:5px;border-radius:50%;background:var(--rule);cursor:pointer;transition:background .2s}
-.slider-dot.on{background:var(--blue)}
+/* ── EXPERIENCE CARDS ── */
+/* 공통 경험 카드 */
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
+.exp-grid.three{grid-template-columns:repeat(3,1fr)}
+.exp-card{border-right:.5px solid var(--rule);border-bottom:.5px solid var(--rule);padding:2rem 2rem 2.25rem;transition:background .2s;display:flex;flex-direction:column;gap:1.1rem}
+.exp-card:hover{background:var(--p)}
 
-/* awards */
+/* 상단 메타 */
+.exp-meta{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem}
+.exp-cat{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.22rem .6rem;border-radius:2px}
+.exp-cat.research{background:var(--blue-l);color:var(--blue);border:.5px solid var(--blue-m)}
+.exp-cat.design{background:var(--sage-l);color:var(--sage);border:.5px solid var(--sage-m)}
+.exp-cat.public{background:var(--gold-l);color:var(--gold);border:.5px solid var(--gold-m)}
+.exp-cat.product{background:var(--terra-l);color:var(--terra);border:.5px solid var(--terra-m)}
+.exp-cat.edu{background:var(--violet-l);color:var(--violet);border:.5px solid var(--violet-m)}
+.exp-year{font-size:9px;font-weight:400;letter-spacing:.08em;color:var(--i4)}
+
+/* 제목 */
+.exp-title{font-size:14px;font-weight:700;letter-spacing:-.02em;color:var(--ink);line-height:1.4}
+.exp-subtitle{font-size:11px;font-weight:400;color:var(--i3);margin-top:.2rem}
+
+/* 문제발굴 블록 */
+.exp-problem{background:var(--w);border:.5px solid var(--rule);border-left:2.5px solid var(--blue);padding:.75rem 1rem;border-radius:0 3px 3px 0}
+.exp-problem-label{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:.3rem}
+.exp-problem-text{font-size:11.5px;font-weight:300;color:var(--i2);line-height:1.75}
+
+/* 내용 행들 */
+.exp-row{display:flex;flex-direction:column;gap:.3rem}
+.exp-row-label{font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--i4)}
+.exp-row-text{font-size:11.5px;font-weight:300;color:var(--i2);line-height:1.75}
+
+/* 툴 태그 */
+.exp-tools{display:flex;flex-wrap:wrap;gap:.35rem}
+.exp-tool{font-size:9px;font-weight:500;letter-spacing:.04em;color:var(--i3);background:var(--p);border:.5px solid var(--rule);padding:.2rem .55rem;border-radius:2px}
+
+/* 역량 뱃지 */
+.exp-skills{display:flex;flex-wrap:wrap;gap:.35rem}
+.exp-skill{font-size:9px;font-weight:600;letter-spacing:.04em;padding:.22rem .6rem;border-radius:100px}
+.sk-blue{background:var(--blue-l);color:var(--blue)}
+.sk-sage{background:var(--sage-l);color:var(--sage)}
+.sk-terra{background:var(--terra-l);color:var(--terra)}
+.sk-gold{background:var(--gold-l);color:var(--gold)}
+.sk-violet{background:var(--violet-l);color:var(--violet)}
+
+/* 결과 */
+.exp-result{font-size:11px;font-weight:500;color:var(--ink);line-height:1.7;padding-top:.5rem;border-top:.5px solid var(--rule)}
+
+/* ── COLLAB ── */
+#collaboration{background:var(--p)}
+
+/* ── WORK EXPERIENCE ── */
+#experience{background:var(--w)}
+
+/* ── AWARDS ── */
 #awards{background:var(--p)}
 .aw-grid{display:grid;grid-template-columns:1fr 1fr;border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
 .aw-card{border-right:.5px solid var(--rule);border-bottom:.5px solid var(--rule);padding:1.75rem 2rem;display:grid;grid-template-columns:32px 1fr;gap:1rem;align-items:start;transition:background .2s}
@@ -167,7 +194,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .aw-org{font-size:11px;font-weight:300;color:var(--i4);line-height:1.6}
 .aw-year{margin-top:.5rem;font-size:9.5px;font-weight:400;letter-spacing:.08em;color:var(--i4)}
 
-/* contact */
+/* ── CONTACT ── */
 #contact{background:var(--ink)}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;min-height:60vh}
 .contact-left{padding:5.5rem 3rem;border-right:.5px solid rgba(255,255,255,.06);display:flex;flex-direction:column;justify-content:flex-end}
@@ -185,10 +212,38 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .ft-l{font-size:11px;font-weight:700;color:rgba(255,255,255,.2)}
 .ft-r{font-size:10px;font-weight:300;color:rgba(255,255,255,.15)}
 
+/* product modal */
+#prod-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(20,20,18,.55);backdrop-filter:blur(5px);overflow-y:auto}
+#prod-modal.open{display:flex;align-items:flex-start;justify-content:center;padding:3rem 1.5rem}
+.pm-inner{background:var(--w);width:min(860px,96vw);border:.5px solid var(--rule);border-radius:4px;overflow:hidden}
+.pm-top{padding:1.5rem 2rem;border-bottom:.5px solid var(--rule);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--w);z-index:1}
+.pm-title{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.pm-close{font-size:20px;font-weight:200;color:var(--i4);background:none;border:none;cursor:pointer;transition:color .15s}
+.pm-close:hover{color:var(--ink)}
+.pm-tabs{display:flex;border-bottom:.5px solid var(--rule);overflow-x:auto}
+.pm-tab{flex-shrink:0;padding:.85rem 1.5rem;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--i3);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.pm-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.pm-tab-content{display:none;padding:2rem 2.5rem 3rem;animation:fadeIn .2s ease}
+.pm-tab-content.active{display:block}
+.pm-sl{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:.75rem}
+.pm-text{font-size:13px;font-weight:300;color:var(--i2);line-height:2.1;margin-bottom:1.5rem}
+.pm-slider{position:relative;width:100%;aspect-ratio:16/7;background:var(--p);border:.5px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:1rem}
+.pm-slides{display:flex;height:100%;transition:transform .4s ease}
+.pm-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.pm-slide img{width:100%;height:100%;object-fit:contain}
+.pm-slide-empty{font-size:12px;font-weight:300;color:var(--i4);padding:2rem;text-align:center}
+.slider-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(249,249,247,.85);border:.5px solid var(--rule);color:var(--i3);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;border-radius:2px;transition:background .15s}
+.slider-btn:hover{background:var(--w)}
+.slider-prev{left:.75rem}.slider-next{right:.75rem}
+.slider-dots{display:flex;gap:.4rem;justify-content:center;margin-top:.6rem}
+.slider-dot{width:5px;height:5px;border-radius:50%;background:var(--rule);cursor:pointer;transition:background .2s}
+.slider-dot.on{background:var(--blue)}
+
 /* reveal */
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .75s ease,transform .75s ease}
 .reveal.in{opacity:1;transform:none}
 @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .hero-left>*{animation:up .9s ease both}
 .hero-left>*:nth-child(1){animation-delay:.1s}
 .hero-left>*:nth-child(2){animation-delay:.22s}
@@ -196,9 +251,8 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .hero-left>*:nth-child(4){animation-delay:.42s}
 .hero-left>*:nth-child(5){animation-delay:.5s}
 .hero-right{animation:up 1s .38s ease both}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* ══ ADMIN ══ */
+/* ── ADMIN ── */
 #adm-ov{display:none;position:fixed;inset:0;z-index:800;background:rgba(20,20,18,.6);backdrop-filter:blur(5px);align-items:center;justify-content:center}
 #adm-ov.open{display:flex}
 #adm-box{background:var(--w);border:.5px solid var(--rule);width:min(780px,95vw);max-height:92vh;overflow-y:auto;border-radius:4px}
@@ -207,7 +261,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .adm-top-close{font-size:18px;font-weight:300;color:var(--i4);background:none;border:none;cursor:pointer;transition:color .15s}
 .adm-top-close:hover{color:var(--ink)}
 .adm-tabs{display:flex;border-bottom:.5px solid var(--rule);overflow-x:auto}
-.adm-tab{flex-shrink:0;padding:.7rem 1.25rem;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--i3);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.adm-tab{flex-shrink:0;padding:.7rem 1.1rem;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--i3);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
 .adm-tab.on{color:var(--blue);border-bottom-color:var(--blue)}
 .adm-pane{display:none;padding:1.5rem 2rem 2rem}
 .adm-pane.on{display:block}
@@ -223,8 +277,8 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .adm-btn:hover{opacity:.82}
 .adm-btn-out{padding:.6rem 1.4rem;background:none;color:var(--i3);font-family:'Pretendard',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:.5px solid var(--rule);cursor:pointer;border-radius:2px;transition:border-color .15s}
 .adm-btn-out:hover{border-color:var(--i3)}
-.adm-add{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--admin);background:none;border:.5px solid var(--admin);padding:.4rem .9rem;border-radius:2px;cursor:pointer;transition:background .15s,color .15s;margin-top:.5rem}
-.adm-add:hover{background:var(--admin);color:#fff}
+.adm-add{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);background:none;border:.5px solid var(--blue);padding:.4rem .9rem;border-radius:2px;cursor:pointer;transition:background .15s,color .15s;margin-top:.5rem}
+.adm-add:hover{background:var(--blue);color:#fff}
 .adm-del{font-size:10px;font-weight:600;color:#dc2626;background:none;border:.5px solid #fecaca;padding:.35rem .7rem;border-radius:2px;cursor:pointer;transition:background .15s}
 .adm-del:hover{background:#fef2f2}
 .list-item{background:var(--p);border:.5px solid var(--rule);border-radius:3px;padding:1rem;margin-bottom:.75rem}
@@ -235,8 +289,6 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .adm-saving.show{opacity:1}
 .adm-saved{font-size:11px;font-weight:500;color:#16a34a;margin-right:auto;opacity:0;transition:opacity .3s}
 .adm-saved.show{opacity:1}
-
-/* ── rich text editor ── */
 .rte-wrap{border:.5px solid var(--rule);border-radius:2px;overflow:hidden;background:var(--w)}
 .rte-toolbar{display:flex;flex-wrap:wrap;gap:.25rem;padding:.5rem .6rem;border-bottom:.5px solid var(--rule);background:var(--p);align-items:center}
 .rte-btn{padding:.25rem .5rem;font-size:11px;font-weight:600;background:none;border:.5px solid transparent;border-radius:2px;cursor:pointer;color:var(--i2);transition:background .15s,border-color .15s;line-height:1.2;font-family:'Pretendard',sans-serif}
@@ -244,25 +296,22 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .rte-btn.active{background:var(--blue-l);border-color:var(--blue-m);color:var(--blue)}
 .rte-sep{width:.5px;height:16px;background:var(--rule);margin:0 .2rem}
 .rte-size{font-size:10px;font-weight:500;padding:.25rem .4rem;border:.5px solid var(--rule);border-radius:2px;background:var(--w);color:var(--i2);cursor:pointer;font-family:'Pretendard',sans-serif}
-.rte-body{min-height:80px;padding:.65rem .8rem;font-size:12px;font-weight:300;line-height:1.8;color:var(--ink);outline:none;font-family:'Pretendard',sans-serif}
+.rte-body{min-height:70px;padding:.65rem .8rem;font-size:12px;font-weight:300;line-height:1.8;color:var(--ink);outline:none;font-family:'Pretendard',sans-serif}
 .rte-body:empty::before{content:attr(data-ph);color:var(--i4)}
-
-/* img upload */
 .img-upload-area{border:.5px dashed var(--rule);border-radius:3px;padding:.75rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:.4rem}
 .img-thumb-wrap{position:relative;display:inline-block}
 .img-thumb{width:60px;height:60px;object-fit:cover;border:.5px solid var(--rule);border-radius:2px}
 .img-thumb-del{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .img-add-btn{width:60px;height:60px;border:.5px dashed var(--rule);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--i4);cursor:pointer;transition:border-color .2s,color .2s}
 .img-add-btn:hover{border-color:var(--blue);color:var(--blue)}
-
-/* photo upload preview */
 .photo-upload-wrap{border:.5px solid var(--rule);border-radius:3px;overflow:hidden;aspect-ratio:3/4;width:140px;background:var(--p);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer}
 .photo-upload-wrap img{width:100%;height:100%;object-fit:cover;object-position:top}
 .photo-upload-overlay{position:absolute;inset:0;background:rgba(20,20,18,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff}
 .photo-upload-wrap:hover .photo-upload-overlay{opacity:1}
 
-@media(max-width:860px){
+@media(max-width:900px){
   nav{padding:0 1.5rem}
+  .nav-items{gap:1rem}
   .hero-main{grid-template-columns:1fr}
   .hero-left{padding:5rem 1.5rem 3rem;border-right:none;border-bottom:.5px solid var(--rule)}
   .hero-right{min-height:auto}
@@ -271,9 +320,9 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   .hero-strip{grid-template-columns:1fr}
   .strip-item{border-right:none;border-bottom:.5px solid var(--rule);padding:.8rem 1.5rem}
   .sec-wrap{padding:4rem 1.5rem}
-  .r-grid,.aw-grid{grid-template-columns:1fr}
+  .r-grid,.aw-grid,.exp-grid,.exp-grid.three{grid-template-columns:1fr}
   .r-card.wide{grid-column:auto}
-  .r-card.wide .r-card-header{grid-template-columns:1fr}
+  .r-card.wide .r-ch{grid-template-columns:1fr}
   .prod-grid{grid-template-columns:1fr 1fr}
   .contact-grid{grid-template-columns:1fr}
   .contact-left,.contact-right{padding:4rem 1.5rem}
@@ -282,13 +331,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 </style>
 </head>
 <body>
-
-<div id="ls">
-  <div class="ls-name">배유진</div>
-  <div class="ls-bar-w"><div class="ls-bar" id="ls-bar"></div></div>
-  <div class="ls-msg" id="ls-msg">데이터 불러오는 중...</div>
-</div>
-
+<div id="ls"><div class="ls-name">배유진</div><div class="ls-bw"><div class="ls-b" id="ls-b"></div></div><div class="ls-m" id="ls-m">데이터 불러오는 중...</div></div>
 <div class="cur" id="cur"></div>
 
 <nav>
@@ -297,6 +340,8 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
     <li><a href="#research">Research</a></li>
     <li><a href="#publications">Publications</a></li>
     <li><a href="#products">Products</a></li>
+    <li><a href="#collaboration">Collab</a></li>
+    <li><a href="#experience">Experience</a></li>
     <li><a href="#awards">Awards</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -306,6 +351,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-main">
     <div class="hero-left">
@@ -317,36 +363,30 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
     </div>
     <div class="hero-right">
       <div class="hero-photo-wrap" id="hero-photo-wrap">
-        <div class="hero-photo-placeholder" id="hero-photo-placeholder">
-          <svg viewBox="0 0 48 48"><circle cx="24" cy="18" r="8"/><path d="M8 42c0-8.837 7.163-16 16-16s16 7.163 16 16"/></svg>
-          사진을 추가해주세요
-        </div>
-        <img id="hero-photo-img" class="hero-photo" style="display:none" src="" alt="프로필 사진">
+        <div class="hero-photo-ph" id="hero-photo-ph"><svg viewBox="0 0 48 48"><circle cx="24" cy="18" r="8"/><path d="M8 42c0-8.837 7.163-16 16-16s16 7.163 16 16"/></svg>사진을 추가해주세요</div>
+        <img id="hero-photo-img" class="hero-photo" src="" alt="">
       </div>
       <div class="hero-info">
-        <div class="hf-label">소속</div>
-        <div class="hf-val" id="h-affil">연세대학교 아동·가족학과<br>융합전공 인간생활·혁신디자인<br><strong>석사과정 (2025–)</strong></div>
-        <div class="hf-label">연구 관심</div>
-        <div class="hf-val" id="h-interest"><strong>디지털 웰빙</strong> · 교사 소진<br><strong>아동발달</strong> · SNS 자기조절<br>혼합연구방법론</div>
-        <div class="hf-label">소속 팀</div>
-        <div class="hf-val" id="h-team"><strong>Caremate</strong> 연구팀 · BK21 참여 대학원생</div>
+        <div class="hf-label">소속</div><div class="hf-val" id="h-affil">연세대학교 아동·가족학과<br>융합전공 인간생활·혁신디자인<br><strong>석사과정 (2025–)</strong></div>
+        <div class="hf-label">연구 관심</div><div class="hf-val" id="h-interest"><strong>디지털 웰빙</strong> · 교사 소진<br><strong>아동발달</strong> · SNS 자기조절<br>혼합연구방법론</div>
+        <div class="hf-label">소속 팀</div><div class="hf-val" id="h-team"><strong>Caremate</strong> 연구팀 · BK21 참여 대학원생</div>
         <div class="hero-nums">
-          <div class="hero-num"><div class="hero-num-n" id="h-n1">3<sup>+</sup></div><div class="hero-num-l">Projects</div></div>
+          <div class="hero-num"><div class="hero-num-n" id="h-n1">3<sup style="font-size:.9rem;font-weight:300">+</sup></div><div class="hero-num-l">Projects</div></div>
           <div class="hero-num"><div class="hero-num-n" id="h-n2">68</div><div class="hero-num-l">Participants</div></div>
-          <div class="hero-num"><div class="hero-num-n" id="h-n3">2</div><div class="hero-num-l">Products</div></div>
+          <div class="hero-num"><div class="hero-num-n" id="h-n3">5</div><div class="hero-num-l">Products</div></div>
         </div>
       </div>
     </div>
   </div>
   <div class="hero-strip">
-    <div class="strip-item" id="strip1">영유아 교사 소진 · 온숨 프로그램 개발</div>
-    <div class="strip-item" id="strip2">Firebase · GitHub Pages 디지털 제품 배포</div>
-    <div class="strip-item" id="strip3">ISSBD 2026 · 한국디자인문화학회지</div>
+    <div class="strip-item" id="strip1">연구 → 프로그램 → 플랫폼 직접 개발</div>
+    <div class="strip-item" id="strip2">당사자 인터뷰 · 공공기관 협력 · MVP 검증</div>
+    <div class="strip-item" id="strip3">ISSBD 2026 · KCI 제1저자 · 에드테크 실무</div>
   </div>
 </div>
 
 <section id="research"><div class="sec-wrap">
-  <div class="sec-head reveal"><span class="sec-n">01</span><h2 class="sec-title">Research</h2><span class="sec-kr">연구 프로젝트</span></div>
+  <div class="sec-head reveal"><span class="sec-n">01</span><h2 class="sec-title">Research</h2><span class="sec-kr">학술 연구</span></div>
   <div class="r-grid reveal" id="r-grid"></div>
 </div></section>
 
@@ -360,15 +400,25 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   <div class="prod-grid reveal" id="prod-grid"></div>
 </div></section>
 
+<section id="collaboration"><div class="sec-wrap">
+  <div class="sec-head reveal"><span class="sec-n">04</span><h2 class="sec-title">Collaboration</h2><span class="sec-kr">기관 협력</span></div>
+  <div class="exp-grid reveal" id="collab-grid"></div>
+</div></section>
+
+<section id="experience"><div class="sec-wrap">
+  <div class="sec-head reveal"><span class="sec-n">05</span><h2 class="sec-title">Experience</h2><span class="sec-kr">실무 경험</span></div>
+  <div class="exp-grid three reveal" id="exp-grid"></div>
+</div></section>
+
 <section id="awards"><div class="sec-wrap">
-  <div class="sec-head reveal"><span class="sec-n">04</span><h2 class="sec-title">Awards &amp; Certifications</h2><span class="sec-kr">수상·수료</span></div>
+  <div class="sec-head reveal"><span class="sec-n">06</span><h2 class="sec-title">Awards</h2><span class="sec-kr">수상·수료</span></div>
   <div class="aw-grid reveal" id="aw-grid"></div>
 </div></section>
 
 <section id="contact">
   <div class="contact-grid">
     <div class="contact-left reveal">
-      <p class="contact-label">05 — Contact</p>
+      <p class="contact-label">07 — Contact</p>
       <h2 class="contact-hl">함께<br><span>연구합시다.</span></h2>
       <p class="contact-body" id="c-body">연구 협업, 콘퍼런스 발표, 프로젝트 문의 등 어떤 이야기든 환영합니다.</p>
     </div>
@@ -381,7 +431,6 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 </section>
 <footer><span class="ft-l">배유진 · Bae Yujin</span><span class="ft-r">© 2026 — Research × Design × Wellbeing</span></footer>
 
-<!-- product modal -->
 <div id="prod-modal">
   <div class="pm-inner">
     <div class="pm-top"><span class="pm-title" id="pm-title">프로젝트 상세</span><button class="pm-close" onclick="closeProdModal()">✕</button></div>
@@ -390,7 +439,6 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   </div>
 </div>
 
-<!-- admin -->
 <div id="adm-ov">
   <div id="adm-box">
     <div class="adm-top"><span class="adm-top-title">관리자 패널</span><button class="adm-top-close" onclick="closeAdm()">✕</button></div>
@@ -400,71 +448,48 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
     </div>
     <div id="adm-editor" style="display:none">
       <div class="adm-tabs">
-        <div class="adm-tab on" onclick="switchAdmTab(0)">기본정보</div>
-        <div class="adm-tab" onclick="switchAdmTab(1)">연구</div>
-        <div class="adm-tab" onclick="switchAdmTab(2)">논문·발표</div>
-        <div class="adm-tab" onclick="switchAdmTab(3)">프로덕트</div>
-        <div class="adm-tab" onclick="switchAdmTab(4)">수상·수료</div>
-        <div class="adm-tab" onclick="switchAdmTab(5)">연락처</div>
+        <div class="adm-tab on" onclick="sAt(0)">기본정보</div>
+        <div class="adm-tab" onclick="sAt(1)">연구</div>
+        <div class="adm-tab" onclick="sAt(2)">논문</div>
+        <div class="adm-tab" onclick="sAt(3)">프로덕트</div>
+        <div class="adm-tab" onclick="sAt(4)">기관협력</div>
+        <div class="adm-tab" onclick="sAt(5)">실무경험</div>
+        <div class="adm-tab" onclick="sAt(6)">수상</div>
+        <div class="adm-tab" onclick="sAt(7)">연락처</div>
       </div>
-
-      <!-- 기본정보 -->
       <div class="adm-pane on" id="ap-0">
-        <!-- 프로필 사진 -->
         <div class="af">
           <label>프로필 사진</label>
           <div style="display:flex;gap:1rem;align-items:flex-start">
             <div class="photo-upload-wrap" id="photo-preview" onclick="document.getElementById('photo-file').click()">
-              <div class="hero-photo-placeholder" id="photo-preview-ph" style="font-size:9px;letter-spacing:.06em;flex-direction:column;gap:.4rem">
-                <svg viewBox="0 0 48 48" width="32" height="32" style="stroke:var(--rule);stroke-width:1;fill:none"><circle cx="24" cy="18" r="8"/><path d="M8 42c0-8.837 7.163-16 16-16s16 7.163 16 16"/></svg>
-                클릭하여 업로드
+              <div id="photo-preview-ph" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--i4);font-size:9px;letter-spacing:.06em;text-transform:uppercase">
+                <svg viewBox="0 0 48 48" width="32" height="32" style="stroke:var(--rule);stroke-width:1;fill:none"><circle cx="24" cy="18" r="8"/><path d="M8 42c0-8.837 7.163-16 16-16s16 7.163 16 16"/></svg>업로드
               </div>
               <img id="photo-preview-img" style="display:none;width:100%;height:100%;object-fit:cover;object-position:top" src="" alt="">
-              <div class="photo-upload-overlay">사진 변경</div>
+              <div class="photo-upload-overlay">변경</div>
             </div>
-            <div style="font-size:11px;font-weight:300;color:var(--i3);line-height:1.8;padding-top:.5rem">
-              권장: 세로형 사진<br>얼굴이 잘 나온 사진<br>JPG / PNG
-              <br><br>
-              <button class="adm-del" onclick="removePhoto()">사진 삭제</button>
-            </div>
+            <div style="font-size:11px;font-weight:300;color:var(--i3);line-height:1.8;padding-top:.5rem">권장: 세로형·얼굴 사진<br>JPG / PNG<br><br><button class="adm-del" onclick="removePhoto()">사진 삭제</button></div>
           </div>
           <input type="file" id="photo-file" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)">
         </div>
         <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0 1rem">
-        <div class="af-row">
-          <div class="af"><label>Nav 이름</label><input id="e-navname" value="배유진"></div>
-          <div class="af"><label>Eyebrow</label><input id="e-eyebrow" value="Researcher · Designer · Yonsei University"></div>
-        </div>
-        <div class="af"><label>Hero 소개 (서식 지원)</label><div id="rte-desc" class="rte-wrap"></div></div>
-        <div class="af-row">
-          <div class="af"><label>소속</label><div id="rte-affil" class="rte-wrap"></div></div>
-          <div class="af"><label>연구 관심</label><div id="rte-interest" class="rte-wrap"></div></div>
-        </div>
+        <div class="af-row"><div class="af"><label>Nav 이름</label><input id="e-navname" value="배유진"></div><div class="af"><label>Eyebrow</label><input id="e-eyebrow" value="Researcher · Designer · Yonsei University"></div></div>
+        <div class="af"><label>Hero 소개</label><div id="rte-desc" class="rte-wrap"></div></div>
+        <div class="af-row"><div class="af"><label>소속</label><div id="rte-affil" class="rte-wrap"></div></div><div class="af"><label>연구 관심</label><div id="rte-interest" class="rte-wrap"></div></div></div>
         <div class="af"><label>소속 팀</label><div id="rte-team" class="rte-wrap"></div></div>
-        <div class="af-row3">
-          <div class="af"><label>통계 1</label><input id="e-n1" value="3+"></div>
-          <div class="af"><label>통계 2</label><input id="e-n2" value="68"></div>
-          <div class="af"><label>통계 3</label><input id="e-n3" value="2"></div>
-        </div>
-        <div class="af-row3">
-          <div class="af"><label>하단 띠 1</label><input id="e-s1" value="영유아 교사 소진 · 온숨 프로그램 개발"></div>
-          <div class="af"><label>하단 띠 2</label><input id="e-s2" value="Firebase · GitHub Pages 디지털 제품 배포"></div>
-          <div class="af"><label>하단 띠 3</label><input id="e-s3" value="ISSBD 2026 · 한국디자인문화학회지"></div>
-        </div>
+        <div class="af-row3"><div class="af"><label>통계 1</label><input id="e-n1" value="3+"></div><div class="af"><label>통계 2</label><input id="e-n2" value="68"></div><div class="af"><label>통계 3</label><input id="e-n3" value="5"></div></div>
+        <div class="af-row3"><div class="af"><label>하단 띠 1</label><input id="e-s1"></div><div class="af"><label>하단 띠 2</label><input id="e-s2"></div><div class="af"><label>하단 띠 3</label><input id="e-s3"></div></div>
       </div>
-
-      <div class="adm-pane" id="ap-1"><div id="r-ed-list"></div><button class="adm-add" onclick="addResearch()">+ 연구 추가</button></div>
+      <div class="adm-pane" id="ap-1"><div id="r-ed-list"></div><button class="adm-add" onclick="addR()">+ 연구 추가</button></div>
       <div class="adm-pane" id="ap-2"><div id="pub-ed-list"></div><button class="adm-add" onclick="addPub()">+ 논문 추가</button></div>
       <div class="adm-pane" id="ap-3"><div id="prod-ed-list"></div><button class="adm-add" onclick="addProd()">+ 프로덕트 추가</button></div>
-      <div class="adm-pane" id="ap-4"><div id="aw-ed-list"></div><button class="adm-add" onclick="addAward()">+ 수상 추가</button></div>
-      <div class="adm-pane" id="ap-5">
-        <div class="af-row">
-          <div class="af"><label>이메일</label><input id="e-email" value="your.email@yonsei.ac.kr"></div>
-          <div class="af"><label>GitHub URL</label><input id="e-github" value="github.com/your-handle"></div>
-        </div>
+      <div class="adm-pane" id="ap-4"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">각 카드에서 문제·역할·툴·역량·결과를 입력하세요.</p><div id="collab-ed-list"></div><button class="adm-add" onclick="addCollab()">+ 기관협력 추가</button></div>
+      <div class="adm-pane" id="ap-5"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">각 카드에서 문제·역할·툴·역량·결과를 입력하세요.</p><div id="exp-ed-list"></div><button class="adm-add" onclick="addExp()">+ 경험 추가</button></div>
+      <div class="adm-pane" id="ap-6"><div id="aw-ed-list"></div><button class="adm-add" onclick="addAw()">+ 수상 추가</button></div>
+      <div class="adm-pane" id="ap-7">
+        <div class="af-row"><div class="af"><label>이메일</label><input id="e-email" value="your.email@yonsei.ac.kr"></div><div class="af"><label>GitHub URL</label><input id="e-github" value="github.com/your-handle"></div></div>
         <div class="af"><label>Contact 본문</label><div id="rte-cbody" class="rte-wrap"></div></div>
       </div>
-
       <div class="adm-actions">
         <span class="adm-saving" id="adm-saving">Firebase에 저장 중...</span>
         <span class="adm-saved" id="adm-saved">✓ 저장 완료</span>
@@ -476,576 +501,450 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 </div>
 
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getDatabase, ref, set, get, child } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import{getDatabase,ref,set,get,child}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-const fbCfg = {
-  apiKey:"AIzaSyBulBXePn7kfRNoHgUskhme3QCg4AyloBw",
-  authDomain:"yujin-portfolio-e07ef.firebaseapp.com",
-  databaseURL:"https://yujin-portfolio-e07ef-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId:"yujin-portfolio-e07ef",
-  storageBucket:"yujin-portfolio-e07ef.firebasestorage.app",
-  messagingSenderId:"153300357769",
-  appId:"1:153300357769:web:6fb148501cef28565fec58"
-};
-const app = initializeApp(fbCfg);
-const db = getDatabase(app);
+const app=initializeApp({apiKey:"AIzaSyBulBXePn7kfRNoHgUskhme3QCg4AyloBw",authDomain:"yujin-portfolio-e07ef.firebaseapp.com",databaseURL:"https://yujin-portfolio-e07ef-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"yujin-portfolio-e07ef",storageBucket:"yujin-portfolio-e07ef.firebasestorage.app",messagingSenderId:"153300357769",appId:"1:153300357769:web:6fb148501cef28565fec58"});
+const db=getDatabase(app);
 
-/* ── constants ── */
-const PASS = '1734';
-const ROMAN = ['i.','ii.','iii.','iv.','v.','vi.','vii.','viii.','ix.','x.'];
-const STEP_KEYS = ['problem','rationale','theory','process','result'];
-const STEP_LABELS = {problem:'문제의식',rationale:'연구 근거',theory:'이론적 배경',process:'진행 과정',result:'결과물'};
+const PASS='1734';
+const ROMAN=['i.','ii.','iii.','iv.','v.','vi.','vii.','viii.','ix.','x.'];
+const STEP_KEYS=['problem','rationale','theory','process','result'];
+const STEP_LABELS={problem:'문제의식',rationale:'연구 근거',theory:'이론적 배경',process:'진행 과정',result:'결과물'};
+const CAT_OPTS=['research','design','public','product','edu'];
+const CAT_LABELS={research:'Research',design:'Design',public:'Public',product:'Product',edu:'Education'};
+const SK_OPTS=['sk-blue','sk-sage','sk-terra','sk-gold','sk-violet'];
 
 /* ── default data ── */
-const DEF = {
-  basic:{
-    navname:'배유진',eyebrow:'Researcher · Designer · Yonsei University',
+const DEF={
+  basic:{navname:'배유진',eyebrow:'Researcher · Designer · Yonsei University',
     descHtml:'아동·가족 연구자이자 디지털 디자이너.<br><strong>문제를 발견하고, 측정하고, 실제로 쓸 수 있는 형태로 만듭니다.</strong> 연구에서 삶으로.',
     affilHtml:'연세대학교 아동·가족학과<br>융합전공 인간생활·혁신디자인<br><strong>석사과정 (2025–)</strong>',
     interestHtml:'<strong>디지털 웰빙</strong> · 교사 소진<br><strong>아동발달</strong> · SNS 자기조절<br>혼합연구방법론',
     teamHtml:'<strong>Caremate</strong> 연구팀 · BK21 참여 대학원생',
-    n1:'3+',n2:'68',n3:'2',
-    s1:'영유아 교사 소진 · 온숨 프로그램 개발',
-    s2:'Firebase · GitHub Pages 디지털 제품 배포',
-    s3:'ISSBD 2026 · 한국디자인문화학회지',
+    n1:'3+',n2:'68',n3:'5',
+    s1:'연구 → 프로그램 → 플랫폼 직접 개발',s2:'당사자 인터뷰 · 공공기관 협력 · MVP 검증',s3:'ISSBD 2026 · KCI 제1저자 · 에드테크 실무',
     email:'your.email@yonsei.ac.kr',github:'github.com/your-handle',
     cbodyHtml:'연구 협업, 콘퍼런스 발표, 프로젝트 문의 등 어떤 이야기든 환영합니다.',
-    photoBase64:''
-  },
+    photoBase64:''},
   researches:[
-    {status:'진행 중 · 2025–2026',live:true,title:'온숨 — 영유아 교사를 위한 요가 기반 웰니스 중재 프로그램 개발 및 검증',bodyHtml:'N=<strong>68</strong> 설문·N=<strong>7</strong> 심층인터뷰를 기반으로 교사 소진 유형을 도출하고, 6모듈 요가 중재 프로그램과 디지털 플랫폼 <strong>사이사이</strong>를 개발·MVP 검증 중인 혼합연구.',tags:'PSS-10, MAAS, K-BERQ, Nordic Checklist, HPLP-II, 혼합연구방법론, Firebase',bigNum:'68',bigLabel:'Participants',wide:true,detail:{problem:'영유아 교사는 높은 정서노동과 열악한 처우로 인해 심각한 소진을 경험하지만, 체계적 중재 프로그램은 부재한 상황이었습니다.',rationale:'N=68 설문 분석 결과, 교사의 72%가 중간 이상의 직무 스트레스를 보고. N=7 심층인터뷰에서 3개 핵심 유형 도출.',theory:'마음챙김 기반 스트레스 완화(MBSR) 이론 + 요가 기반 체화 인지 이론 접목.',process:'① 문헌고찰 → ② 설문(N=68) → ③ 인터뷰(N=7) → ④ 페르소나 → ⑤ 프로그램 설계 → ⑥ 플랫폼 개발 → ⑦ MVP 검증',result:'6모듈 요가 프로그램 + 사이사이 플랫폼 MVP 배포. PSS-10, MAAS 점수 변화 검증 중.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
-    {status:'완료 · 2024–2025',live:false,title:'Selftune — SNS 사용 자기조절 앱 연구',bodyHtml:'20대 성인의 SNS 과사용 문제를 탐색하고 앱 프로토타입 설계. <strong>6일 MVP 검증(N=6)</strong> 포함 혼합연구.',tags:'앱 프로토타입, 자기조절, 디자인 리서치',bigNum:'',bigLabel:'',wide:false,detail:{problem:'20대 성인의 SNS 과사용은 자기통제력 저하 등 복합적 문제를 야기하지만 행동 변화 도구는 부족.',rationale:'심층인터뷰(N=8) 결과, 자기모니터링과 리플렉션 기능의 필요성 확인.',theory:'자기결정이론(SDT) + 행동 변화 바퀴(BCW) 모델 기반 앱 기능 설계.',process:'① 문헌고찰 → ② 인터뷰(N=8) → ③ 앱 설계(Figma) → ④ 6일 사용 실험(N=6) → ⑤ 논문 작성',result:'일일 SNS 사용 시간 평균 34분 감소, 주관적 통제감 유의미하게 증가.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
-    {status:'발표 채택 · 2024–2025',live:false,title:'또래 배제·우울·스마트폰 과의존의 종단적 관계',bodyHtml:'KCYPS 2018 패널 데이터를 활용한 중학생 대상 <strong>구조방정식 종단 분석</strong>. ISSBD 2026 포스터 발표 채택.',tags:'Mplus, SEM, 종단 분석, KCYPS 2018',bigNum:'',bigLabel:'',wide:false,detail:{problem:'또래 배제, 우울, 스마트폰 과의존 세 변인 간의 종단적 경로 불명확.',rationale:'KCYPS 2018 데이터, 중1~중3 패널 추적. 매개 경로 검증.',theory:'Stress-Coping 이론 + 문제 행동 이론(Problem Behavior Theory) 기반.',process:'① 가설 설정 → ② 데이터 정제 → ③ Mplus SEM → ④ 교차지연 모형 → ⑤ ISSBD 2026 채택',result:'또래 배제 → 우울 → 스마트폰 과의존 경로 확인 (β=.18, p<.01).',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}}
+    {status:'진행 중 · 2025–2026',live:true,title:'온숨 — 영유아 교사를 위한 요가 기반 웰니스 중재 프로그램 개발 및 검증',bodyHtml:'N=<strong>68</strong> 설문·N=<strong>7</strong> 심층인터뷰를 기반으로 교사 소진 유형을 도출하고, 6모듈 요가 중재 프로그램과 디지털 플랫폼 <strong>사이사이</strong>를 개발·검증 중인 혼합연구.',tags:'PSS-10, MAAS, K-BERQ, Nordic Checklist, HPLP-II, 혼합연구방법론, Firebase',bigNum:'68',bigLabel:'Participants',wide:true,detail:{problem:'영유아 교사의 소진은 심각하지만 체계적 중재 프로그램이 부재했습니다.',rationale:'N=68 설문·N=7 인터뷰에서 3개 핵심 소진 유형 도출.',theory:'MBSR + 요가 기반 체화 인지 이론 접목.',process:'① 문헌고찰 → ② 설문(N=68) → ③ 인터뷰(N=7) → ④ 페르소나 → ⑤ 프로그램 설계 → ⑥ 플랫폼 개발 → ⑦ MVP 검증',result:'6모듈 요가 프로그램 + 사이사이 플랫폼 MVP 배포.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
+    {status:'완료 · 2024–2025',live:false,title:'Selftune — SNS 사용 자기조절 앱 연구',bodyHtml:'20대 성인의 SNS 과사용 문제를 탐색하고 앱 프로토타입 설계. <strong>6일 MVP 검증(N=6)</strong> 포함 혼합연구.',tags:'앱 프로토타입, 자기조절, 디자인 리서치, Figma',bigNum:'',bigLabel:'',wide:false,detail:{problem:'20대 SNS 과사용에 대한 행동 변화 도구 부재.',rationale:'심층인터뷰(N=8) 결과 자기모니터링·리플렉션 기능 필요성 확인.',theory:'자기결정이론(SDT) + 행동 변화 바퀴(BCW) 모델.',process:'① 인터뷰(N=8) → ② 앱 설계(Figma) → ③ 6일 실험(N=6) → ④ 논문 작성',result:'SNS 사용 시간 평균 34분 감소. KCI 제1저자 게재.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
+    {status:'발표 채택 · 2024–2025',live:false,title:'또래 배제·우울·스마트폰 과의존의 종단적 관계',bodyHtml:'KCYPS 2018 패널 데이터 활용 <strong>구조방정식 종단 분석</strong>. ISSBD 2026 포스터 채택.',tags:'Mplus 8.11, SEM, 종단분석, KCYPS 2018',bigNum:'',bigLabel:'',wide:false,detail:{problem:'또래 배제·우울·스마트폰 과의존 세 변인의 종단적 경로 불명확.',rationale:'KCYPS 2018 중1~중3 패널 추적 분석.',theory:'Stress-Coping 이론 + 문제 행동 이론(Problem Behavior Theory).',process:'① 가설 설정 → ② Mplus SEM → ③ 교차지연 모형 → ④ ISSBD 2026 채택',result:'또래 배제 → 우울 → 스마트폰 과의존 경로 확인 (β=.18, p<.01).',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}}
   ],
   pubs:[
     {year:'2026',title:'디지털 사회화 척도에 대한 체계적 문헌 고찰',venue:'Korean Journal of Human Development · 공동저자',badge:'Journal',ip:false},
-    {year:'2026',title:'또래 배제·우울·스마트폰 과의존의 종단적 관계',venue:'ISSBD 2026, 인천 송도 · 포스터 발표',badge:'Conf.',ip:false},
-    {year:'2026',title:'영유아 교사의 소진 경험에 관한 탐색적 연구',venue:'한국육아지원학회 춘계학술대회 · 포스터 발표',badge:'Conf.',ip:false},
+    {year:'2026',title:'또래 배제·우울·스마트폰 과의존의 종단적 관계 — 중학생 패널 자료를 중심으로',venue:'ISSBD 2026, 인천 송도 · 포스터 발표',badge:'Conf.',ip:false},
+    {year:'2026',title:'영유아 교사의 소진 경험에 관한 탐색적 연구 — 온숨 프로그램 개발 기초',venue:'한국육아지원학회 춘계학술대회 · 포스터 발표',badge:'Conf.',ip:false},
     {year:'2026',title:'SNS 자기조절을 위한 앱 디자인 연구 — Selftune MVP 검증을 중심으로',venue:'한국디자인문화학회지 Vol. 32(1) · 제1저자',badge:'In Press',ip:true}
   ],
   products:[
-    {name:'사이사이 (Saisai)',tag:'Research Platform',thumb:'사이사이',desc:'온숨 연구를 위한 Firebase 기반 웹 플랫폼.',stack:'Firebase, HTML/CSS/JS, GitHub Pages',detail:{problem:'영유아 교사 대상 3주 요가 중재 프로그램의 참여 관리·설문 수집·콘텐츠 전달을 하나의 플랫폼에서 처리할 수 있는 연구 도구 부재.',rationale:'기존 방식은 데이터 분산·참여율 저하 문제 확인.',theory:'사용자 중심 디자인(UCD) + 서비스 디자인 방법론.',process:'① 요구사항 분석 → ② 와이어프레임 → ③ Firebase 설계 → ④ HTML 구현 → ⑤ 배포 → ⑥ MVP 테스트',result:'참여자 인증·설문·콘텐츠 플랫폼 완성. 참여율 89% 유지.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
-    {name:'ADDI+er',tag:'Team Tool',thumb:'ADDI+er',desc:'연구팀 출결 관리 웹앱.',stack:'Firebase, Single-file HTML, GitHub Pages',detail:{problem:'소규모 연구팀의 출결·업무 현황 실시간 공유 도구 부재.',rationale:'하루 평균 3회 이상 상태 확인 메시지 발생. 실시간 공유 필요성 확인.',theory:'린(Lean) UX 방법론. MVP 빠른 배포 후 반복 개선.',process:'① 문제 정의 → ② Firebase 설계 → ③ HTML 구현 → ④ 배포 → ⑤ 개선',result:'출결·일정·실시간 동기화 구현. 6개월 이상 안정적 운용.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
-    {name:'Selftune',tag:'Research Prototype',thumb:'Selftune',desc:'SNS 사용 자기조절 앱 프로토타입.',stack:'Figma, UX Research, MVP Testing',detail:{problem:'SNS 과사용 문제를 행동 변화 관점에서 해결할 디지털 도구 부재.',rationale:'사용자 인터뷰(N=8) 결과 자기모니터링 + 리플렉션 기능이 핵심.',theory:'자기결정이론(SDT) + 행동 변화 바퀴(BCW).',process:'① 인터뷰 → ② 친화도 분석 → ③ Figma 프로토타입 → ④ 6일 실험(N=6) → ⑤ 논문',result:'SNS 사용 시간 평균 34분 감소. 자기통제감 유의미하게 증가. In Press.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}}
+    {name:'사이사이 (Saisai)',tag:'Research Platform',thumb:'사이사이',desc:'온숨 연구를 위한 Firebase 기반 웹 플랫폼.',stack:'Firebase, HTML/CSS/JS, GitHub Pages',detail:{problem:'영유아 교사 대상 3주 요가 중재의 참여 관리·설문·콘텐츠 전달 플랫폼 부재.',rationale:'기존 Google Forms + SNS 방식은 데이터 분산·참여율 저하 문제.',theory:'UCD + 서비스 디자인 방법론.',process:'① 요구사항 분석 → ② Figma 와이어프레임 → ③ Firebase 설계 → ④ HTML 구현 → ⑤ 배포 → ⑥ MVP 테스트',result:'참여자 인증·설문·콘텐츠 플랫폼 완성. 참여율 89% 유지.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
+    {name:'ADDI+er',tag:'Team Tool',thumb:'ADDI+er',desc:'연구팀 출결 관리 웹앱. 직접 설계·개발·배포.',stack:'Firebase, Single-file HTML, GitHub Pages',detail:{problem:'소규모 연구팀 출결·업무 현황 실시간 공유 도구 부재.',rationale:'하루 평균 3회 이상 상태 확인 메시지 발생.',theory:'린(Lean) UX 방법론.',process:'① 문제 정의 → ② Firebase 설계 → ③ HTML 구현 → ④ 배포 → ⑤ 개선',result:'출결·일정·실시간 동기화 구현. 6개월 이상 안정적 운용.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
+    {name:'Selftune',tag:'Research Prototype',thumb:'Selftune',desc:'SNS 자기조절 앱 프로토타입. 6일 MVP 검증.',stack:'Figma, UX Research, MVP Testing',detail:{problem:'SNS 과사용 문제를 행동 변화 관점에서 해결할 도구 부재.',rationale:'사용자 인터뷰(N=8) 결과 자기모니터링 + 리플렉션 핵심.',theory:'SDT + 행동 변화 바퀴(BCW).',process:'① 인터뷰 → ② 친화도 분석 → ③ Figma 프로토타입 → ④ 6일 실험(N=6) → ⑤ 논문',result:'SNS 사용 34분 감소. 자기통제감 유의미하게 증가. In Press.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}},
+    {name:'VoiceWell',tag:'Accessibility App',thumb:'Voice',desc:'시각장애 성인을 위한 음성 기반 정서지원 앱.',stack:'Figma, 당사자 인터뷰, MVP Testing',detail:{problem:'대부분의 스트레스 관리 앱이 시각 중심 UI로 설계되어 시각장애인 접근 불가.',rationale:'시각장애인 6인 직접 섭외·인터뷰. 음성 기반 인터랙션 니즈 확인.',theory:'유니버설 디자인 원칙 + 음성 UI 설계 가이드라인.',process:'① 당사자 인터뷰(N=6) → ② 문제 발굴 → ③ MVP 프로토타입 → ④ 사용자 테스트 1·2차 → ⑤ 최종 안 확정',result:'실제 당사자 니즈 기반 앱 디자인 완성. 2025 학술대회 포스터 발표.',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}}
+  ],
+  collabs:[
+    {cat:'public',year:'2025',title:'유아 흡연위해예방 연구',subtitle:'한국건강증진개발원 · 연구보조원',
+     problem:'국가기관 의뢰 연구로 유아 대상 흡연위해예방 교육 방안 필요. 연구 결과를 실무자들이 실제로 쓸 수 있는 형태로 전달해야 했습니다.',
+     role:'문헌 고찰 담당 + 최종 보고회 PPT 및 시각자료 제작 일체',
+     tools:'문헌 고찰, PPT 시각화, 데이터 커뮤니케이션',
+     skills:'공공기관 연구 프로세스 이해, 연구 결과 시각화·커뮤니케이션 역량',
+     skillTags:[{label:'공공연구 실무',color:'sk-gold'},{label:'연구 시각화',color:'sk-blue'},{label:'보고서 커뮤니케이션',color:'sk-sage'}],
+     result:'공공기관 연구 납품 완료. 보고회 발표 자료 일체 제작 기여.'},
+    {cat:'public',year:'2025',title:'데이터 기반 사고 자료집',subtitle:'어린이집안전공제회 · 연구·분석 담당',
+     problem:'어린이집 안전사고 데이터가 있었지만 현장 교사가 실제로 활용할 수 있는 형태로 가공된 자료가 없었습니다.',
+     role:'안전사고 데이터 분석 + 현장 교사 관점 콘텐츠 구성 + 보고서 그래프·시각자료 제작',
+     tools:'데이터 분석, 그래프·시각자료 제작, 콘텐츠 기획',
+     skills:'데이터 시각화, 현장 관점 콘텐츠 설계, 실무 납품 경험',
+     skillTags:[{label:'데이터 시각화',color:'sk-blue'},{label:'콘텐츠 설계',color:'sk-terra'},{label:'실무 납품',color:'sk-gold'}],
+     result:'실제 납품 자료집 제작 기여 완료. 현장 교사 활용 목적의 데이터 자료집 완성.'}
+  ],
+  experiences:[
+    {cat:'product',year:'2025–현재',title:'LearningSpark (Askedtech)',subtitle:'콘텐츠 에디터 · 에디터팀 리드',
+     problem:'에드테크 플랫폼에서 교육 콘텐츠의 품질 기준을 일관되게 적용하고 소규모 팀을 효율적으로 조율해야 했습니다.',
+     role:'콘텐츠 품질 검수 기준 운영 / 상품 등록 프로세스 관리 / 에디터팀 리드 및 커뮤니케이션 조율',
+     tools:'콘텐츠 품질 검수, 상품 등록 운영, 팀 커뮤니케이션',
+     skills:'에드테크 프로덕트 실무 감각, 콘텐츠 기준 운영, 팀 리드 경험',
+     skillTags:[{label:'에드테크 실무',color:'sk-terra'},{label:'팀 리드',color:'sk-blue'},{label:'콘텐츠 QA',color:'sk-sage'}],
+     result:'콘텐츠 품질 기준 운영 + 에디터팀 리드 경험 축적.'},
+    {cat:'public',year:'2025–2026',title:'아동권리보장원 서포터스 5기',subtitle:'Translators팀 · 카드뉴스·숏폼 제작',
+     problem:'아동권리(UNCRC, 디지털 안전 등)에 대한 대중 인식이 부족하고 접근하기 쉬운 콘텐츠가 필요했습니다.',
+     role:'SNS 카드뉴스·숏폼 영상 기획·제작 및 캠페인 배포 참여',
+     tools:'카드뉴스 기획, 숏폼 영상 제작, SNS 콘텐츠 운영',
+     skills:'공공 커뮤니케이션 콘텐츠 제작, 아동권리 정책 이해도 심화',
+     skillTags:[{label:'콘텐츠 기획',color:'sk-sage'},{label:'공공캠페인',color:'sk-gold'},{label:'SNS 운영',color:'sk-violet'}],
+     result:'UNCRC·디지털안전·365일 아동의날 캠페인 콘텐츠 제작·배포.'},
+    {cat:'research',year:'2026–현재',title:'보건복지부 영마인드링크 3기',subtitle:'디자인 파트 · UX/서비스 설계',
+     problem:'연세대 신입생이 기숙사 생활 중 겪는 심리적 어려움을 해소하기 위한 지원 서비스가 필요했습니다.',
+     role:'홍보물·카드뉴스 제작 및 심리지원 서비스 UX/서비스 설계 담당',
+     tools:'서비스 디자인, UX 설계, 홍보물·카드뉴스 제작',
+     skills:'심리지원 서비스 설계, UX 실무, 디자인 파트 독립 운영',
+     skillTags:[{label:'UX 설계',color:'sk-blue'},{label:'서비스 디자인',color:'sk-sage'},{label:'심리지원',color:'sk-violet'}],
+     result:'진행 중 — 서비스 UX 설계 + 홍보물 제작 기여 중.'}
   ],
   awards:[
     {title:'BK21 미래교육디자인연구유닛 참여 대학원생',org:'연세대학교',year:'2025–'},
     {title:'IHEI WORKSTATION 사회혁신 프로그램 수료',org:'연세대학교 IHEI',year:'2025'},
     {title:'아동권리보장원 제5기 서포터즈 선발',org:'아동권리보장원 · 팀 Translators',year:'2025–2026'},
-    {title:'ISSBD 2026 포스터 발표 채택',org:'ISSBD · 인천 송도',year:'2026'}
+    {title:'ISSBD 2026 포스터 발표 채택',org:'ISSBD · 인천 송도',year:'2026'},
+    {title:'KT&G 제3회 사회혁신 아이디어 공모전 입상',org:'KT&G · 다학제팀',year:'2023'}
   ]
 };
 
-let DATA = JSON.parse(JSON.stringify(DEF));
-let photoBase64 = '';
-
-/* ── rich text editor ── */
-function makeRTE(containerId, initialHtml='', placeholder='내용 입력...'){
-  const wrap = document.getElementById(containerId);
-  if(!wrap) return;
-  const sizes = [11,12,13,14,16,18,20,24];
-  wrap.innerHTML = `
-    <div class="rte-toolbar">
-      <button class="rte-btn" data-cmd="bold" title="볼드"><b>B</b></button>
-      <button class="rte-btn" data-cmd="italic" title="이탤릭"><i>I</i></button>
-      <button class="rte-btn" data-cmd="underline" title="밑줄"><u>U</u></button>
-      <div class="rte-sep"></div>
-      <select class="rte-size" title="글씨 크기">
-        ${sizes.map(s=>`<option value="${s}"${s===13?' selected':''}>${s}px</option>`).join('')}
-      </select>
-      <div class="rte-sep"></div>
-      <button class="rte-btn" data-cmd="removeFormat" title="서식 제거">✕</button>
-    </div>
-    <div class="rte-body" contenteditable="true" data-ph="${placeholder}">${initialHtml}</div>`;
-
-  const toolbar = wrap.querySelector('.rte-toolbar');
-  const body = wrap.querySelector('.rte-body');
-  const sizeSelect = wrap.querySelector('.rte-size');
-
-  toolbar.querySelectorAll('[data-cmd]').forEach(btn=>{
-    btn.addEventListener('mousedown', e=>{
-      e.preventDefault();
-      document.execCommand(btn.dataset.cmd, false, null);
-      body.focus();
-    });
-  });
-
-  sizeSelect.addEventListener('change', ()=>{
-    document.execCommand('fontSize', false, '7');
-    body.querySelectorAll('font[size="7"]').forEach(el=>{
-      el.removeAttribute('size');
-      el.style.fontSize = sizeSelect.value + 'px';
-    });
-    body.focus();
-  });
-
-  body.addEventListener('keyup', updateToolbarState);
-  body.addEventListener('mouseup', updateToolbarState);
-
-  function updateToolbarState(){
-    toolbar.querySelectorAll('[data-cmd]').forEach(btn=>{
-      if(['bold','italic','underline'].includes(btn.dataset.cmd)){
-        btn.classList.toggle('active', document.queryCommandState(btn.dataset.cmd));
-      }
-    });
-  }
-}
-
-function getRTEHtml(containerId){
-  const el = document.querySelector(`#${containerId} .rte-body`);
-  return el ? el.innerHTML : '';
-}
-function setRTEHtml(containerId, html){
-  const el = document.querySelector(`#${containerId} .rte-body`);
-  if(el) el.innerHTML = html || '';
-}
+let DATA=JSON.parse(JSON.stringify(DEF));
+let photoBase64='';
 
 /* ── firebase ── */
-function setBar(p){ document.getElementById('ls-bar').style.width=p+'%'; }
-function setMsg(m){ document.getElementById('ls-msg').textContent=m; }
+const setBar=p=>document.getElementById('ls-b').style.width=p+'%';
+const setMsg=m=>document.getElementById('ls-m').textContent=m;
 
-async function loadFromFirebase(){
+async function loadFB(){
   setMsg('Firebase 연결 중...'); setBar(30);
   try{
-    const snap = await get(child(ref(db),'portfolio'));
+    const snap=await get(child(ref(db),'portfolio'));
     setBar(80);
     if(snap.exists()){
-      const d = snap.val();
-      DATA.basic = d.basic || DEF.basic;
-      DATA.researches = d.researches || DEF.researches;
-      DATA.pubs = d.pubs || DEF.pubs;
-      DATA.products = d.products || DEF.products;
-      DATA.awards = d.awards || DEF.awards;
-      photoBase64 = DATA.basic.photoBase64 || '';
+      const d=snap.val();
+      DATA.basic=d.basic||DEF.basic;
+      DATA.researches=d.researches||DEF.researches;
+      DATA.pubs=d.pubs||DEF.pubs;
+      DATA.products=d.products||DEF.products;
+      DATA.collabs=d.collabs||DEF.collabs;
+      DATA.experiences=d.experiences||DEF.experiences;
+      DATA.awards=d.awards||DEF.awards;
+      photoBase64=DATA.basic.photoBase64||'';
       setMsg('로드 완료');
-    } else {
-      setMsg('기본 데이터로 시작');
-      await saveToFirebase(false);
-    }
-  } catch(e){ console.warn('load error',e); setMsg('오프라인 모드'); }
+    } else { setMsg('기본 데이터로 시작'); await saveFB(false); }
+  }catch(e){ console.warn(e); setMsg('오프라인 모드'); }
   setBar(100);
-  applyBasicToPage();
-  renderAll();
-  setTimeout(()=>document.getElementById('ls').classList.add('done'), 600);
+  applyBasic(); renderAll();
+  setTimeout(()=>document.getElementById('ls').classList.add('done'),600);
 }
 
-async function saveToFirebase(showMsg=true){
-  const sync = document.getElementById('nav-sync');
-  const saving = document.getElementById('adm-saving');
-  const saved = document.getElementById('adm-saved');
-  if(showMsg){ sync.classList.add('show'); saving.classList.add('show'); }
+async function saveFB(show=true){
+  const sync=document.getElementById('nav-sync');
+  const saving=document.getElementById('adm-saving');
+  const saved=document.getElementById('adm-saved');
+  if(show){ sync.classList.add('show'); saving.classList.add('show'); }
   try{
-    DATA.basic.photoBase64 = photoBase64;
-    await set(ref(db,'portfolio'),{
-      basic:DATA.basic, researches:DATA.researches,
-      pubs:DATA.pubs, products:DATA.products, awards:DATA.awards
-    });
-    if(showMsg){
-      sync.classList.remove('show'); saving.classList.remove('show');
-      saved.classList.add('show'); setTimeout(()=>saved.classList.remove('show'),2500);
-    }
-  } catch(e){
-    console.error('save error',e);
-    alert('저장 실패. Firebase 규칙을 확인해주세요.\n(Realtime Database → 규칙 → .write: true)');
+    DATA.basic.photoBase64=photoBase64;
+    await set(ref(db,'portfolio'),{basic:DATA.basic,researches:DATA.researches,pubs:DATA.pubs,products:DATA.products,collabs:DATA.collabs,experiences:DATA.experiences,awards:DATA.awards});
+    if(show){ sync.classList.remove('show'); saving.classList.remove('show'); saved.classList.add('show'); setTimeout(()=>saved.classList.remove('show'),2500); }
+  }catch(e){
+    console.error(e);
+    alert('저장 실패. Firebase Console → Realtime Database → 규칙 → .write: true 확인');
     sync.classList.remove('show'); saving.classList.remove('show');
   }
 }
 
 /* ── render ── */
-function renderAll(){ renderResearch(); renderPubs(); renderProds(); renderAwards(); }
+function renderAll(){ renderR(); renderPubs(); renderProds(); renderCollabs(); renderExps(); renderAws(); }
 
-function renderResearch(){
-  document.getElementById('r-grid').innerHTML = DATA.researches.map((r,i)=>`
+function renderR(){
+  document.getElementById('r-grid').innerHTML=DATA.researches.map((r,i)=>`
   <div class="r-card${r.wide?' wide':''}" id="rc-${i}">
-    <div class="r-card-header" onclick="toggleR(${i})">
-      ${r.wide?`
-      <div>
-        <span class="r-status${r.live?' live':''}">${r.status}</span>
-        <h3 class="r-title">${r.title}</h3>
-        <p class="r-body">${r.bodyHtml||r.body||''}</p>
-        <div class="r-tags">${(r.tags||'').split(',').map(t=>`<span class="r-tag">${t.trim()}</span>`).join('')}</div>
-        <div class="r-toggle-row"><span class="r-toggle-icon">▾</span></div>
-      </div>
-      <div>${r.bigNum?`<div class="r-big-n">${r.bigNum}</div><div class="r-big-l">${r.bigLabel}</div>`:''}</div>`
-      :`<span class="r-status${r.live?' live':''}">${r.status}</span>
-       <h3 class="r-title">${r.title}</h3>
-       <p class="r-body">${r.bodyHtml||r.body||''}</p>
-       <div class="r-tags">${(r.tags||'').split(',').map(t=>`<span class="r-tag">${t.trim()}</span>`).join('')}</div>
-       <div class="r-toggle-row"><span class="r-toggle-icon">▾</span></div>`}
+    <div class="r-ch" onclick="toggleR(${i})">
+      ${r.wide?`<div><span class="r-status${r.live?' live':''}">${r.status}</span><h3 class="r-title">${r.title}</h3><p class="r-body">${r.bodyHtml||''}</p><div class="r-tags">${(r.tags||'').split(',').map(t=>`<span class="r-tag">${t.trim()}</span>`).join('')}</div><div class="r-tog"><span class="r-tog-icon">▾</span></div></div><div>${r.bigNum?`<div class="r-big-n">${r.bigNum}</div><div class="r-big-l">${r.bigLabel}</div>`:''}</div>`
+      :`<span class="r-status${r.live?' live':''}">${r.status}</span><h3 class="r-title">${r.title}</h3><p class="r-body">${r.bodyHtml||''}</p><div class="r-tags">${(r.tags||'').split(',').map(t=>`<span class="r-tag">${t.trim()}</span>`).join('')}</div><div class="r-tog"><span class="r-tog-icon">▾</span></div>`}
     </div>
     <div class="r-detail">
-      ${STEP_KEYS.map(k=>`
-      <div class="r-detail-section">
-        <div class="r-detail-label">${STEP_LABELS[k]}</div>
-        <div class="r-detail-text">${(r.detail&&r.detail[k])||'—'}</div>
-        ${(r.detail?.images?.[k]?.length)?`<div class="r-detail-imgs">${r.detail.images[k].map(s=>`<img src="${s}" alt="">`).join('')}</div>`:''}</div>`).join('')}
+      ${STEP_KEYS.map(k=>`<div class="r-dl">${STEP_LABELS[k]}</div><div class="r-dt">${(r.detail&&r.detail[k])||'—'}</div>${(r.detail?.images?.[k]?.length)?`<div class="r-dimgs">${r.detail.images[k].map(s=>`<img src="${s}" alt="">`).join('')}</div>`:''}`).join('')}
     </div>
   </div>`).join('');
 }
-
-window.toggleR = i => document.getElementById(`rc-${i}`)?.classList.toggle('open');
+window.toggleR=i=>document.getElementById(`rc-${i}`)?.classList.toggle('open');
 
 function renderPubs(){
-  document.getElementById('pub-list').innerHTML = DATA.pubs.map(p=>`
-  <div class="pub-row">
-    <div><span class="year-badge">${p.year}</span></div>
-    <div><div class="pub-title">${p.title}</div><div class="pub-venue">${p.venue}</div></div>
-    <span class="pub-badge${p.ip?' ip':''}">${p.badge}</span>
-  </div>`).join('');
+  document.getElementById('pub-list').innerHTML=DATA.pubs.map(p=>`
+  <div class="pub-row"><div><span class="year-badge">${p.year}</span></div>
+  <div><div class="pub-title">${p.title}</div><div class="pub-venue">${p.venue}</div></div>
+  <span class="pub-badge${p.ip?' ip':''}">${p.badge}</span></div>`).join('');
 }
 
 function renderProds(){
-  document.getElementById('prod-grid').innerHTML = DATA.products.map((p,i)=>`
-  <div class="prod-card" onclick="openProdModal(${i})">
+  document.getElementById('prod-grid').innerHTML=DATA.products.map((p,i)=>`
+  <div class="prod-card" onclick="openPM(${i})">
     <div class="prod-thumb"><div class="prod-thumb-word">${p.thumb}</div><span class="prod-thumb-tag">${p.tag}</span></div>
-    <div class="prod-body">
-      <h3 class="prod-name">${p.name}</h3>
-      <p class="prod-desc">${p.desc}</p>
-      <div class="prod-stack">${(p.stack||'').split(',').map(s=>`<span class="s-tag">${s.trim()}</span>`).join('')}</div>
-      <p class="prod-open-hint">자세히 보기 →</p>
-    </div>
+    <div class="prod-body"><h3 class="prod-name">${p.name}</h3><p class="prod-desc">${p.desc}</p>
+    <div class="prod-stack">${(p.stack||'').split(',').map(s=>`<span class="s-tag">${s.trim()}</span>`).join('')}</div>
+    <p class="prod-open-hint">자세히 보기 →</p></div>
   </div>`).join('');
 }
 
-function renderAwards(){
-  document.getElementById('aw-grid').innerHTML = DATA.awards.map((a,i)=>`
+/* experience card renderer */
+function expCardHtml(e){
+  const skillBadges=(e.skillTags||[]).map(s=>`<span class="exp-skill ${s.color}">${s.label}</span>`).join('');
+  const tools=(e.tools||'').split(',').map(t=>`<span class="exp-tool">${t.trim()}</span>`).join('');
+  return `<div class="exp-card">
+    <div class="exp-meta"><span class="exp-cat ${e.cat}">${CAT_LABELS[e.cat]||e.cat}</span><span class="exp-year">${e.year}</span></div>
+    <div><div class="exp-title">${e.title}</div><div class="exp-subtitle">${e.subtitle||''}</div></div>
+    <div class="exp-problem"><div class="exp-problem-label">🔍 문제 발굴</div><div class="exp-problem-text">${e.problem||''}</div></div>
+    <div class="exp-row"><div class="exp-row-label">역할</div><div class="exp-row-text">${e.role||''}</div></div>
+    <div class="exp-row"><div class="exp-row-label">🛠 툴·방법</div><div class="exp-tools">${tools}</div></div>
+    <div class="exp-row"><div class="exp-row-label">💡 역량</div><div class="exp-skills">${skillBadges}</div></div>
+    <div class="exp-result">📌 ${e.result||''}</div>
+  </div>`;
+}
+
+function renderCollabs(){
+  document.getElementById('collab-grid').innerHTML=(DATA.collabs||[]).map(expCardHtml).join('');
+}
+function renderExps(){
+  document.getElementById('exp-grid').innerHTML=(DATA.experiences||[]).map(expCardHtml).join('');
+}
+
+function renderAws(){
+  document.getElementById('aw-grid').innerHTML=(DATA.awards||[]).map((a,i)=>`
   <div class="aw-card"><span class="aw-n">${ROMAN[i]||`${i+1}.`}</span>
   <div><div class="aw-title">${a.title}</div><div class="aw-org">${a.org}</div><div class="aw-year">${a.year}</div></div></div>`).join('');
 }
 
-function applyBasicToPage(){
-  const b = DATA.basic;
-  document.getElementById('nav-name').textContent = b.navname||'배유진';
-  document.getElementById('h-eyebrow').textContent = b.eyebrow||'';
-  document.getElementById('h-desc').innerHTML = b.descHtml||b.desc||'';
-  document.getElementById('h-affil').innerHTML = b.affilHtml||b.affil||'';
-  document.getElementById('h-interest').innerHTML = b.interestHtml||b.interest||'';
-  document.getElementById('h-team').innerHTML = b.teamHtml||b.team||'';
-  document.getElementById('h-n1').innerHTML = (b.n1||'')+'<sup></sup>';
-  document.getElementById('h-n2').textContent = b.n2||'';
-  document.getElementById('h-n3').textContent = b.n3||'';
-  document.getElementById('strip1').innerHTML = '→ '+(b.s1||'');
-  document.getElementById('strip2').innerHTML = '→ '+(b.s2||'');
-  document.getElementById('strip3').innerHTML = '→ '+(b.s3||'');
-  const em = b.email||'';
-  document.getElementById('c-email').textContent = em;
-  document.getElementById('c-email-link').href = 'mailto:'+em;
-  const gh = b.github||'';
-  document.getElementById('c-github').textContent = gh;
-  document.getElementById('c-gh-link').href = 'https://'+gh.replace(/^https?:\/\//,'');
-  document.getElementById('c-body').innerHTML = b.cbodyHtml||b.cbody||'';
-  // photo
-  photoBase64 = b.photoBase64||'';
-  const img = document.getElementById('hero-photo-img');
-  const ph = document.getElementById('hero-photo-placeholder');
-  if(photoBase64){ img.src=photoBase64; img.style.display='block'; ph.style.display='none'; }
-  else { img.style.display='none'; ph.style.display='flex'; }
+function applyBasic(){
+  const b=DATA.basic;
+  document.getElementById('nav-name').textContent=b.navname||'배유진';
+  document.getElementById('h-eyebrow').textContent=b.eyebrow||'';
+  document.getElementById('h-desc').innerHTML=b.descHtml||'';
+  document.getElementById('h-affil').innerHTML=b.affilHtml||'';
+  document.getElementById('h-interest').innerHTML=b.interestHtml||'';
+  document.getElementById('h-team').innerHTML=b.teamHtml||'';
+  document.getElementById('h-n1').innerHTML=(b.n1||'');
+  document.getElementById('h-n2').textContent=b.n2||'';
+  document.getElementById('h-n3').textContent=b.n3||'';
+  document.getElementById('strip1').innerHTML='→ '+(b.s1||'');
+  document.getElementById('strip2').innerHTML='→ '+(b.s2||'');
+  document.getElementById('strip3').innerHTML='→ '+(b.s3||'');
+  const em=b.email||''; document.getElementById('c-email').textContent=em; document.getElementById('c-email-link').href='mailto:'+em;
+  const gh=b.github||''; document.getElementById('c-github').textContent=gh; document.getElementById('c-gh-link').href='https://'+gh.replace(/^https?:\/\//,'');
+  document.getElementById('c-body').innerHTML=b.cbodyHtml||'';
+  photoBase64=b.photoBase64||'';
+  const img=document.getElementById('hero-photo-img'); const ph=document.getElementById('hero-photo-ph');
+  if(photoBase64){img.src=photoBase64;img.style.display='block';ph.style.display='none';}
+  else{img.style.display='none';ph.style.display='flex';}
 }
-
-/* ── photo upload ── */
-window.handlePhotoUpload = function(inp){
-  const file = inp.files[0]; if(!file) return;
-  const r = new FileReader();
-  r.onload = e=>{
-    photoBase64 = e.target.result;
-    const prev = document.getElementById('photo-preview-img');
-    const ph = document.getElementById('photo-preview-ph');
-    prev.src = photoBase64; prev.style.display='block'; ph.style.display='none';
-    const heroImg = document.getElementById('hero-photo-img');
-    const heroPh = document.getElementById('hero-photo-placeholder');
-    heroImg.src = photoBase64; heroImg.style.display='block'; heroPh.style.display='none';
-  };
-  r.readAsDataURL(file);
-  inp.value='';
-};
-window.removePhoto = function(){
-  photoBase64='';
-  document.getElementById('photo-preview-img').style.display='none';
-  document.getElementById('photo-preview-ph').style.display='flex';
-  document.getElementById('hero-photo-img').style.display='none';
-  document.getElementById('hero-photo-placeholder').style.display='flex';
-};
 
 /* ── product modal ── */
-const sliderIdx={};
-window.openProdModal = function(i){
+const slIdx={};
+window.openPM=function(i){
   const p=DATA.products[i];
   document.getElementById('pm-title').textContent=p.name;
-  const tabLabels=['개요',...STEP_KEYS.map(k=>STEP_LABELS[k])];
-  document.getElementById('pm-tabs').innerHTML=tabLabels.map((l,ti)=>
-    `<div class="pm-tab${ti===0?' active':''}" onclick="switchPmTab(${ti})">${l}</div>`).join('');
+  const tls=['개요',...STEP_KEYS.map(k=>STEP_LABELS[k])];
+  document.getElementById('pm-tabs').innerHTML=tls.map((l,ti)=>`<div class="pm-tab${ti===0?' active':''}" onclick="sPMTab(${ti})">${l}</div>`).join('');
   const imgs=(p.detail?.images)||{};
-  let html=`<div class="pm-tab-content active" id="pmt-0">
-    <p class="pm-section-title">프로젝트 소개</p><p class="pm-text">${p.desc}</p>
-    <p class="pm-section-title" style="margin-top:1.5rem">기술 스택</p>
-    <div class="prod-stack" style="margin-top:.4rem">${(p.stack||'').split(',').map(s=>`<span class="s-tag">${s.trim()}</span>`).join('')}</div>
-  </div>`;
+  let html=`<div class="pm-tab-content active" id="pmt-0"><p class="pm-sl">프로젝트 소개</p><p class="pm-text">${p.desc}</p><p class="pm-sl" style="margin-top:1.5rem">기술 스택</p><div class="prod-stack" style="margin-top:.4rem">${(p.stack||'').split(',').map(s=>`<span class="s-tag">${s.trim()}</span>`).join('')}</div></div>`;
   STEP_KEYS.forEach((k,ki)=>{
     const slides=imgs[k]||[];
-    html+=`<div class="pm-tab-content" id="pmt-${ki+1}">
-      <p class="pm-section-title">${STEP_LABELS[k]}</p>
-      <p class="pm-text">${(p.detail&&p.detail[k])||'내용을 추가해주세요.'}</p>
-      ${buildSlider(`sl-${i}-${k}`,slides)}
-    </div>`;
+    html+=`<div class="pm-tab-content" id="pmt-${ki+1}"><p class="pm-sl">${STEP_LABELS[k]}</p><p class="pm-text">${(p.detail&&p.detail[k])||'내용을 추가해주세요.'}</p>${buildSl(`sl-${i}-${k}`,slides)}</div>`;
   });
   document.getElementById('pm-contents').innerHTML=html;
-  STEP_KEYS.forEach(k=>{ sliderIdx[`sl-${i}-${k}`]=0; });
-  document.getElementById('prod-modal').classList.add('open');
-  document.body.style.overflow='hidden';
+  STEP_KEYS.forEach(k=>{slIdx[`sl-${i}-${k}`]=0;});
+  document.getElementById('prod-modal').classList.add('open'); document.body.style.overflow='hidden';
 };
-window.closeProdModal=()=>{ document.getElementById('prod-modal').classList.remove('open'); document.body.style.overflow=''; };
-document.getElementById('prod-modal').addEventListener('click',e=>{ if(e.target===document.getElementById('prod-modal')) window.closeProdModal(); });
-window.switchPmTab=i=>{
-  document.querySelectorAll('.pm-tab').forEach((t,ti)=>t.classList.toggle('active',ti===i));
-  document.querySelectorAll('.pm-tab-content').forEach((c,ci)=>c.classList.toggle('active',ci===i));
-};
-function buildSlider(id,slides){
+window.closeProdModal=()=>{document.getElementById('prod-modal').classList.remove('open');document.body.style.overflow='';};
+document.getElementById('prod-modal').addEventListener('click',e=>{if(e.target===document.getElementById('prod-modal'))window.closeProdModal();});
+window.sPMTab=i=>{document.querySelectorAll('.pm-tab').forEach((t,ti)=>t.classList.toggle('active',ti===i));document.querySelectorAll('.pm-tab-content').forEach((c,ci)=>c.classList.toggle('active',ci===i));};
+function buildSl(id,slides){
   if(!slides.length) return `<div class="pm-slider" id="${id}"><div class="pm-slides"><div class="pm-slide pm-slide-empty">이미지를 추가해주세요</div></div></div>`;
-  return `<div class="pm-slider" id="${id}">
-    <div class="pm-slides">${slides.map(s=>`<div class="pm-slide"><img src="${s}" alt=""></div>`).join('')}</div>
-    <button class="slider-btn slider-prev" onclick="slideMove('${id}',-1)">‹</button>
-    <button class="slider-btn slider-next" onclick="slideMove('${id}',1)">›</button>
-    <div class="slider-dots">${slides.map((_,i)=>`<div class="slider-dot${i===0?' on':''}" onclick="slideTo('${id}',${i})"></div>`).join('')}</div>
-  </div>`;
+  return `<div class="pm-slider" id="${id}"><div class="pm-slides">${slides.map(s=>`<div class="pm-slide"><img src="${s}" alt=""></div>`).join('')}</div><button class="slider-btn slider-prev" onclick="slMv('${id}',-1)">‹</button><button class="slider-btn slider-next" onclick="slMv('${id}',1)">›</button><div class="slider-dots">${slides.map((_,i)=>`<div class="slider-dot${i===0?' on':''}" onclick="slTo('${id}',${i})"></div>`).join('')}</div></div>`;
 }
-window.slideMove=(id,dir)=>{
-  const el=document.getElementById(id); if(!el) return;
-  const slides=el.querySelectorAll('.pm-slide');
-  sliderIdx[id]=((sliderIdx[id]||0)+dir+slides.length)%slides.length;
-  el.querySelector('.pm-slides').style.transform=`translateX(-${sliderIdx[id]*100}%)`;
-  el.querySelectorAll('.slider-dot').forEach((d,i)=>d.classList.toggle('on',i===sliderIdx[id]));
-};
-window.slideTo=(id,i)=>{
-  const el=document.getElementById(id); if(!el) return;
-  sliderIdx[id]=i;
-  el.querySelector('.pm-slides').style.transform=`translateX(-${i*100}%)`;
-  el.querySelectorAll('.slider-dot').forEach((d,di)=>d.classList.toggle('on',di===i));
-};
+window.slMv=(id,d)=>{const el=document.getElementById(id);if(!el)return;const s=el.querySelectorAll('.pm-slide');slIdx[id]=((slIdx[id]||0)+d+s.length)%s.length;el.querySelector('.pm-slides').style.transform=`translateX(-${slIdx[id]*100}%)`;el.querySelectorAll('.slider-dot').forEach((dot,i)=>dot.classList.toggle('on',i===slIdx[id]));};
+window.slTo=(id,i)=>{const el=document.getElementById(id);if(!el)return;slIdx[id]=i;el.querySelector('.pm-slides').style.transform=`translateX(-${i*100}%)`;el.querySelectorAll('.slider-dot').forEach((d,di)=>d.classList.toggle('on',di===i));};
+
+/* ── photo ── */
+window.handlePhotoUpload=function(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{photoBase64=e.target.result;document.getElementById('photo-preview-img').src=photoBase64;document.getElementById('photo-preview-img').style.display='block';document.getElementById('photo-preview-ph').style.display='none';document.getElementById('hero-photo-img').src=photoBase64;document.getElementById('hero-photo-img').style.display='block';document.getElementById('hero-photo-ph').style.display='none';};r.readAsDataURL(f);inp.value='';};
+window.removePhoto=function(){photoBase64='';['photo-preview-img','hero-photo-img'].forEach(id=>{const el=document.getElementById(id);el.style.display='none';el.src='';});document.getElementById('photo-preview-ph').style.display='flex';document.getElementById('hero-photo-ph').style.display='flex';};
+
+/* ── RTE ── */
+function makeRTE(id,html='',ph='입력...'){
+  const w=document.getElementById(id);if(!w)return;
+  const szs=[11,12,13,14,16,18,20,24];
+  w.innerHTML=`<div class="rte-toolbar"><button class="rte-btn" data-cmd="bold"><b>B</b></button><button class="rte-btn" data-cmd="italic"><i>I</i></button><button class="rte-btn" data-cmd="underline"><u>U</u></button><div class="rte-sep"></div><select class="rte-size">${szs.map(s=>`<option value="${s}"${s===13?' selected':''}>${s}px</option>`).join('')}</select><div class="rte-sep"></div><button class="rte-btn" data-cmd="removeFormat">✕</button></div><div class="rte-body" contenteditable="true" data-ph="${ph}">${html}</div>`;
+  const tb=w.querySelector('.rte-toolbar'),body=w.querySelector('.rte-body'),sz=w.querySelector('.rte-size');
+  tb.querySelectorAll('[data-cmd]').forEach(b=>b.addEventListener('mousedown',e=>{e.preventDefault();document.execCommand(b.dataset.cmd,false,null);body.focus();}));
+  sz.addEventListener('change',()=>{document.execCommand('fontSize',false,'7');body.querySelectorAll('font[size="7"]').forEach(el=>{el.removeAttribute('size');el.style.fontSize=sz.value+'px';});body.focus();});
+  body.addEventListener('keyup',upTb);body.addEventListener('mouseup',upTb);
+  function upTb(){tb.querySelectorAll('[data-cmd]').forEach(b=>{if(['bold','italic','underline'].includes(b.dataset.cmd))b.classList.toggle('active',document.queryCommandState(b.dataset.cmd));});}
+}
+const getRTE=id=>{const el=document.querySelector(`#${id} .rte-body`);return el?el.innerHTML:'';};
+const setRTE=(id,html)=>{const el=document.querySelector(`#${id} .rte-body`);if(el)el.innerHTML=html||'';};
 
 /* ── admin ── */
-window.openAdm=()=>{ document.getElementById('adm-ov').classList.add('open'); document.body.style.overflow='hidden'; };
-window.closeAdm=()=>{ document.getElementById('adm-ov').classList.remove('open'); document.body.style.overflow=''; };
-document.getElementById('adm-ov').addEventListener('click',e=>{ if(e.target===document.getElementById('adm-ov')) window.closeAdm(); });
+window.openAdm=()=>{document.getElementById('adm-ov').classList.add('open');document.body.style.overflow='hidden';};
+window.closeAdm=()=>{document.getElementById('adm-ov').classList.remove('open');document.body.style.overflow='';};
+document.getElementById('adm-ov').addEventListener('click',e=>{if(e.target===document.getElementById('adm-ov'))window.closeAdm();});
+window.doLogin=()=>{if(document.getElementById('pw').value===PASS){document.getElementById('adm-login').style.display='none';document.getElementById('adm-editor').style.display='block';initAdm();}else document.getElementById('pw-err').style.display='block';};
+window.sAt=i=>{document.querySelectorAll('.adm-tab').forEach((t,ti)=>t.classList.toggle('on',ti===i));document.querySelectorAll('.adm-pane').forEach((p,pi)=>p.classList.toggle('on',pi===i));};
 
-window.doLogin=()=>{
-  if(document.getElementById('pw').value===PASS){
-    document.getElementById('adm-login').style.display='none';
-    document.getElementById('adm-editor').style.display='block';
-    initAdmEditor();
-  } else { document.getElementById('pw-err').style.display='block'; }
-};
-window.switchAdmTab=i=>{
-  document.querySelectorAll('.adm-tab').forEach((t,ti)=>t.classList.toggle('on',ti===i));
-  document.querySelectorAll('.adm-pane').forEach((p,pi)=>p.classList.toggle('on',pi===i));
-};
-
-function initAdmEditor(){
-  const b = DATA.basic;
-  document.getElementById('e-navname').value = b.navname||'';
-  document.getElementById('e-eyebrow').value = b.eyebrow||'';
-  document.getElementById('e-n1').value = b.n1||'';
-  document.getElementById('e-n2').value = b.n2||'';
-  document.getElementById('e-n3').value = b.n3||'';
-  document.getElementById('e-s1').value = b.s1||'';
-  document.getElementById('e-s2').value = b.s2||'';
-  document.getElementById('e-s3').value = b.s3||'';
-  document.getElementById('e-email').value = b.email||'';
-  document.getElementById('e-github').value = b.github||'';
-  // RTE fields
-  makeRTE('rte-desc', b.descHtml||b.desc||'', 'Hero 소개 입력...');
-  makeRTE('rte-affil', b.affilHtml||b.affil||'', '소속 입력...');
-  makeRTE('rte-interest', b.interestHtml||b.interest||'', '연구 관심 입력...');
-  makeRTE('rte-team', b.teamHtml||b.team||'', '소속 팀 입력...');
-  makeRTE('rte-cbody', b.cbodyHtml||b.cbody||'', 'Contact 본문 입력...');
-  // photo preview
-  if(photoBase64){
-    document.getElementById('photo-preview-img').src=photoBase64;
-    document.getElementById('photo-preview-img').style.display='block';
-    document.getElementById('photo-preview-ph').style.display='none';
-  }
-  buildAdmResearch(); buildAdmPubs(); buildAdmProds(); buildAdmAwards();
+function initAdm(){
+  const b=DATA.basic;
+  ['navname','eyebrow','n1','n2','n3','s1','s2','s3','email','github'].forEach(f=>{const el=document.getElementById('e-'+f);if(el)el.value=b[f]||'';});
+  makeRTE('rte-desc',b.descHtml||'','Hero 소개...');
+  makeRTE('rte-affil',b.affilHtml||'','소속...');
+  makeRTE('rte-interest',b.interestHtml||'','연구 관심...');
+  makeRTE('rte-team',b.teamHtml||'','소속 팀...');
+  makeRTE('rte-cbody',b.cbodyHtml||'','Contact 본문...');
+  if(photoBase64){document.getElementById('photo-preview-img').src=photoBase64;document.getElementById('photo-preview-img').style.display='block';document.getElementById('photo-preview-ph').style.display='none';}
+  buildAdmR(); buildAdmPubs(); buildAdmProds(); buildAdmCollabs(); buildAdmExps(); buildAdmAws();
 }
 
 /* img store */
 const imgStore={};
-function buildImgArea(id,imgs){
-  imgStore[id]=[...(imgs||[])];
-  return `<div class="img-upload-area" id="ia-${id}"></div><input type="file" id="if-${id}" accept="image/*" multiple style="display:none" onchange="handleImg('${id}',this)">`;
-}
-function renderImgArea(id){
-  const el=document.getElementById(`ia-${id}`); if(!el) return;
-  el.innerHTML=(imgStore[id]||[]).map((s,i)=>`<div class="img-thumb-wrap"><img class="img-thumb" src="${s}"><button class="img-thumb-del" onclick="removeImg('${id}',${i})">×</button></div>`).join('')+
-    `<div class="img-add-btn" onclick="document.getElementById('if-${id}').click()">+</div>`;
-}
-window.handleImg=(id,inp)=>{
-  [...inp.files].forEach(f=>{
-    const r=new FileReader();
-    r.onload=e=>{ (imgStore[id]=imgStore[id]||[]).push(e.target.result); renderImgArea(id); };
-    r.readAsDataURL(f);
-  }); inp.value='';
-};
-window.removeImg=(id,i)=>{ imgStore[id].splice(i,1); renderImgArea(id); };
+function buildIA(id,imgs){imgStore[id]=[...(imgs||[])];return `<div class="img-upload-area" id="ia-${id}"></div><input type="file" id="if-${id}" accept="image/*" multiple style="display:none" onchange="handleImg('${id}',this)">`;}
+function renderIA(id){const el=document.getElementById(`ia-${id}`);if(!el)return;el.innerHTML=(imgStore[id]||[]).map((s,i)=>`<div class="img-thumb-wrap"><img class="img-thumb" src="${s}"><button class="img-thumb-del" onclick="removeImg('${id}',${i})">×</button></div>`).join('')+`<div class="img-add-btn" onclick="document.getElementById('if-${id}').click()">+</div>`;}
+window.handleImg=(id,inp)=>{[...inp.files].forEach(f=>{const r=new FileReader();r.onload=e=>{(imgStore[id]=imgStore[id]||[]).push(e.target.result);renderIA(id);};r.readAsDataURL(f);});inp.value='';};
+window.removeImg=(id,i)=>{imgStore[id].splice(i,1);renderIA(id);};
 
-/* build admin sections */
-function rteField(id, label, html, ph){
-  return `<div class="af"><label>${label}</label><div id="${id}" class="rte-wrap"></div></div>`;
-}
-
-function buildAdmResearch(){
-  document.getElementById('r-ed-list').innerHTML = DATA.researches.map((r,i)=>`
-  <div class="list-item">
-    <div class="list-item-head"><span class="list-item-num">연구 ${i+1}</span><button class="adm-del" onclick="delResearch(${i})">삭제</button></div>
-    <div class="af-row">
-      <div class="af"><label>상태</label><input class="rs-in" data-i="${i}" value="${r.status||''}"></div>
-      <div class="af"><label>진행 상태</label><select class="rl-in" data-i="${i}"><option value="1"${r.live?'selected':''}>진행 중</option><option value="0"${!r.live?'selected':''}>완료</option></select></div>
-    </div>
-    <div class="af"><label>제목</label><input class="rt-in" data-i="${i}" value="${r.title||''}"></div>
-    <div class="af"><label>본문 (서식 지원)</label><div id="rte-rb-${i}" class="rte-wrap"></div></div>
-    <div class="af"><label>태그 (쉼표 구분)</label><input class="rg-in" data-i="${i}" value="${r.tags||''}"></div>
+/* exp card editor builder */
+function expEditorHtml(e,prefix,i){
+  const catOpts=CAT_OPTS.map(c=>`<option value="${c}"${e.cat===c?' selected':''}>${CAT_LABELS[c]}</option>`).join('');
+  const skillHtml=(e.skillTags||[]).map((s,si)=>`<div style="display:flex;gap:.4rem;align-items:center;margin-bottom:.3rem"><input style="flex:1;padding:.3rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" class="${prefix}-sk-label-${i}" data-si="${si}" value="${s.label}"><select style="padding:.3rem .5rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;outline:none;background:var(--w);color:var(--ink)" class="${prefix}-sk-color-${i}" data-si="${si}">${SK_OPTS.map(c=>`<option value="${c}"${s.color===c?' selected':''}>${c.replace('sk-','')}</option>`).join('')}</select><button onclick="removeSkill('${prefix}',${i},${si})" style="font-size:11px;color:#dc2626;background:none;border:.5px solid #fecaca;padding:.2rem .5rem;border-radius:2px;cursor:pointer">✕</button></div>`).join('');
+  return `<div class="list-item" id="${prefix}-item-${i}">
+    <div class="list-item-head"><span class="list-item-num">${prefix==='cl'?'기관협력':'경험'} ${i+1}</span><button class="adm-del" onclick="del${prefix==='cl'?'Collab':'Exp'}(${i})">삭제</button></div>
     <div class="af-row3">
-      <div class="af"><label>큰 숫자</label><input class="rn-in" data-i="${i}" value="${r.bigNum||''}"></div>
-      <div class="af"><label>숫자 레이블</label><input class="rln-in" data-i="${i}" value="${r.bigLabel||''}"></div>
-      <div class="af"><label>와이드 카드</label><select class="rw-in" data-i="${i}"><option value="1"${r.wide?'selected':''}>예</option><option value="0"${!r.wide?'selected':''}>아니오</option></select></div>
+      <div class="af"><label>카테고리</label><select class="${prefix}-cat-${i}">${catOpts}</select></div>
+      <div class="af"><label>연도</label><input class="${prefix}-year-${i}" value="${e.year||''}"></div>
     </div>
-    <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0">
-    ${STEP_KEYS.map(k=>`
-    <div class="af"><label>${STEP_LABELS[k]}</label><div id="rte-rd${k}-${i}" class="rte-wrap"></div></div>
-    <div class="af"><label>${STEP_LABELS[k]} 이미지</label>${buildImgArea(`ri${i}${k}`,(r.detail?.images?.[k])||[])}</div>`).join('')}
-  </div>`).join('');
-  // init RTEs
-  DATA.researches.forEach((r,i)=>{
-    makeRTE(`rte-rb-${i}`, r.bodyHtml||r.body||'', '본문 입력...');
-    STEP_KEYS.forEach(k=>{ makeRTE(`rte-rd${k}-${i}`, (r.detail&&r.detail[k])||'', `${STEP_LABELS[k]} 입력...`); renderImgArea(`ri${i}${k}`); });
+    <div class="af"><label>제목</label><input class="${prefix}-title-${i}" value="${e.title||''}"></div>
+    <div class="af"><label>부제 (기관·직함)</label><input class="${prefix}-subtitle-${i}" value="${e.subtitle||''}"></div>
+    <div class="af"><label>🔍 문제 발굴</label><div id="rte-${prefix}-problem-${i}" class="rte-wrap"></div></div>
+    <div class="af"><label>역할</label><div id="rte-${prefix}-role-${i}" class="rte-wrap"></div></div>
+    <div class="af"><label>🛠 툴·방법 (쉼표 구분)</label><input class="${prefix}-tools-${i}" value="${e.tools||''}"></div>
+    <div class="af"><label>💡 역량 뱃지</label><div id="${prefix}-skills-wrap-${i}">${skillHtml}</div><button class="adm-add" style="margin-top:.3rem" onclick="addSkill('${prefix}',${i})">+ 역량 추가</button></div>
+    <div class="af"><label>📌 결과</label><div id="rte-${prefix}-result-${i}" class="rte-wrap"></div></div>
+  </div>`;
+}
+
+function buildAdmCollabs(){
+  document.getElementById('collab-ed-list').innerHTML=(DATA.collabs||[]).map((e,i)=>expEditorHtml(e,'cl',i)).join('');
+  (DATA.collabs||[]).forEach((e,i)=>{makeRTE(`rte-cl-problem-${i}`,e.problem||'','문제 발굴 내용...');makeRTE(`rte-cl-role-${i}`,e.role||'','역할 내용...');makeRTE(`rte-cl-result-${i}`,e.result||'','결과 내용...');});
+}
+function buildAdmExps(){
+  document.getElementById('exp-ed-list').innerHTML=(DATA.experiences||[]).map((e,i)=>expEditorHtml(e,'ex',i)).join('');
+  (DATA.experiences||[]).forEach((e,i)=>{makeRTE(`rte-ex-problem-${i}`,e.problem||'','문제 발굴 내용...');makeRTE(`rte-ex-role-${i}`,e.role||'','역할 내용...');makeRTE(`rte-ex-result-${i}`,e.result||'','결과 내용...');});
+}
+window.deleteCollab=window.delCollab=i=>{if(confirm('삭제?')){DATA.collabs.splice(i,1);buildAdmCollabs();}};
+window.deleteExp=window.delExp=i=>{if(confirm('삭제?')){DATA.experiences.splice(i,1);buildAdmExps();}};
+window.addCollab=()=>{DATA.collabs.push({cat:'public',year:'2026',title:'기관명',subtitle:'기관 · 역할',problem:'',role:'',tools:'',skillTags:[],result:''});buildAdmCollabs();};
+window.addExp=()=>{DATA.experiences.push({cat:'product',year:'2026',title:'경험 제목',subtitle:'기관 · 직함',problem:'',role:'',tools:'',skillTags:[],result:''});buildAdmExps();};
+window.addSkill=(prefix,i)=>{const arr=prefix==='cl'?DATA.collabs:DATA.experiences;if(!arr[i].skillTags)arr[i].skillTags=[];arr[i].skillTags.push({label:'역량',color:'sk-blue'});prefix==='cl'?buildAdmCollabs():buildAdmExps();};
+window.removeSkill=(prefix,i,si)=>{const arr=prefix==='cl'?DATA.collabs:DATA.experiences;arr[i].skillTags.splice(si,1);prefix==='cl'?buildAdmCollabs():buildAdmExps();};
+
+function readExpItems(prefix,arr){
+  arr.forEach((_,i)=>{
+    arr[i].cat=document.querySelector(`.${prefix}-cat-${i}`)?.value||'public';
+    arr[i].year=document.querySelector(`.${prefix}-year-${i}`)?.value||'';
+    arr[i].title=document.querySelector(`.${prefix}-title-${i}`)?.value||'';
+    arr[i].subtitle=document.querySelector(`.${prefix}-subtitle-${i}`)?.value||'';
+    arr[i].problem=getRTE(`rte-${prefix}-problem-${i}`);
+    arr[i].role=getRTE(`rte-${prefix}-role-${i}`);
+    arr[i].tools=document.querySelector(`.${prefix}-tools-${i}`)?.value||'';
+    arr[i].result=getRTE(`rte-${prefix}-result-${i}`);
+    // skill tags
+    const skLabels=[...document.querySelectorAll(`.${prefix}-sk-label-${i}`)];
+    const skColors=[...document.querySelectorAll(`.${prefix}-sk-color-${i}`)];
+    arr[i].skillTags=skLabels.map((el,si)=>({label:el.value,color:skColors[si]?.value||'sk-blue'}));
   });
 }
-window.delResearch=i=>{ if(confirm('삭제?')){ DATA.researches.splice(i,1); buildAdmResearch(); } };
-window.addResearch=()=>{ DATA.researches.push({status:'신규 · 2026',live:false,title:'새 연구',bodyHtml:'연구 요약.',tags:'키워드',bigNum:'',bigLabel:'',wide:false,detail:{problem:'',rationale:'',theory:'',process:'',result:'',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}}); buildAdmResearch(); };
+
+/* research admin */
+function buildAdmR(){
+  document.getElementById('r-ed-list').innerHTML=DATA.researches.map((r,i)=>`
+  <div class="list-item">
+    <div class="list-item-head"><span class="list-item-num">연구 ${i+1}</span><button class="adm-del" onclick="delR(${i})">삭제</button></div>
+    <div class="af-row"><div class="af"><label>상태</label><input class="rs-in" data-i="${i}" value="${r.status||''}"></div><div class="af"><label>진행 상태</label><select class="rl-in" data-i="${i}"><option value="1"${r.live?'selected':''}>진행 중</option><option value="0"${!r.live?'selected':''}>완료</option></select></div></div>
+    <div class="af"><label>제목</label><input class="rt-in" data-i="${i}" value="${r.title||''}"></div>
+    <div class="af"><label>본문</label><div id="rte-rb-${i}" class="rte-wrap"></div></div>
+    <div class="af"><label>태그</label><input class="rg-in" data-i="${i}" value="${r.tags||''}"></div>
+    <div class="af-row3"><div class="af"><label>큰 숫자</label><input class="rn-in" data-i="${i}" value="${r.bigNum||''}"></div><div class="af"><label>숫자 레이블</label><input class="rln-in" data-i="${i}" value="${r.bigLabel||''}"></div><div class="af"><label>와이드</label><select class="rw-in" data-i="${i}"><option value="1"${r.wide?'selected':''}>예</option><option value="0"${!r.wide?'selected':''}>아니오</option></select></div></div>
+    <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0">
+    ${STEP_KEYS.map(k=>`<div class="af"><label>${STEP_LABELS[k]}</label><div id="rte-rd${k}-${i}" class="rte-wrap"></div></div><div class="af"><label>${STEP_LABELS[k]} 이미지</label>${buildIA(`ri${i}${k}`,(r.detail?.images?.[k])||[])}</div>`).join('')}
+  </div>`).join('');
+  DATA.researches.forEach((r,i)=>{makeRTE(`rte-rb-${i}`,r.bodyHtml||'','본문...');STEP_KEYS.forEach(k=>{makeRTE(`rte-rd${k}-${i}`,(r.detail&&r.detail[k])||'',`${STEP_LABELS[k]}...`);renderIA(`ri${i}${k}`);});});
+}
+window.delR=i=>{if(confirm('삭제?')){DATA.researches.splice(i,1);buildAdmR();}};
+window.addR=()=>{DATA.researches.push({status:'신규 · 2026',live:false,title:'새 연구',bodyHtml:'',tags:'',bigNum:'',bigLabel:'',wide:false,detail:{problem:'',rationale:'',theory:'',process:'',result:'',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}});buildAdmR();};
 
 function buildAdmPubs(){
-  document.getElementById('pub-ed-list').innerHTML = DATA.pubs.map((p,i)=>`
-  <div class="list-item">
-    <div class="list-item-head"><span class="list-item-num">논문 ${i+1}</span><button class="adm-del" onclick="delPub(${i})">삭제</button></div>
-    <div class="af-row"><div class="af"><label>연도</label><input class="py-in" data-i="${i}" value="${p.year||''}"></div><div class="af"><label>배지</label><input class="pb-in" data-i="${i}" value="${p.badge||''}"></div></div>
-    <div class="af"><label>제목</label><input class="pt-in" data-i="${i}" value="${p.title||''}"></div>
-    <div class="af"><label>출처</label><input class="pv-in" data-i="${i}" value="${p.venue||''}"></div>
-  </div>`).join('');
+  document.getElementById('pub-ed-list').innerHTML=DATA.pubs.map((p,i)=>`
+  <div class="list-item"><div class="list-item-head"><span class="list-item-num">논문 ${i+1}</span><button class="adm-del" onclick="delPub(${i})">삭제</button></div>
+  <div class="af-row"><div class="af"><label>연도</label><input class="py-in" data-i="${i}" value="${p.year||''}"></div><div class="af"><label>배지</label><input class="pb-in" data-i="${i}" value="${p.badge||''}"></div></div>
+  <div class="af"><label>제목</label><input class="pt-in" data-i="${i}" value="${p.title||''}"></div>
+  <div class="af"><label>출처</label><input class="pv-in" data-i="${i}" value="${p.venue||''}"></div></div>`).join('');
 }
-window.delPub=i=>{ if(confirm('삭제?')){ DATA.pubs.splice(i,1); buildAdmPubs(); } };
-window.addPub=()=>{ DATA.pubs.push({year:'2026',title:'논문 제목',venue:'저널 · 저자',badge:'Conf.',ip:false}); buildAdmPubs(); };
+window.delPub=i=>{if(confirm('삭제?')){DATA.pubs.splice(i,1);buildAdmPubs();}};
+window.addPub=()=>{DATA.pubs.push({year:'2026',title:'논문 제목',venue:'저널 · 저자',badge:'Conf.',ip:false});buildAdmPubs();};
 
 function buildAdmProds(){
-  document.getElementById('prod-ed-list').innerHTML = DATA.products.map((p,i)=>`
-  <div class="list-item">
-    <div class="list-item-head"><span class="list-item-num">프로덕트 ${i+1}</span><button class="adm-del" onclick="delProd(${i})">삭제</button></div>
-    <div class="af-row"><div class="af"><label>이름</label><input class="pdn-in" data-i="${i}" value="${p.name||''}"></div><div class="af"><label>태그</label><input class="pdt-in" data-i="${i}" value="${p.tag||''}"></div></div>
-    <div class="af-row"><div class="af"><label>썸네일 텍스트</label><input class="pdth-in" data-i="${i}" value="${p.thumb||''}"></div><div class="af"><label>기술 스택</label><input class="pds-in" data-i="${i}" value="${p.stack||''}"></div></div>
-    <div class="af"><label>카드 요약</label><input class="pdd-in" data-i="${i}" value="${p.desc||''}"></div>
-    <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0">
-    ${STEP_KEYS.map(k=>`
-    <div class="af"><label>${STEP_LABELS[k]}</label><div id="rte-pd${k}-${i}" class="rte-wrap"></div></div>
-    <div class="af"><label>${STEP_LABELS[k]} 이미지</label>${buildImgArea(`pi${i}${k}`,(p.detail?.images?.[k])||[])}</div>`).join('')}
+  document.getElementById('prod-ed-list').innerHTML=DATA.products.map((p,i)=>`
+  <div class="list-item"><div class="list-item-head"><span class="list-item-num">프로덕트 ${i+1}</span><button class="adm-del" onclick="delProd(${i})">삭제</button></div>
+  <div class="af-row"><div class="af"><label>이름</label><input class="pdn-in" data-i="${i}" value="${p.name||''}"></div><div class="af"><label>태그</label><input class="pdt-in" data-i="${i}" value="${p.tag||''}"></div></div>
+  <div class="af-row"><div class="af"><label>썸네일 텍스트</label><input class="pdth-in" data-i="${i}" value="${p.thumb||''}"></div><div class="af"><label>기술 스택</label><input class="pds-in" data-i="${i}" value="${p.stack||''}"></div></div>
+  <div class="af"><label>카드 요약</label><input class="pdd-in" data-i="${i}" value="${p.desc||''}"></div>
+  <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0">
+  ${STEP_KEYS.map(k=>`<div class="af"><label>${STEP_LABELS[k]}</label><div id="rte-pd${k}-${i}" class="rte-wrap"></div></div><div class="af"><label>${STEP_LABELS[k]} 이미지</label>${buildIA(`pi${i}${k}`,(p.detail?.images?.[k])||[])}</div>`).join('')}
   </div>`).join('');
-  DATA.products.forEach((p,i)=>{
-    STEP_KEYS.forEach(k=>{ makeRTE(`rte-pd${k}-${i}`,(p.detail&&p.detail[k])||'',`${STEP_LABELS[k]} 입력...`); renderImgArea(`pi${i}${k}`); });
-  });
+  DATA.products.forEach((p,i)=>{STEP_KEYS.forEach(k=>{makeRTE(`rte-pd${k}-${i}`,(p.detail&&p.detail[k])||'',`${STEP_LABELS[k]}...`);renderIA(`pi${i}${k}`);});});
 }
-window.delProd=i=>{ if(confirm('삭제?')){ DATA.products.splice(i,1); buildAdmProds(); } };
-window.addProd=()=>{ DATA.products.push({name:'새 프로덕트',tag:'Project',thumb:'New',desc:'설명',stack:'기술스택',detail:{problem:'',rationale:'',theory:'',process:'',result:'',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}}); buildAdmProds(); };
+window.delProd=i=>{if(confirm('삭제?')){DATA.products.splice(i,1);buildAdmProds();}};
+window.addProd=()=>{DATA.products.push({name:'새 프로덕트',tag:'Project',thumb:'New',desc:'',stack:'',detail:{problem:'',rationale:'',theory:'',process:'',result:'',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}});buildAdmProds();};
 
-function buildAdmAwards(){
-  document.getElementById('aw-ed-list').innerHTML = DATA.awards.map((a,i)=>`
-  <div class="list-item">
-    <div class="list-item-head"><span class="list-item-num">수상 ${i+1}</span><button class="adm-del" onclick="delAward(${i})">삭제</button></div>
-    <div class="af"><label>제목</label><input class="awt-in" data-i="${i}" value="${a.title||''}"></div>
-    <div class="af-row"><div class="af"><label>기관</label><input class="awo-in" data-i="${i}" value="${a.org||''}"></div><div class="af"><label>연도</label><input class="awy-in" data-i="${i}" value="${a.year||''}"></div></div>
-  </div>`).join('');
+function buildAdmAws(){
+  document.getElementById('aw-ed-list').innerHTML=DATA.awards.map((a,i)=>`
+  <div class="list-item"><div class="list-item-head"><span class="list-item-num">수상 ${i+1}</span><button class="adm-del" onclick="delAw(${i})">삭제</button></div>
+  <div class="af"><label>제목</label><input class="awt-in" data-i="${i}" value="${a.title||''}"></div>
+  <div class="af-row"><div class="af"><label>기관</label><input class="awo-in" data-i="${i}" value="${a.org||''}"></div><div class="af"><label>연도</label><input class="awy-in" data-i="${i}" value="${a.year||''}"></div></div></div>`).join('');
 }
-window.delAward=i=>{ if(confirm('삭제?')){ DATA.awards.splice(i,1); buildAdmAwards(); } };
-window.addAward=()=>{ DATA.awards.push({title:'수상 명칭',org:'기관',year:'2026'}); buildAdmAwards(); };
+window.delAw=i=>{if(confirm('삭제?')){DATA.awards.splice(i,1);buildAdmAws();}};
+window.addAw=()=>{DATA.awards.push({title:'수상 명칭',org:'기관',year:'2026'});buildAdmAws();};
 
+/* ── readAll ── */
 function readAll(){
-  // basic
-  DATA.basic.navname = document.getElementById('e-navname')?.value||'';
-  DATA.basic.eyebrow = document.getElementById('e-eyebrow')?.value||'';
-  DATA.basic.n1 = document.getElementById('e-n1')?.value||'';
-  DATA.basic.n2 = document.getElementById('e-n2')?.value||'';
-  DATA.basic.n3 = document.getElementById('e-n3')?.value||'';
-  DATA.basic.s1 = document.getElementById('e-s1')?.value||'';
-  DATA.basic.s2 = document.getElementById('e-s2')?.value||'';
-  DATA.basic.s3 = document.getElementById('e-s3')?.value||'';
-  DATA.basic.email = document.getElementById('e-email')?.value||'';
-  DATA.basic.github = document.getElementById('e-github')?.value||'';
-  DATA.basic.descHtml = getRTEHtml('rte-desc');
-  DATA.basic.affilHtml = getRTEHtml('rte-affil');
-  DATA.basic.interestHtml = getRTEHtml('rte-interest');
-  DATA.basic.teamHtml = getRTEHtml('rte-team');
-  DATA.basic.cbodyHtml = getRTEHtml('rte-cbody');
-  DATA.basic.photoBase64 = photoBase64;
-  // researches
+  DATA.basic.navname=document.getElementById('e-navname')?.value||'';
+  DATA.basic.eyebrow=document.getElementById('e-eyebrow')?.value||'';
+  DATA.basic.n1=document.getElementById('e-n1')?.value||'';
+  DATA.basic.n2=document.getElementById('e-n2')?.value||'';
+  DATA.basic.n3=document.getElementById('e-n3')?.value||'';
+  DATA.basic.s1=document.getElementById('e-s1')?.value||'';
+  DATA.basic.s2=document.getElementById('e-s2')?.value||'';
+  DATA.basic.s3=document.getElementById('e-s3')?.value||'';
+  DATA.basic.email=document.getElementById('e-email')?.value||'';
+  DATA.basic.github=document.getElementById('e-github')?.value||'';
+  DATA.basic.descHtml=getRTE('rte-desc');
+  DATA.basic.affilHtml=getRTE('rte-affil');
+  DATA.basic.interestHtml=getRTE('rte-interest');
+  DATA.basic.teamHtml=getRTE('rte-team');
+  DATA.basic.cbodyHtml=getRTE('rte-cbody');
+  DATA.basic.photoBase64=photoBase64;
   DATA.researches.forEach((_,i)=>{
     DATA.researches[i].status=document.querySelector(`.rs-in[data-i="${i}"]`)?.value||'';
     DATA.researches[i].live=document.querySelector(`.rl-in[data-i="${i}"]`)?.value==='1';
     DATA.researches[i].title=document.querySelector(`.rt-in[data-i="${i}"]`)?.value||'';
-    DATA.researches[i].bodyHtml=getRTEHtml(`rte-rb-${i}`);
+    DATA.researches[i].bodyHtml=getRTE(`rte-rb-${i}`);
     DATA.researches[i].tags=document.querySelector(`.rg-in[data-i="${i}"]`)?.value||'';
     DATA.researches[i].bigNum=document.querySelector(`.rn-in[data-i="${i}"]`)?.value||'';
     DATA.researches[i].bigLabel=document.querySelector(`.rln-in[data-i="${i}"]`)?.value||'';
     DATA.researches[i].wide=document.querySelector(`.rw-in[data-i="${i}"]`)?.value==='1';
-    if(!DATA.researches[i].detail) DATA.researches[i].detail={images:{}};
-    if(!DATA.researches[i].detail.images) DATA.researches[i].detail.images={};
-    STEP_KEYS.forEach(k=>{
-      DATA.researches[i].detail[k]=getRTEHtml(`rte-rd${k}-${i}`);
-      DATA.researches[i].detail.images[k]=imgStore[`ri${i}${k}`]||[];
-    });
+    if(!DATA.researches[i].detail)DATA.researches[i].detail={images:{}};
+    if(!DATA.researches[i].detail.images)DATA.researches[i].detail.images={};
+    STEP_KEYS.forEach(k=>{DATA.researches[i].detail[k]=getRTE(`rte-rd${k}-${i}`);DATA.researches[i].detail.images[k]=imgStore[`ri${i}${k}`]||[];});
   });
-  // pubs
-  DATA.pubs.forEach((_,i)=>{
-    DATA.pubs[i].year=document.querySelector(`.py-in[data-i="${i}"]`)?.value||'';
-    DATA.pubs[i].badge=document.querySelector(`.pb-in[data-i="${i}"]`)?.value||'';
-    DATA.pubs[i].title=document.querySelector(`.pt-in[data-i="${i}"]`)?.value||'';
-    DATA.pubs[i].venue=document.querySelector(`.pv-in[data-i="${i}"]`)?.value||'';
-    DATA.pubs[i].ip=DATA.pubs[i].badge.toLowerCase().includes('press');
-  });
-  // products
-  DATA.products.forEach((_,i)=>{
-    DATA.products[i].name=document.querySelector(`.pdn-in[data-i="${i}"]`)?.value||'';
-    DATA.products[i].tag=document.querySelector(`.pdt-in[data-i="${i}"]`)?.value||'';
-    DATA.products[i].thumb=document.querySelector(`.pdth-in[data-i="${i}"]`)?.value||'';
-    DATA.products[i].stack=document.querySelector(`.pds-in[data-i="${i}"]`)?.value||'';
-    DATA.products[i].desc=document.querySelector(`.pdd-in[data-i="${i}"]`)?.value||'';
-    if(!DATA.products[i].detail) DATA.products[i].detail={images:{}};
-    if(!DATA.products[i].detail.images) DATA.products[i].detail.images={};
-    STEP_KEYS.forEach(k=>{
-      DATA.products[i].detail[k]=getRTEHtml(`rte-pd${k}-${i}`);
-      DATA.products[i].detail.images[k]=imgStore[`pi${i}${k}`]||[];
-    });
-  });
-  // awards
-  DATA.awards.forEach((_,i)=>{
-    DATA.awards[i].title=document.querySelector(`.awt-in[data-i="${i}"]`)?.value||'';
-    DATA.awards[i].org=document.querySelector(`.awo-in[data-i="${i}"]`)?.value||'';
-    DATA.awards[i].year=document.querySelector(`.awy-in[data-i="${i}"]`)?.value||'';
-  });
+  DATA.pubs.forEach((_,i)=>{DATA.pubs[i].year=document.querySelector(`.py-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].badge=document.querySelector(`.pb-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].title=document.querySelector(`.pt-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].venue=document.querySelector(`.pv-in[data-i="${i}"]`)?.value||'';DATA.pubs[i].ip=DATA.pubs[i].badge.toLowerCase().includes('press');});
+  DATA.products.forEach((_,i)=>{DATA.products[i].name=document.querySelector(`.pdn-in[data-i="${i}"]`)?.value||'';DATA.products[i].tag=document.querySelector(`.pdt-in[data-i="${i}"]`)?.value||'';DATA.products[i].thumb=document.querySelector(`.pdth-in[data-i="${i}"]`)?.value||'';DATA.products[i].stack=document.querySelector(`.pds-in[data-i="${i}"]`)?.value||'';DATA.products[i].desc=document.querySelector(`.pdd-in[data-i="${i}"]`)?.value||'';if(!DATA.products[i].detail)DATA.products[i].detail={images:{}};if(!DATA.products[i].detail.images)DATA.products[i].detail.images={};STEP_KEYS.forEach(k=>{DATA.products[i].detail[k]=getRTE(`rte-pd${k}-${i}`);DATA.products[i].detail.images[k]=imgStore[`pi${i}${k}`]||[];});});
+  readExpItems('cl',DATA.collabs);
+  readExpItems('ex',DATA.experiences);
+  DATA.awards.forEach((_,i)=>{DATA.awards[i].title=document.querySelector(`.awt-in[data-i="${i}"]`)?.value||'';DATA.awards[i].org=document.querySelector(`.awo-in[data-i="${i}"]`)?.value||'';DATA.awards[i].year=document.querySelector(`.awy-in[data-i="${i}"]`)?.value||'';});
 }
 
-window.applyAll = async()=>{
-  readAll();
-  applyBasicToPage();
-  renderAll();
-  await saveToFirebase(true);
-};
+window.applyAll=async()=>{readAll();applyBasic();renderAll();await saveFB(true);};
 
 /* ── cursor + reveal ── */
 const cur=document.getElementById('cur');
-document.addEventListener('mousemove',e=>{ cur.style.left=(e.clientX-2.5)+'px'; cur.style.top=(e.clientY-2.5)+'px'; });
-document.querySelectorAll('a,button').forEach(el=>{ el.addEventListener('mouseenter',()=>cur.classList.add('big')); el.addEventListener('mouseleave',()=>cur.classList.remove('big')); });
-const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
+document.addEventListener('mousemove',e=>{cur.style.left=(e.clientX-2.5)+'px';cur.style.top=(e.clientY-2.5)+'px';});
+document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('big'));el.addEventListener('mouseleave',()=>cur.classList.remove('big'));});
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* init */
-setBar(10);
-loadFromFirebase();
+setBar(10);loadFB();
 </script>
 </body>
 </html>
