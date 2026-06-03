@@ -166,6 +166,41 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 /* ── WORK EXPERIENCE ── */
 #experience{background:var(--w)}
 
+/* ── CREATIVE WORK ── */
+#creative{background:var(--w)}
+.cw-groups{display:flex;flex-direction:column;gap:0;border-top:.5px solid var(--rule)}
+.cw-group{border-bottom:.5px solid var(--rule);padding:2.5rem 0}
+.cw-group-head{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;margin-bottom:1.5rem}
+.cw-group-meta{display:flex;align-items:baseline;gap:1rem}
+.cw-group-title{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.cw-group-sub{font-size:11px;font-weight:300;color:var(--i3)}
+.cw-group-links{display:flex;gap:.75rem;flex-wrap:wrap}
+.cw-group-link{font-size:9.5px;font-weight:500;letter-spacing:.04em;color:var(--ink);text-decoration:none;border:.5px solid var(--rule);padding:.28rem .75rem;border-radius:2px;display:inline-flex;align-items:center;gap:.3rem;transition:border-color .15s,background .15s}
+.cw-group-link:hover{border-color:var(--ink);background:var(--p)}
+.cw-group-desc{font-size:12px;font-weight:300;color:var(--i3);line-height:1.9;margin-bottom:1.5rem;max-width:640px}
+/* 갤러리 슬라이더 */
+.cw-slider-wrap{position:relative;user-select:none}
+.cw-slider-track{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;padding-bottom:.5rem}
+.cw-slider-track::-webkit-scrollbar{height:3px}
+.cw-slider-track::-webkit-scrollbar-track{background:var(--rule)}
+.cw-slider-track::-webkit-scrollbar-thumb{background:var(--i4);border-radius:2px}
+.cw-slide-item{flex:0 0 auto;scroll-snap-align:start;position:relative;cursor:pointer}
+.cw-slide-item img{display:block;height:220px;width:auto;max-width:320px;object-fit:cover;border:.5px solid var(--rule);border-radius:3px;transition:opacity .2s}
+.cw-slide-item:hover img{opacity:.88}
+.cw-slide-num{position:absolute;bottom:.5rem;right:.6rem;font-size:8.5px;font-weight:600;letter-spacing:.06em;color:rgba(255,255,255,.85);background:rgba(20,20,18,.45);padding:.15rem .45rem;border-radius:2px;backdrop-filter:blur(4px)}
+.cw-empty{font-size:11.5px;font-weight:300;color:var(--i4);padding:2.5rem 0;border:.5px dashed var(--rule);border-radius:3px;text-align:center;letter-spacing:.04em}
+/* 라이트박스 */
+#cw-lightbox{display:none;position:fixed;inset:0;z-index:700;background:rgba(20,20,18,.92);backdrop-filter:blur(8px);align-items:center;justify-content:center}
+#cw-lightbox.open{display:flex}
+.cw-lb-inner{position:relative;max-width:90vw;max-height:88vh;display:flex;align-items:center;justify-content:center}
+.cw-lb-inner img{max-width:88vw;max-height:84vh;object-fit:contain;border-radius:3px}
+.cw-lb-close{position:fixed;top:1.5rem;right:2rem;font-size:22px;font-weight:200;color:rgba(255,255,255,.6);background:none;border:none;cursor:pointer;transition:color .15s;line-height:1}
+.cw-lb-close:hover{color:#fff}
+.cw-lb-prev,.cw-lb-next{position:fixed;top:50%;transform:translateY(-50%);font-size:1.75rem;font-weight:200;color:rgba(255,255,255,.5);background:none;border:none;cursor:pointer;padding:.5rem 1.25rem;transition:color .15s;line-height:1}
+.cw-lb-prev:hover,.cw-lb-next:hover{color:#fff}
+.cw-lb-prev{left:.5rem}.cw-lb-next{right:.5rem}
+.cw-lb-counter{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);font-size:10px;font-weight:400;letter-spacing:.1em;color:rgba(255,255,255,.4)}
+
 /* ── AWARDS ── */
 #awards{background:var(--p)}
 .aw-grid{display:grid;grid-template-columns:1fr 1fr;border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
@@ -328,6 +363,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
     <li><a href="#products">Products</a></li>
     <li><a href="#collaboration">Project Work</a></li>
     <li><a href="#experience">Experience</a></li>
+    <li><a href="#creative">Creative</a></li>
     <li><a href="#awards">Awards</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -396,15 +432,20 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   <div class="exp-grid three reveal" id="exp-grid"></div>
 </div></section>
 
+<section id="creative"><div class="sec-wrap">
+  <div class="sec-head reveal"><span class="sec-n">06</span><h2 class="sec-title">Creative Work</h2><span class="sec-kr">콘텐츠 제작</span></div>
+  <div class="cw-groups reveal" id="cw-groups"></div>
+</div></section>
+
 <section id="awards"><div class="sec-wrap">
-  <div class="sec-head reveal"><span class="sec-n">06</span><h2 class="sec-title">Awards</h2><span class="sec-kr">수상·수료</span></div>
+  <div class="sec-head reveal"><span class="sec-n">07</span><h2 class="sec-title">Awards</h2><span class="sec-kr">수상·수료</span></div>
   <div class="aw-grid reveal" id="aw-grid"></div>
 </div></section>
 
 <section id="contact">
   <div class="contact-grid">
     <div class="contact-left reveal">
-      <p class="contact-label">07 — Contact</p>
+      <p class="contact-label">08 — Contact</p>
       <h2 class="contact-hl">함께<br><span>연구합시다.</span></h2>
       <p class="contact-body" id="c-body">연구 협업, 콘퍼런스 발표, 프로젝트 문의 등 어떤 이야기든 환영합니다.</p>
     </div>
@@ -416,6 +457,15 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
   </div>
 </section>
 <footer><span class="ft-l">배유진 · Bae Yujin</span><span class="ft-r">© 2026 — Research × Design × Wellbeing</span></footer>
+
+<!-- lightbox -->
+<div id="cw-lightbox">
+  <button class="cw-lb-close" onclick="closeLB()">✕</button>
+  <button class="cw-lb-prev" onclick="lbMove(-1)">‹</button>
+  <div class="cw-lb-inner"><img id="cw-lb-img" src="" alt=""></div>
+  <button class="cw-lb-next" onclick="lbMove(1)">›</button>
+  <div class="cw-lb-counter" id="cw-lb-counter"></div>
+</div>
 
 <div id="prod-modal">
   <div class="pm-inner">
@@ -440,8 +490,9 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
         <div class="adm-tab" onclick="sAt(3)">프로덕트</div>
         <div class="adm-tab" onclick="sAt(4)">기관협력</div>
         <div class="adm-tab" onclick="sAt(5)">실무경험</div>
-        <div class="adm-tab" onclick="sAt(6)">수상</div>
-        <div class="adm-tab" onclick="sAt(7)">연락처</div>
+        <div class="adm-tab" onclick="sAt(6)">Creative</div>
+        <div class="adm-tab" onclick="sAt(7)">수상</div>
+        <div class="adm-tab" onclick="sAt(8)">연락처</div>
       </div>
       <div class="adm-pane on" id="ap-0">
         <div class="af">
@@ -471,8 +522,9 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
       <div class="adm-pane" id="ap-3"><div id="prod-ed-list"></div><button class="adm-add" onclick="addProd()">+ 프로덕트 추가</button></div>
       <div class="adm-pane" id="ap-4"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">각 카드에서 문제·역할·툴·역량·결과를 입력하세요.</p><div id="collab-ed-list"></div><button class="adm-add" onclick="addCollab()">+ 기관협력 추가</button></div>
       <div class="adm-pane" id="ap-5"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">각 카드에서 문제·역할·툴·역량·결과를 입력하세요.</p><div id="exp-ed-list"></div><button class="adm-add" onclick="addExp()">+ 경험 추가</button></div>
-      <div class="adm-pane" id="ap-6"><div id="aw-ed-list"></div><button class="adm-add" onclick="addAw()">+ 수상 추가</button></div>
-      <div class="adm-pane" id="ap-7">
+      <div class="adm-pane" id="ap-6"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">주제별 그룹을 만들고, 각 그룹에 이미지와 링크를 추가하세요.</p><div id="cw-ed-list"></div><button class="adm-add" onclick="addCW()">+ 그룹 추가</button></div>
+      <div class="adm-pane" id="ap-7"><div id="aw-ed-list"></div><button class="adm-add" onclick="addAw()">+ 수상 추가</button></div>
+      <div class="adm-pane" id="ap-8">
         <div class="af-row"><div class="af"><label>이메일</label><input id="e-email" value="your.email@yonsei.ac.kr"></div><div class="af"><label>GitHub URL</label><input id="e-github" value="github.com/your-handle"></div></div>
         <div class="af"><label>Contact 본문</label><div id="rte-cbody" class="rte-wrap"></div></div>
       </div>
@@ -576,6 +628,11 @@ const DEF={
     {title:'아동권리보장원 제5기 서포터즈 선발',org:'아동권리보장원 · 팀 Translators',year:'2025–2026'},
     {title:'ISSBD 2026 포스터 발표 채택',org:'ISSBD · 인천 송도',year:'2026'},
     {title:'KT&G 제3회 사회혁신 아이디어 공모전 입상',org:'KT&G · 다학제팀',year:'2023'}
+  ],
+  creativeWorks:[
+    {title:'UNCRC 아동권리 캠페인',subtitle:'아동권리보장원 서포터스 5기 · Translators팀',desc:'유엔아동권리협약(UNCRC)의 핵심 내용을 대중이 쉽게 이해할 수 있도록 카드뉴스 및 숏폼 영상으로 제작한 캠페인입니다.',links:[],images:[]},
+    {title:'디지털 안전 캠페인',subtitle:'아동권리보장원 서포터스 5기 · Translators팀',desc:'아동·청소년의 디지털 환경 속 안전한 미디어 이용을 주제로 제작한 카드뉴스 시리즈입니다.',links:[],images:[]},
+    {title:'365일 아동의날 캠페인',subtitle:'아동권리보장원 서포터스 5기 · Translators팀',desc:'매일이 아동의날임을 알리는 캠페인 콘텐츠입니다.',links:[],images:[]}
   ]
 };
 
@@ -599,6 +656,7 @@ async function loadFB(){
       DATA.products=d.products||DEF.products;
       DATA.collabs=d.collabs||DEF.collabs;
       DATA.experiences=d.experiences||DEF.experiences;
+      DATA.creativeWorks=d.creativeWorks||DEF.creativeWorks;
       DATA.awards=d.awards||DEF.awards;
       photoBase64=DATA.basic.photoBase64||'';
       setMsg('로드 완료');
@@ -616,7 +674,7 @@ async function saveFB(show=true){
   if(show){ sync.classList.add('show'); saving.classList.add('show'); }
   try{
     DATA.basic.photoBase64=photoBase64;
-    await set(ref(db,'portfolio'),{basic:DATA.basic,researches:DATA.researches,pubs:DATA.pubs,products:DATA.products,collabs:DATA.collabs,experiences:DATA.experiences,awards:DATA.awards});
+    await set(ref(db,'portfolio'),{basic:DATA.basic,researches:DATA.researches,pubs:DATA.pubs,products:DATA.products,collabs:DATA.collabs,experiences:DATA.experiences,creativeWorks:DATA.creativeWorks,awards:DATA.awards});
     if(show){ sync.classList.remove('show'); saving.classList.remove('show'); saved.classList.add('show'); setTimeout(()=>saved.classList.remove('show'),2500); }
   }catch(e){
     console.error(e);
@@ -626,7 +684,7 @@ async function saveFB(show=true){
 }
 
 /* ── render ── */
-function renderAll(){ renderR(); renderPubs(); renderProds(); renderCollabs(); renderExps(); renderAws(); }
+function renderAll(){ renderR(); renderPubs(); renderProds(); renderCollabs(); renderExps(); renderCW(); renderAws(); }
 
 function renderR(){
   document.getElementById('r-grid').innerHTML=DATA.researches.map((r,i)=>`
@@ -685,6 +743,103 @@ function renderCollabs(){
 }
 function renderExps(){
   document.getElementById('exp-grid').innerHTML=(DATA.experiences||[]).map(expCardHtml).join('');
+}
+
+/* ── Creative Work ── */
+let lbImages=[], lbIdx=0;
+
+function renderCW(){
+  const cws = DATA.creativeWorks||[];
+  const el = document.getElementById('cw-groups');
+  if(!cws.length){ el.innerHTML=`<div class="cw-empty">콘텐츠를 추가해주세요</div>`; return; }
+  el.innerHTML = cws.map((g,gi)=>{
+    const linksHtml = (g.links||[]).map(l=>
+      `<a href="${l.url}" target="_blank" rel="noopener" class="cw-group-link">${l.icon||'↗'} ${l.label}</a>`
+    ).join('');
+    const imgs = g.images||[];
+    const slidesHtml = imgs.length
+      ? imgs.map((src,ii)=>`<div class="cw-slide-item" onclick="openLB(${gi},${ii})"><img src="${src}" alt="카드뉴스 ${ii+1}" loading="lazy"><span class="cw-slide-num">${ii+1}/${imgs.length}</span></div>`).join('')
+      : `<div class="cw-empty">이미지를 추가해주세요</div>`;
+    return `<div class="cw-group">
+      <div class="cw-group-head">
+        <div class="cw-group-meta">
+          <div class="cw-group-title">${g.title}</div>
+          <div class="cw-group-sub">${g.subtitle||''}</div>
+        </div>
+        ${linksHtml?`<div class="cw-group-links">${linksHtml}</div>`:''}
+      </div>
+      ${g.desc?`<div class="cw-group-desc">${g.desc}</div>`:''}
+      <div class="cw-slider-wrap"><div class="cw-slider-track" id="cw-track-${gi}">${slidesHtml}</div></div>
+    </div>`;
+  }).join('');
+}
+
+window.openLB = function(gi, ii){
+  const imgs = (DATA.creativeWorks[gi]||{}).images||[];
+  lbImages = imgs; lbIdx = ii;
+  document.getElementById('cw-lb-img').src = imgs[ii]||'';
+  document.getElementById('cw-lb-counter').textContent = `${ii+1} / ${imgs.length}`;
+  document.getElementById('cw-lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+};
+window.closeLB = ()=>{ document.getElementById('cw-lightbox').classList.remove('open'); document.body.style.overflow=''; };
+window.lbMove = dir=>{
+  lbIdx = (lbIdx+dir+lbImages.length)%lbImages.length;
+  document.getElementById('cw-lb-img').src = lbImages[lbIdx];
+  document.getElementById('cw-lb-counter').textContent = `${lbIdx+1} / ${lbImages.length}`;
+};
+document.getElementById('cw-lightbox').addEventListener('click', e=>{ if(e.target===document.getElementById('cw-lightbox')) window.closeLB(); });
+document.addEventListener('keydown', e=>{ if(!document.getElementById('cw-lightbox').classList.contains('open')) return; if(e.key==='ArrowLeft') window.lbMove(-1); if(e.key==='ArrowRight') window.lbMove(1); if(e.key==='Escape') window.closeLB(); });
+
+/* admin: creative works */
+function buildAdmCW(){
+  const cws = DATA.creativeWorks||[];
+  document.getElementById('cw-ed-list').innerHTML = cws.map((g,gi)=>{
+    const linksHtml = (g.links||[]).map((l,li)=>`
+      <div style="display:grid;grid-template-columns:1fr 1fr 36px;gap:.4rem;margin-bottom:.4rem;align-items:center">
+        <input style="padding:.35rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" placeholder="라벨 (예: 인스타그램)" class="cwl-label-${gi}" data-li="${li}" value="${l.label||''}">
+        <input style="padding:.35rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" placeholder="URL" class="cwl-url-${gi}" data-li="${li}" value="${l.url||''}">
+        <button onclick="removeCWLink(${gi},${li})" style="font-size:11px;color:#dc2626;background:none;border:.5px solid #fecaca;padding:.3rem .4rem;border-radius:2px;cursor:pointer;height:100%">✕</button>
+      </div>`).join('');
+    return `<div class="list-item">
+      <div class="list-item-head"><span class="list-item-num">그룹 ${gi+1}</span><button class="adm-del" onclick="delCW(${gi})">삭제</button></div>
+      <div class="af"><label>그룹 제목</label><input class="cw-title-${gi}" value="${g.title||''}"></div>
+      <div class="af"><label>부제 (기관·시리즈명)</label><input class="cw-sub-${gi}" value="${g.subtitle||''}"></div>
+      <div class="af"><label>설명</label><input class="cw-desc-${gi}" value="${g.desc||''}"></div>
+      <div class="af">
+        <label>링크</label>
+        <div id="cwl-wrap-${gi}">${linksHtml}</div>
+        <button class="adm-add" style="margin-top:.3rem" onclick="addCWLink(${gi})">+ 링크 추가</button>
+      </div>
+      <div class="af"><label>이미지 (카드뉴스·스크린샷)</label>${buildIA(`cwi-${gi}`, g.images||[])}</div>
+    </div>`;
+  }).join('');
+  cws.forEach((_,gi)=>renderIA(`cwi-${gi}`));
+}
+
+window.addCW = ()=>{
+  if(!DATA.creativeWorks) DATA.creativeWorks=[];
+  DATA.creativeWorks.push({title:'새 콘텐츠 그룹',subtitle:'',desc:'',links:[],images:[]});
+  buildAdmCW();
+};
+window.delCW = gi=>{ if(confirm('삭제?')){ DATA.creativeWorks.splice(gi,1); buildAdmCW(); }};
+window.addCWLink = gi=>{
+  if(!DATA.creativeWorks[gi].links) DATA.creativeWorks[gi].links=[];
+  DATA.creativeWorks[gi].links.push({label:'',url:''});
+  buildAdmCW();
+};
+window.removeCWLink = (gi,li)=>{ DATA.creativeWorks[gi].links.splice(li,1); buildAdmCW(); };
+
+function readCW(){
+  (DATA.creativeWorks||[]).forEach((_,gi)=>{
+    DATA.creativeWorks[gi].title = document.querySelector(`.cw-title-${gi}`)?.value||'';
+    DATA.creativeWorks[gi].subtitle = document.querySelector(`.cw-sub-${gi}`)?.value||'';
+    DATA.creativeWorks[gi].desc = document.querySelector(`.cw-desc-${gi}`)?.value||'';
+    DATA.creativeWorks[gi].images = imgStore[`cwi-${gi}`]||[];
+    const labels = [...document.querySelectorAll(`.cwl-label-${gi}`)];
+    const urls   = [...document.querySelectorAll(`.cwl-url-${gi}`)];
+    DATA.creativeWorks[gi].links = labels.map((el,li)=>({ label:el.value, url:urls[li]?.value||'' }));
+  });
 }
 
 function renderAws(){
@@ -795,9 +950,9 @@ function initAdm(){
   makeRTE('rte-affil',b.affilHtml||'','소속...');
   makeRTE('rte-interest',b.interestHtml||'','연구 관심...');
   makeRTE('rte-team',b.teamHtml||'','소속 팀...');
-  makeRTE('rte-cbody',b.cbodyHtml||'','Contact 본문...');
+  makeRTE('rte-cbody', b.cbodyHtml||'', 'Contact 본문...');
   if(photoBase64){document.getElementById('photo-preview-img').src=photoBase64;document.getElementById('photo-preview-img').style.display='block';document.getElementById('photo-preview-ph').style.display='none';}
-  buildAdmR(); buildAdmPubs(); buildAdmProds(); buildAdmCollabs(); buildAdmExps(); buildAdmAws();
+  buildAdmR(); buildAdmPubs(); buildAdmProds(); buildAdmCollabs(); buildAdmExps(); buildAdmCW(); buildAdmAws();
 }
 
 /* img store */
@@ -947,6 +1102,7 @@ function readAll(){
   DATA.products.forEach((_,i)=>{DATA.products[i].name=document.querySelector(`.pdn-in[data-i="${i}"]`)?.value||'';DATA.products[i].tag=document.querySelector(`.pdt-in[data-i="${i}"]`)?.value||'';DATA.products[i].thumb=document.querySelector(`.pdth-in[data-i="${i}"]`)?.value||'';DATA.products[i].stack=document.querySelector(`.pds-in[data-i="${i}"]`)?.value||'';DATA.products[i].desc=document.querySelector(`.pdd-in[data-i="${i}"]`)?.value||'';if(!DATA.products[i].detail)DATA.products[i].detail={images:{}};if(!DATA.products[i].detail.images)DATA.products[i].detail.images={};STEP_KEYS.forEach(k=>{DATA.products[i].detail[k]=getRTE(`rte-pd${k}-${i}`);DATA.products[i].detail.images[k]=imgStore[`pi${i}${k}`]||[];});});
   readExpItems('cl',DATA.collabs);
   readExpItems('ex',DATA.experiences);
+  readCW();
   DATA.awards.forEach((_,i)=>{DATA.awards[i].title=document.querySelector(`.awt-in[data-i="${i}"]`)?.value||'';DATA.awards[i].org=document.querySelector(`.awo-in[data-i="${i}"]`)?.value||'';DATA.awards[i].year=document.querySelector(`.awy-in[data-i="${i}"]`)?.value||'';});
 }
 
