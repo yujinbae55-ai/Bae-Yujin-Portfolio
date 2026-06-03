@@ -170,15 +170,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 #creative{background:var(--w)}
 .cw-groups{display:flex;flex-direction:column;gap:0;border-top:.5px solid var(--rule)}
 .cw-group{border-bottom:.5px solid var(--rule);padding:2.5rem 0}
-.cw-group-head{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;margin-bottom:1.5rem}
-.cw-group-meta{display:flex;align-items:baseline;gap:1rem}
+.cw-group-head{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.cw-group-meta{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}
 .cw-group-title{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
 .cw-group-sub{font-size:11px;font-weight:300;color:var(--i3)}
+.cw-group-badge{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--w);padding:.2rem .55rem;border-radius:2px}
 .cw-group-links{display:flex;gap:.75rem;flex-wrap:wrap}
 .cw-group-link{font-size:9.5px;font-weight:500;letter-spacing:.04em;color:var(--ink);text-decoration:none;border:.5px solid var(--rule);padding:.28rem .75rem;border-radius:2px;display:inline-flex;align-items:center;gap:.3rem;transition:border-color .15s,background .15s}
 .cw-group-link:hover{border-color:var(--ink);background:var(--p)}
 .cw-group-desc{font-size:12px;font-weight:300;color:var(--i3);line-height:1.9;margin-bottom:1.5rem;max-width:640px}
-/* 갤러리 슬라이더 */
+/* 일반 갤러리 슬라이더 */
 .cw-slider-wrap{position:relative;user-select:none}
 .cw-slider-track{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;padding-bottom:.5rem}
 .cw-slider-track::-webkit-scrollbar{height:3px}
@@ -188,6 +189,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .cw-slide-item img{display:block;height:220px;width:auto;max-width:320px;object-fit:cover;border:.5px solid var(--rule);border-radius:3px;transition:opacity .2s}
 .cw-slide-item:hover img{opacity:.88}
 .cw-slide-num{position:absolute;bottom:.5rem;right:.6rem;font-size:8.5px;font-weight:600;letter-spacing:.06em;color:rgba(255,255,255,.85);background:rgba(20,20,18,.45);padding:.15rem .45rem;border-radius:2px;backdrop-filter:blur(4px)}
+/* 시리즈 모음 (collection mode) */
+.cw-collection{display:flex;flex-direction:column;gap:1.5rem}
+.cw-series{border:.5px solid var(--rule);border-radius:3px;overflow:hidden}
+.cw-series-head{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.25rem;background:var(--p);border-bottom:.5px solid var(--rule);gap:1rem;cursor:pointer;transition:background .15s;user-select:none}
+.cw-series-head:hover{background:var(--rule)}
+.cw-series-title{font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.cw-series-meta{display:flex;align-items:center;gap:.75rem}
+.cw-series-count{font-size:9.5px;font-weight:400;color:var(--i4);letter-spacing:.04em}
+.cw-series-links{display:flex;gap:.5rem}
+.cw-series-link{font-size:8.5px;font-weight:500;letter-spacing:.04em;color:var(--i2);text-decoration:none;border:.5px solid var(--rule);padding:.2rem .55rem;border-radius:2px;background:var(--w);transition:border-color .15s}
+.cw-series-link:hover{border-color:var(--ink)}
+.cw-series-tog{font-size:10px;color:var(--i4);transition:transform .25s}
+.cw-series.open .cw-series-tog{transform:rotate(180deg)}
+.cw-series-body{display:none;padding:1rem 1.25rem}
+.cw-series.open .cw-series-body{display:block}
+/* 시리즈 갤러리 (시리즈 내부) */
+.cw-series-track{display:flex;gap:.75rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;padding-bottom:.4rem}
+.cw-series-track::-webkit-scrollbar{height:2px}
+.cw-series-track::-webkit-scrollbar-track{background:var(--rule)}
+.cw-series-track::-webkit-scrollbar-thumb{background:var(--i4);border-radius:2px}
+.cw-series-img{flex:0 0 auto;scroll-snap-align:start;position:relative;cursor:pointer}
+.cw-series-img img{display:block;height:180px;width:auto;max-width:260px;object-fit:cover;border:.5px solid var(--rule);border-radius:2px;transition:opacity .2s}
+.cw-series-img:hover img{opacity:.88}
+/* 공통 */
 .cw-empty{font-size:11.5px;font-weight:300;color:var(--i4);padding:2.5rem 0;border:.5px dashed var(--rule);border-radius:3px;text-align:center;letter-spacing:.04em}
 /* 라이트박스 */
 #cw-lightbox{display:none;position:fixed;inset:0;z-index:700;background:rgba(20,20,18,.92);backdrop-filter:blur(8px);align-items:center;justify-content:center}
@@ -200,6 +225,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .cw-lb-prev:hover,.cw-lb-next:hover{color:#fff}
 .cw-lb-prev{left:.5rem}.cw-lb-next{right:.5rem}
 .cw-lb-counter{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);font-size:10px;font-weight:400;letter-spacing:.1em;color:rgba(255,255,255,.4)}
+/* 드래그앤드롭 공통 */
+.dnd-item{position:relative}
+.dnd-handle{position:absolute;top:.9rem;left:.75rem;cursor:grab;color:var(--i4);font-size:13px;line-height:1;z-index:1;user-select:none}
+.dnd-handle:active{cursor:grabbing}
+.dnd-item.dragging{opacity:.4;border:1px dashed var(--i3)!important}
+.dnd-item.drag-over{border-top:2px solid var(--blue)!important}
 
 /* ── AWARDS ── */
 #awards{background:var(--p)}
@@ -328,7 +359,13 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 .photo-upload-wrap{border:.5px solid var(--rule);border-radius:3px;overflow:hidden;aspect-ratio:3/4;width:140px;background:var(--p);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer}
 .photo-upload-wrap img{width:100%;height:100%;object-fit:cover;object-position:top}
 .photo-upload-overlay{position:absolute;inset:0;background:rgba(20,20,18,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff}
-.photo-upload-wrap:hover .photo-upload-overlay{opacity:1}
+/* affil items with logo */
+.affil-list{display:flex;flex-direction:column;gap:.55rem;margin-bottom:2rem}
+.affil-item{display:flex;align-items:center;gap:.65rem;line-height:1.55}
+.affil-logo{width:18px;height:18px;object-fit:contain;flex-shrink:0;border-radius:2px}
+.affil-logo-ph{width:18px;height:18px;flex-shrink:0;background:var(--rule);border-radius:2px;display:inline-block}
+.affil-text{font-size:12.5px;font-weight:300;color:var(--i2)}
+.affil-text strong{font-weight:700;color:var(--ink)}
 
 @media(max-width:900px){
   nav{padding:0 1.5rem}
@@ -389,7 +426,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
         <img id="hero-photo-img" class="hero-photo" src="" alt="">
       </div>
       <div class="hero-info">
-        <div class="hf-label">소속</div><div class="hf-val" id="h-affil">연세대학교 아동·가족학과<br>융합전공 인간생활·혁신디자인<br><strong>석사과정 (2025–)</strong></div>
+        <div class="hf-label">소속</div><div id="h-affil" class="affil-list"></div>
         <div class="hf-label">연구 관심</div><div class="hf-val" id="h-interest"><strong>디지털 웰빙</strong> · 교사 소진<br><strong>아동발달</strong> · SNS 자기조절<br>혼합연구방법론</div>
         <div class="hf-label">소속 팀</div><div class="hf-val" id="h-team"><strong>Caremate</strong> 연구팀 · BK21 참여 대학원생</div>
         <div class="hero-nums">
@@ -512,7 +549,14 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
         <hr style="border:none;border-top:.5px solid var(--rule);margin:.75rem 0 1rem">
         <div class="af-row"><div class="af"><label>Nav 이름</label><input id="e-navname" value="배유진"></div><div class="af"><label>Eyebrow</label><input id="e-eyebrow" value="Researcher · Designer · Yonsei University"></div></div>
         <div class="af"><label>Hero 소개</label><div id="rte-desc" class="rte-wrap"></div></div>
-        <div class="af-row"><div class="af"><label>소속</label><div id="rte-affil" class="rte-wrap"></div></div><div class="af"><label>연구 관심</label><div id="rte-interest" class="rte-wrap"></div></div></div>
+        <div class="af-row">
+          <div class="af">
+            <label>소속 (항목별 · 로고 이미지 각각 업로드)</label>
+            <div id="affil-ed-list" style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:.5rem"></div>
+            <button class="adm-add" onclick="addAffilItem()">+ 항목 추가</button>
+          </div>
+          <div class="af"><label>연구 관심</label><div id="rte-interest" class="rte-wrap"></div></div>
+        </div>
         <div class="af"><label>소속 팀</label><div id="rte-team" class="rte-wrap"></div></div>
         <div class="af-row3"><div class="af"><label>통계 1</label><input id="e-n1" value="3+"></div><div class="af"><label>통계 2</label><input id="e-n2" value="68"></div><div class="af"><label>통계 3</label><input id="e-n3" value="5"></div></div>
         <div class="af-row3"><div class="af"><label>하단 띠 1</label><input id="e-s1"></div><div class="af"><label>하단 띠 2</label><input id="e-s2"></div><div class="af"><label>하단 띠 3</label><input id="e-s3"></div></div>
@@ -557,7 +601,11 @@ const SK_OPTS=['sk-blue','sk-sage','sk-terra','sk-gold','sk-violet'];
 const DEF={
   basic:{navname:'배유진',eyebrow:'Researcher · Designer · Yonsei University',
     descHtml:'아동·가족 연구자이자 디지털 디자이너.<br><strong>문제를 발견하고, 측정하고, 실제로 쓸 수 있는 형태로 만듭니다.</strong> 연구에서 삶으로.',
-    affilHtml:'연세대학교 아동·가족학과<br>융합전공 인간생활·혁신디자인<br><strong>석사과정 (2025–)</strong>',
+    affilItems:[
+      {logo:'', text:'한국애니메이션고등학교 애니메이션과 (2016–2018)'},
+      {logo:'', text:'덕성여자대학교 유아교육과 (2020–2024)'},
+      {logo:'', text:'연세대학교 아동·가족학과 / 인간생활과 혁신디자인 융합 전공 석사과정 (2025–)'}
+    ],
     interestHtml:'<strong>디지털 웰빙</strong> · 교사 소진<br><strong>아동발달</strong> · SNS 자기조절<br>혼합연구방법론',
     teamHtml:'<strong>Caremate</strong> 연구팀 · BK21 참여 대학원생',
     n1:'3+',n2:'68',n3:'5',
@@ -630,9 +678,18 @@ const DEF={
     {title:'KT&G 제3회 사회혁신 아이디어 공모전 입상',org:'KT&G · 다학제팀',year:'2023'}
   ],
   creativeWorks:[
-    {title:'UNCRC 아동권리 캠페인',subtitle:'아동권리보장원 서포터스 5기 · Translators팀',desc:'유엔아동권리협약(UNCRC)의 핵심 내용을 대중이 쉽게 이해할 수 있도록 카드뉴스 및 숏폼 영상으로 제작한 캠페인입니다.',links:[],images:[]},
-    {title:'디지털 안전 캠페인',subtitle:'아동권리보장원 서포터스 5기 · Translators팀',desc:'아동·청소년의 디지털 환경 속 안전한 미디어 이용을 주제로 제작한 카드뉴스 시리즈입니다.',links:[],images:[]},
-    {title:'365일 아동의날 캠페인',subtitle:'아동권리보장원 서포터스 5기 · Translators팀',desc:'매일이 아동의날임을 알리는 캠페인 콘텐츠입니다.',links:[],images:[]}
+    {
+      title:'국가아동권리보장원 서포터스 콘텐츠',
+      subtitle:'아동권리보장원 서포터스 5기 · Translators팀',
+      desc:'매달 발행하는 아동권리 카드뉴스 및 영상 콘텐츠 모음입니다. 시리즈별로 묶어서 볼 수 있습니다.',
+      links:[],
+      mode:'collection',
+      series:[
+        {title:'UNCRC 아동권리 캠페인',links:[],images:[]},
+        {title:'디지털 안전 캠페인',links:[],images:[]},
+        {title:'365일 아동의날',links:[],images:[]}
+      ]
+    }
   ]
 };
 
@@ -753,30 +810,66 @@ function renderCW(){
   const el = document.getElementById('cw-groups');
   if(!cws.length){ el.innerHTML=`<div class="cw-empty">콘텐츠를 추가해주세요</div>`; return; }
   el.innerHTML = cws.map((g,gi)=>{
-    const linksHtml = (g.links||[]).map(l=>
-      `<a href="${l.url}" target="_blank" rel="noopener" class="cw-group-link">${l.icon||'↗'} ${l.label}</a>`
-    ).join('');
-    const imgs = g.images||[];
-    const slidesHtml = imgs.length
-      ? imgs.map((src,ii)=>`<div class="cw-slide-item" onclick="openLB(${gi},${ii})"><img src="${src}" alt="카드뉴스 ${ii+1}" loading="lazy"><span class="cw-slide-num">${ii+1}/${imgs.length}</span></div>`).join('')
-      : `<div class="cw-empty">이미지를 추가해주세요</div>`;
+    const topLinks = (g.links||[]).map(l=>`<a href="${l.url}" target="_blank" rel="noopener" class="cw-group-link">↗ ${l.label}</a>`).join('');
+    const badge = g.mode==='collection' ? `<span class="cw-group-badge">시리즈 모음</span>` : '';
+    const body = g.mode==='collection'
+      ? renderCWCollection(gi, g.series||[])
+      : renderCWGallery(gi, g.images||[]);
     return `<div class="cw-group">
       <div class="cw-group-head">
         <div class="cw-group-meta">
           <div class="cw-group-title">${g.title}</div>
+          ${badge}
           <div class="cw-group-sub">${g.subtitle||''}</div>
         </div>
-        ${linksHtml?`<div class="cw-group-links">${linksHtml}</div>`:''}
+        ${topLinks?`<div class="cw-group-links">${topLinks}</div>`:''}
       </div>
       ${g.desc?`<div class="cw-group-desc">${g.desc}</div>`:''}
-      <div class="cw-slider-wrap"><div class="cw-slider-track" id="cw-track-${gi}">${slidesHtml}</div></div>
+      ${body}
     </div>`;
   }).join('');
 }
 
-window.openLB = function(gi, ii){
-  const imgs = (DATA.creativeWorks[gi]||{}).images||[];
-  lbImages = imgs; lbIdx = ii;
+function renderCWGallery(gi, imgs){
+  if(!imgs.length) return `<div class="cw-empty">이미지를 추가해주세요</div>`;
+  return `<div class="cw-slider-wrap"><div class="cw-slider-track">${
+    imgs.map((src,ii)=>`<div class="cw-slide-item" onclick="openLB('g',${gi},-1,${ii})"><img src="${src}" alt="" loading="lazy"><span class="cw-slide-num">${ii+1}/${imgs.length}</span></div>`)
+    .join('')}</div></div>`;
+}
+
+function renderCWCollection(gi, series){
+  if(!series.length) return `<div class="cw-empty">시리즈를 추가해주세요</div>`;
+  return `<div class="cw-collection">${
+    series.map((s,si)=>{
+      const sLinks = (s.links||[]).map(l=>`<a href="${l.url}" target="_blank" rel="noopener" class="cw-series-link" onclick="event.stopPropagation()">↗ ${l.label}</a>`).join('');
+      const imgs = s.images||[];
+      const gallery = imgs.length
+        ? `<div class="cw-series-track">${imgs.map((src,ii)=>`<div class="cw-series-img" onclick="openLB('s',${gi},${si},${ii})"><img src="${src}" alt="" loading="lazy"></div>`).join('')}</div>`
+        : `<div class="cw-empty" style="padding:1.5rem 0;font-size:11px">이미지를 추가해주세요</div>`;
+      return `<div class="cw-series${si===0?' open':''}" id="cws-${gi}-${si}">
+        <div class="cw-series-head" onclick="toggleSeries(${gi},${si})">
+          <span class="cw-series-title">${s.title}</span>
+          <div class="cw-series-meta">
+            <span class="cw-series-count">${imgs.length}장</span>
+            <div class="cw-series-links">${sLinks}</div>
+            <span class="cw-series-tog">▾</span>
+          </div>
+        </div>
+        <div class="cw-series-body">${gallery}</div>
+      </div>`;
+    }).join('')
+  }</div>`;
+}
+
+window.toggleSeries = (gi,si)=>{ document.getElementById(`cws-${gi}-${si}`)?.classList.toggle('open'); };
+
+/* ── Lightbox ── */
+let lbImages=[], lbIdx=0;
+window.openLB = function(mode, gi, si, ii){
+  let imgs = [];
+  if(mode==='g') imgs = (DATA.creativeWorks[gi]||{}).images||[];
+  else imgs = ((DATA.creativeWorks[gi]||{}).series||[])[si]?.images||[];
+  lbImages=imgs; lbIdx=ii;
   document.getElementById('cw-lb-img').src = imgs[ii]||'';
   document.getElementById('cw-lb-counter').textContent = `${ii+1} / ${imgs.length}`;
   document.getElementById('cw-lightbox').classList.add('open');
@@ -784,63 +877,162 @@ window.openLB = function(gi, ii){
 };
 window.closeLB = ()=>{ document.getElementById('cw-lightbox').classList.remove('open'); document.body.style.overflow=''; };
 window.lbMove = dir=>{
-  lbIdx = (lbIdx+dir+lbImages.length)%lbImages.length;
-  document.getElementById('cw-lb-img').src = lbImages[lbIdx];
-  document.getElementById('cw-lb-counter').textContent = `${lbIdx+1} / ${lbImages.length}`;
+  lbIdx=(lbIdx+dir+lbImages.length)%lbImages.length;
+  document.getElementById('cw-lb-img').src=lbImages[lbIdx];
+  document.getElementById('cw-lb-counter').textContent=`${lbIdx+1} / ${lbImages.length}`;
 };
-document.getElementById('cw-lightbox').addEventListener('click', e=>{ if(e.target===document.getElementById('cw-lightbox')) window.closeLB(); });
-document.addEventListener('keydown', e=>{ if(!document.getElementById('cw-lightbox').classList.contains('open')) return; if(e.key==='ArrowLeft') window.lbMove(-1); if(e.key==='ArrowRight') window.lbMove(1); if(e.key==='Escape') window.closeLB(); });
+document.getElementById('cw-lightbox').addEventListener('click',e=>{ if(e.target===document.getElementById('cw-lightbox')) window.closeLB(); });
+document.addEventListener('keydown',e=>{ if(!document.getElementById('cw-lightbox').classList.contains('open')) return; if(e.key==='ArrowLeft') window.lbMove(-1); if(e.key==='ArrowRight') window.lbMove(1); if(e.key==='Escape') window.closeLB(); });
 
-/* admin: creative works */
-function buildAdmCW(){
-  const cws = DATA.creativeWorks||[];
-  document.getElementById('cw-ed-list').innerHTML = cws.map((g,gi)=>{
-    const linksHtml = (g.links||[]).map((l,li)=>`
-      <div style="display:grid;grid-template-columns:1fr 1fr 36px;gap:.4rem;margin-bottom:.4rem;align-items:center">
-        <input style="padding:.35rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" placeholder="라벨 (예: 인스타그램)" class="cwl-label-${gi}" data-li="${li}" value="${l.label||''}">
-        <input style="padding:.35rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" placeholder="URL" class="cwl-url-${gi}" data-li="${li}" value="${l.url||''}">
-        <button onclick="removeCWLink(${gi},${li})" style="font-size:11px;color:#dc2626;background:none;border:.5px solid #fecaca;padding:.3rem .4rem;border-radius:2px;cursor:pointer;height:100%">✕</button>
-      </div>`).join('');
-    return `<div class="list-item">
-      <div class="list-item-head"><span class="list-item-num">그룹 ${gi+1}</span><button class="adm-del" onclick="delCW(${gi})">삭제</button></div>
-      <div class="af"><label>그룹 제목</label><input class="cw-title-${gi}" value="${g.title||''}"></div>
-      <div class="af"><label>부제 (기관·시리즈명)</label><input class="cw-sub-${gi}" value="${g.subtitle||''}"></div>
-      <div class="af"><label>설명</label><input class="cw-desc-${gi}" value="${g.desc||''}"></div>
-      <div class="af">
-        <label>링크</label>
-        <div id="cwl-wrap-${gi}">${linksHtml}</div>
-        <button class="adm-add" style="margin-top:.3rem" onclick="addCWLink(${gi})">+ 링크 추가</button>
-      </div>
-      <div class="af"><label>이미지 (카드뉴스·스크린샷)</label>${buildIA(`cwi-${gi}`, g.images||[])}</div>
-    </div>`;
-  }).join('');
-  cws.forEach((_,gi)=>renderIA(`cwi-${gi}`));
+/* ══ DRAG-AND-DROP ══ */
+function initDnD(listEl, dataArr, onReorder){
+  let dragSrc = null;
+  listEl.querySelectorAll('.dnd-item').forEach(item=>{
+    item.draggable = true;
+    item.addEventListener('dragstart', e=>{ dragSrc=item; item.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; });
+    item.addEventListener('dragend', ()=>{ item.classList.remove('dragging'); listEl.querySelectorAll('.dnd-item').forEach(i=>i.classList.remove('drag-over')); });
+    item.addEventListener('dragover', e=>{ e.preventDefault(); e.dataTransfer.dropEffect='move'; listEl.querySelectorAll('.dnd-item').forEach(i=>i.classList.remove('drag-over')); item.classList.add('drag-over'); });
+    item.addEventListener('drop', e=>{
+      e.preventDefault();
+      if(!dragSrc||dragSrc===item) return;
+      const items=[...listEl.querySelectorAll('.dnd-item')];
+      const from=items.indexOf(dragSrc), to=items.indexOf(item);
+      if(from<0||to<0) return;
+      const moved=dataArr.splice(from,1)[0]; dataArr.splice(to,0,moved);
+      onReorder();
+    });
+  });
 }
 
+/* ── admin: creative works ── */
+function buildAdmCW(){
+  const cws = DATA.creativeWorks||[];
+  const listEl = document.getElementById('cw-ed-list');
+  listEl.innerHTML = cws.map((g,gi)=>{
+    const isCol = g.mode==='collection';
+    const topLinksHtml = (g.links||[]).map((l,li)=>`
+      <div style="display:grid;grid-template-columns:1fr 1fr 36px;gap:.4rem;margin-bottom:.4rem;align-items:center">
+        <input style="padding:.35rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" placeholder="라벨" class="cwl-label-${gi}" data-li="${li}" value="${l.label||''}">
+        <input style="padding:.35rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" placeholder="URL" class="cwl-url-${gi}" data-li="${li}" value="${l.url||''}">
+        <button onclick="removeCWLink(${gi},${li})" style="font-size:11px;color:#dc2626;background:none;border:.5px solid #fecaca;padding:.3rem .4rem;border-radius:2px;cursor:pointer">✕</button>
+      </div>`).join('');
+
+    const seriesHtml = isCol ? `
+      <div class="af">
+        <label>시리즈 목록 (드래그로 순서 변경)</label>
+        <div id="cws-ed-list-${gi}" style="margin-bottom:.5rem">
+          ${(g.series||[]).map((s,si)=>`
+          <div class="list-item dnd-item" style="margin-bottom:.5rem;padding-left:2.2rem" id="cws-ed-item-${gi}-${si}">
+            <span class="dnd-handle">⠿</span>
+            <div class="list-item-head"><span class="list-item-num">시리즈 ${si+1}</span><button class="adm-del" onclick="delCWSeries(${gi},${si})">삭제</button></div>
+            <div class="af"><label>시리즈 제목</label><input class="cws-title-${gi}-${si}" value="${s.title||''}"></div>
+            <div class="af">
+              <label>링크</label>
+              <div id="cwsl-wrap-${gi}-${si}">${(s.links||[]).map((l,li)=>`
+                <div style="display:grid;grid-template-columns:1fr 1fr 36px;gap:.4rem;margin-bottom:.4rem;align-items:center">
+                  <input style="padding:.35rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" placeholder="라벨" class="cwsl-label-${gi}-${si}" data-li="${li}" value="${l.label||''}">
+                  <input style="padding:.35rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" placeholder="URL" class="cwsl-url-${gi}-${si}" data-li="${li}" value="${l.url||''}">
+                  <button onclick="removeCWSLink(${gi},${si},${li})" style="font-size:11px;color:#dc2626;background:none;border:.5px solid #fecaca;padding:.3rem .4rem;border-radius:2px;cursor:pointer">✕</button>
+                </div>`).join('')}</div>
+              <button class="adm-add" style="margin-top:.3rem" onclick="addCWSLink(${gi},${si})">+ 링크 추가</button>
+            </div>
+            <div class="af"><label>이미지 (카드뉴스)</label>${buildIA(`cwsi-${gi}-${si}`, s.images||[])}</div>
+          </div>`).join('')}
+        </div>
+        <button class="adm-add" onclick="addCWSeries(${gi})">+ 시리즈 추가</button>
+      </div>` : `<div class="af"><label>이미지</label>${buildIA(`cwi-${gi}`, g.images||[])}</div>`;
+
+    return `<div class="list-item dnd-item" style="padding-left:2.2rem" id="cw-ed-item-${gi}">
+      <span class="dnd-handle">⠿</span>
+      <div class="list-item-head"><span class="list-item-num">그룹 ${gi+1}</span><button class="adm-del" onclick="delCW(${gi})">삭제</button></div>
+      <div class="af"><label>그룹 제목</label><input class="cw-title-${gi}" value="${g.title||''}"></div>
+      <div class="af"><label>부제</label><input class="cw-sub-${gi}" value="${g.subtitle||''}"></div>
+      <div class="af"><label>설명</label><input class="cw-desc-${gi}" value="${g.desc||''}"></div>
+      <div class="af"><label>모드</label>
+        <select class="cw-mode-${gi}" onchange="setCWMode(${gi},this.value)">
+          <option value="gallery"${!isCol?' selected':''}>일반 갤러리</option>
+          <option value="collection"${isCol?' selected':''}>시리즈 모음 (아동권리보장원 등)</option>
+        </select>
+      </div>
+      <div class="af">
+        <label>상단 링크</label>
+        <div id="cwl-wrap-${gi}">${topLinksHtml}</div>
+        <button class="adm-add" style="margin-top:.3rem" onclick="addCWLink(${gi})">+ 링크 추가</button>
+      </div>
+      ${seriesHtml}
+    </div>`;
+  }).join('');
+
+  // 이미지 영역 초기화
+  cws.forEach((g,gi)=>{
+    if(g.mode==='collection'){
+      (g.series||[]).forEach((_,si)=>renderIA(`cwsi-${gi}-${si}`));
+    } else {
+      renderIA(`cwi-${gi}`);
+    }
+  });
+
+  // DnD — 그룹 순서
+  initDnD(listEl, DATA.creativeWorks, buildAdmCW);
+  // DnD — 각 시리즈 순서
+  cws.forEach((g,gi)=>{
+    if(g.mode!=='collection') return;
+    const sListEl = document.getElementById(`cws-ed-list-${gi}`);
+    if(sListEl) initDnD(sListEl, g.series, buildAdmCW);
+  });
+}
+
+window.setCWMode = (gi, val)=>{
+  readCW(); // 현재 입력값 보존
+  DATA.creativeWorks[gi].mode = val==='collection' ? 'collection' : 'gallery';
+  if(val==='collection' && !DATA.creativeWorks[gi].series) DATA.creativeWorks[gi].series=[];
+  buildAdmCW();
+};
 window.addCW = ()=>{
   if(!DATA.creativeWorks) DATA.creativeWorks=[];
-  DATA.creativeWorks.push({title:'새 콘텐츠 그룹',subtitle:'',desc:'',links:[],images:[]});
+  DATA.creativeWorks.push({title:'새 콘텐츠 그룹',subtitle:'',desc:'',links:[],mode:'gallery',images:[]});
   buildAdmCW();
 };
 window.delCW = gi=>{ if(confirm('삭제?')){ DATA.creativeWorks.splice(gi,1); buildAdmCW(); }};
-window.addCWLink = gi=>{
-  if(!DATA.creativeWorks[gi].links) DATA.creativeWorks[gi].links=[];
-  DATA.creativeWorks[gi].links.push({label:'',url:''});
-  buildAdmCW();
-};
+window.addCWLink = gi=>{ (DATA.creativeWorks[gi].links=DATA.creativeWorks[gi].links||[]).push({label:'',url:''}); buildAdmCW(); };
 window.removeCWLink = (gi,li)=>{ DATA.creativeWorks[gi].links.splice(li,1); buildAdmCW(); };
+window.addCWSeries = gi=>{ (DATA.creativeWorks[gi].series=DATA.creativeWorks[gi].series||[]).push({title:'새 시리즈',links:[],images:[]}); buildAdmCW(); };
+window.delCWSeries = (gi,si)=>{ if(confirm('삭제?')){ DATA.creativeWorks[gi].series.splice(si,1); buildAdmCW(); }};
+window.addCWSLink = (gi,si)=>{ const s=DATA.creativeWorks[gi].series[si]; (s.links=s.links||[]).push({label:'',url:''}); buildAdmCW(); };
+window.removeCWSLink = (gi,si,li)=>{ DATA.creativeWorks[gi].series[si].links.splice(li,1); buildAdmCW(); };
 
 function readCW(){
-  (DATA.creativeWorks||[]).forEach((_,gi)=>{
+  (DATA.creativeWorks||[]).forEach((g,gi)=>{
     DATA.creativeWorks[gi].title = document.querySelector(`.cw-title-${gi}`)?.value||'';
     DATA.creativeWorks[gi].subtitle = document.querySelector(`.cw-sub-${gi}`)?.value||'';
     DATA.creativeWorks[gi].desc = document.querySelector(`.cw-desc-${gi}`)?.value||'';
-    DATA.creativeWorks[gi].images = imgStore[`cwi-${gi}`]||[];
-    const labels = [...document.querySelectorAll(`.cwl-label-${gi}`)];
-    const urls   = [...document.querySelectorAll(`.cwl-url-${gi}`)];
-    DATA.creativeWorks[gi].links = labels.map((el,li)=>({ label:el.value, url:urls[li]?.value||'' }));
+    const modeEl = document.querySelector(`.cw-mode-${gi}`);
+    if(modeEl) DATA.creativeWorks[gi].mode = modeEl.value==='collection'?'collection':'gallery';
+    const labels=[...document.querySelectorAll(`.cwl-label-${gi}`)];
+    const urls=[...document.querySelectorAll(`.cwl-url-${gi}`)];
+    DATA.creativeWorks[gi].links = labels.map((el,li)=>({label:el.value,url:urls[li]?.value||''}));
+    if(g.mode==='collection'){
+      (g.series||[]).forEach((_,si)=>{
+        const tEl = document.querySelector(`.cws-title-${gi}-${si}`);
+        if(tEl) DATA.creativeWorks[gi].series[si].title = tEl.value||'';
+        DATA.creativeWorks[gi].series[si].images = imgStore[`cwsi-${gi}-${si}`]||[];
+        const slabels=[...document.querySelectorAll(`.cwsl-label-${gi}-${si}`)];
+        const surls=[...document.querySelectorAll(`.cwsl-url-${gi}-${si}`)];
+        DATA.creativeWorks[gi].series[si].links = slabels.map((el,li)=>({label:el.value,url:surls[li]?.value||''}));
+      });
+    } else {
+      DATA.creativeWorks[gi].images = imgStore[`cwi-${gi}`]||[];
+    }
   });
 }
+
+/* ── DnD for other sections ── */
+function buildAdmRWithDnD(){ buildAdmR(); setTimeout(()=>initDnD(document.getElementById('r-ed-list'), DATA.researches, buildAdmR),50); }
+function buildAdmPubsWithDnD(){ buildAdmPubs(); setTimeout(()=>initDnD(document.getElementById('pub-ed-list'), DATA.pubs, buildAdmPubs),50); }
+function buildAdmProdsWithDnD(){ buildAdmProds(); setTimeout(()=>initDnD(document.getElementById('prod-ed-list'), DATA.products, buildAdmProds),50); }
+function buildAdmCollabsWithDnD(){ buildAdmCollabs(); setTimeout(()=>initDnD(document.getElementById('collab-ed-list'), DATA.collabs, buildAdmCollabs),50); }
+function buildAdmExpsWithDnD(){ buildAdmExps(); setTimeout(()=>initDnD(document.getElementById('exp-ed-list'), DATA.experiences, buildAdmExps),50); }
+function buildAdmAwsWithDnD(){ buildAdmAws(); setTimeout(()=>initDnD(document.getElementById('aw-ed-list'), DATA.awards, buildAdmAws),50); }
 
 function renderAws(){
   document.getElementById('aw-grid').innerHTML=(DATA.awards||[]).map((a,i)=>`
@@ -853,7 +1045,18 @@ function applyBasic(){
   document.getElementById('nav-name').textContent=b.navname||'배유진';
   document.getElementById('h-eyebrow').textContent=b.eyebrow||'';
   document.getElementById('h-desc').innerHTML=b.descHtml||'';
-  document.getElementById('h-affil').innerHTML=b.affilHtml||'';
+  // affil items
+  const affilEl = document.getElementById('h-affil');
+  const items = b.affilItems||[];
+  if(items.length){
+    affilEl.innerHTML = items.map(it=>`
+      <div class="affil-item">
+        ${it.logo ? `<img class="affil-logo" src="${it.logo}" alt="">` : `<span class="affil-logo-ph"></span>`}
+        <span class="affil-text">${it.text||''}</span>
+      </div>`).join('');
+  } else {
+    affilEl.innerHTML = `<div class="affil-text">${b.affilHtml||''}</div>`;
+  }
   document.getElementById('h-interest').innerHTML=b.interestHtml||'';
   document.getElementById('h-team').innerHTML=b.teamHtml||'';
   document.getElementById('h-n1').innerHTML=(b.n1||'');
@@ -947,12 +1150,13 @@ function initAdm(){
   const b=DATA.basic;
   ['navname','eyebrow','n1','n2','n3','s1','s2','s3','email','github'].forEach(f=>{const el=document.getElementById('e-'+f);if(el)el.value=b[f]||'';});
   makeRTE('rte-desc',b.descHtml||'','Hero 소개...');
-  makeRTE('rte-affil',b.affilHtml||'','소속...');
   makeRTE('rte-interest',b.interestHtml||'','연구 관심...');
   makeRTE('rte-team',b.teamHtml||'','소속 팀...');
   makeRTE('rte-cbody', b.cbodyHtml||'', 'Contact 본문...');
+  if(!b.affilItems||!b.affilItems.length) DATA.basic.affilItems=[{logo:'',text:''}];
+  buildAffilEditor();
   if(photoBase64){document.getElementById('photo-preview-img').src=photoBase64;document.getElementById('photo-preview-img').style.display='block';document.getElementById('photo-preview-ph').style.display='none';}
-  buildAdmR(); buildAdmPubs(); buildAdmProds(); buildAdmCollabs(); buildAdmExps(); buildAdmCW(); buildAdmAws();
+  buildAdmRWithDnD(); buildAdmPubsWithDnD(); buildAdmProdsWithDnD(); buildAdmCollabsWithDnD(); buildAdmExpsWithDnD(); buildAdmCW(); buildAdmAwsWithDnD();
 }
 
 /* img store */
@@ -1017,7 +1221,8 @@ function readExpItems(prefix,arr){
 /* research admin */
 function buildAdmR(){
   document.getElementById('r-ed-list').innerHTML=DATA.researches.map((r,i)=>`
-  <div class="list-item">
+  <div class="list-item dnd-item" style="padding-left:2.2rem">
+    <span class="dnd-handle">⠿</span>
     <div class="list-item-head"><span class="list-item-num">연구 ${i+1}</span><button class="adm-del" onclick="delR(${i})">삭제</button></div>
     <div class="af-row"><div class="af"><label>상태</label><input class="rs-in" data-i="${i}" value="${r.status||''}"></div><div class="af"><label>진행 상태</label><select class="rl-in" data-i="${i}"><option value="1"${r.live?'selected':''}>진행 중</option><option value="0"${!r.live?'selected':''}>완료</option></select></div></div>
     <div class="af"><label>제목</label><input class="rt-in" data-i="${i}" value="${r.title||''}"></div>
@@ -1028,13 +1233,14 @@ function buildAdmR(){
     ${STEP_KEYS.map(k=>`<div class="af"><label>${STEP_LABELS[k]}</label><div id="rte-rd${k}-${i}" class="rte-wrap"></div></div><div class="af"><label>${STEP_LABELS[k]} 이미지</label>${buildIA(`ri${i}${k}`,(r.detail?.images?.[k])||[])}</div>`).join('')}
   </div>`).join('');
   DATA.researches.forEach((r,i)=>{makeRTE(`rte-rb-${i}`,r.bodyHtml||'','본문...');STEP_KEYS.forEach(k=>{makeRTE(`rte-rd${k}-${i}`,(r.detail&&r.detail[k])||'',`${STEP_LABELS[k]}...`);renderIA(`ri${i}${k}`);});});
+  setTimeout(()=>initDnD(document.getElementById('r-ed-list'), DATA.researches, buildAdmR),50);
 }
 window.delR=i=>{if(confirm('삭제?')){DATA.researches.splice(i,1);buildAdmR();}};
 window.addR=()=>{DATA.researches.push({status:'신규 · 2026',live:false,title:'새 연구',bodyHtml:'',tags:'',bigNum:'',bigLabel:'',wide:false,detail:{problem:'',rationale:'',theory:'',process:'',result:'',images:{problem:[],rationale:[],theory:[],process:[],result:[]}}});buildAdmR();};
 
 function buildAdmPubs(){
   document.getElementById('pub-ed-list').innerHTML=DATA.pubs.map((p,i)=>`
-  <div class="list-item"><div class="list-item-head"><span class="list-item-num">논문 ${i+1}</span><button class="adm-del" onclick="delPub(${i})">삭제</button></div>
+  <div class="list-item dnd-item" style="padding-left:2.2rem"><span class="dnd-handle">⠿</span><div class="list-item-head"><span class="list-item-num">논문 ${i+1}</span><button class="adm-del" onclick="delPub(${i})">삭제</button></div>
   <div class="af-row"><div class="af"><label>연도</label><input class="py-in" data-i="${i}" value="${p.year||''}"></div><div class="af"><label>배지</label><input class="pb-in" data-i="${i}" value="${p.badge||''}"></div></div>
   <div class="af"><label>제목 (전체 인용문 포함)</label><input class="pt-in" data-i="${i}" value="${(p.title||'').replace(/"/g,'&quot;')}"></div>
   <div class="af"><label>출처·저자 정보</label><input class="pv-in" data-i="${i}" value="${p.venue||''}"></div>
@@ -1046,7 +1252,7 @@ window.addPub=()=>{DATA.pubs.push({year:'2026',title:'논문 제목',venue:'저�
 
 function buildAdmProds(){
   document.getElementById('prod-ed-list').innerHTML=DATA.products.map((p,i)=>`
-  <div class="list-item"><div class="list-item-head"><span class="list-item-num">프로덕트 ${i+1}</span><button class="adm-del" onclick="delProd(${i})">삭제</button></div>
+  <div class="list-item dnd-item" style="padding-left:2.2rem"><span class="dnd-handle">⠿</span><div class="list-item-head"><span class="list-item-num">프로덕트 ${i+1}</span><button class="adm-del" onclick="delProd(${i})">삭제</button></div>
   <div class="af-row"><div class="af"><label>이름</label><input class="pdn-in" data-i="${i}" value="${p.name||''}"></div><div class="af"><label>태그</label><input class="pdt-in" data-i="${i}" value="${p.tag||''}"></div></div>
   <div class="af-row"><div class="af"><label>썸네일 텍스트</label><input class="pdth-in" data-i="${i}" value="${p.thumb||''}"></div><div class="af"><label>기술 스택</label><input class="pds-in" data-i="${i}" value="${p.stack||''}"></div></div>
   <div class="af"><label>카드 요약</label><input class="pdd-in" data-i="${i}" value="${p.desc||''}"></div>
@@ -1060,7 +1266,7 @@ window.addProd=()=>{DATA.products.push({name:'새 프로덕트',tag:'Project',th
 
 function buildAdmAws(){
   document.getElementById('aw-ed-list').innerHTML=DATA.awards.map((a,i)=>`
-  <div class="list-item"><div class="list-item-head"><span class="list-item-num">수상 ${i+1}</span><button class="adm-del" onclick="delAw(${i})">삭제</button></div>
+  <div class="list-item dnd-item" style="padding-left:2.2rem"><span class="dnd-handle">⠿</span><div class="list-item-head"><span class="list-item-num">수상 ${i+1}</span><button class="adm-del" onclick="delAw(${i})">삭제</button></div>
   <div class="af"><label>제목</label><input class="awt-in" data-i="${i}" value="${a.title||''}"></div>
   <div class="af-row"><div class="af"><label>기관</label><input class="awo-in" data-i="${i}" value="${a.org||''}"></div><div class="af"><label>연도</label><input class="awy-in" data-i="${i}" value="${a.year||''}"></div></div></div>`).join('');
 }
@@ -1106,7 +1312,43 @@ function readAll(){
   DATA.awards.forEach((_,i)=>{DATA.awards[i].title=document.querySelector(`.awt-in[data-i="${i}"]`)?.value||'';DATA.awards[i].org=document.querySelector(`.awo-in[data-i="${i}"]`)?.value||'';DATA.awards[i].year=document.querySelector(`.awy-in[data-i="${i}"]`)?.value||'';});
 }
 
-window.applyAll=async()=>{readAll();applyBasic();renderAll();await saveFB(true);};
+/* ── affil items editor ── */
+function buildAffilEditor(){
+  const items = DATA.basic.affilItems||[];
+  document.getElementById('affil-ed-list').innerHTML = items.map((it,i)=>`
+    <div style="display:flex;gap:.6rem;align-items:center;background:var(--p);border:.5px solid var(--rule);border-radius:3px;padding:.6rem .75rem">
+      <div style="position:relative;flex-shrink:0;cursor:pointer" onclick="document.getElementById('affil-logo-file-${i}').click()" title="로고 클릭하여 변경">
+        ${it.logo
+          ? `<img src="${it.logo}" style="width:28px;height:28px;object-fit:contain;border-radius:3px;border:.5px solid var(--rule);display:block">`
+          : `<div style="width:28px;height:28px;background:var(--rule);border-radius:3px;border:.5px dashed var(--i4);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--i4)">+</div>`}
+        <input type="file" id="affil-logo-file-${i}" accept="image/*" style="display:none" onchange="handleAffilLogo(${i},this)">
+      </div>
+      <input style="flex:1;padding:.35rem .6rem;border:.5px solid var(--rule);border-radius:2px;font-size:11px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;background:var(--w);color:var(--ink)" class="affil-text-in" data-i="${i}" value="${(it.text||'').replace(/"/g,'&quot;')}" placeholder="소속 텍스트">
+      <button onclick="removeAffilItem(${i})" style="font-size:11px;color:#dc2626;background:none;border:.5px solid #fecaca;padding:.3rem .5rem;border-radius:2px;cursor:pointer;flex-shrink:0">✕</button>
+    </div>`).join('');
+}
+
+window.addAffilItem = ()=>{
+  if(!DATA.basic.affilItems) DATA.basic.affilItems=[];
+  DATA.basic.affilItems.push({logo:'', text:''});
+  buildAffilEditor();
+};
+window.removeAffilItem = i=>{ DATA.basic.affilItems.splice(i,1); buildAffilEditor(); };
+window.handleAffilLogo = (i, inp)=>{
+  const f=inp.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=e=>{ DATA.basic.affilItems[i].logo=e.target.result; buildAffilEditor(); };
+  r.readAsDataURL(f); inp.value='';
+};
+function readAffilItems(){
+  (DATA.basic.affilItems||[]).forEach((_,i)=>{
+    const el=document.querySelector(`.affil-text-in[data-i="${i}"]`);
+    if(el) DATA.basic.affilItems[i].text=el.value||'';
+    // logo는 handleAffilLogo에서 즉시 저장됨
+  });
+}
+
+window.applyAll=async()=>{readAffilItems();readAll();applyBasic();renderAll();await saveFB(true);};
 
 /* ── cursor + reveal ── */
 const cur=document.getElementById('cur');
