@@ -716,12 +716,17 @@ async function loadFB(){
       DATA.creativeWorks=d.creativeWorks||DEF.creativeWorks;
       DATA.awards=d.awards||DEF.awards;
       photoBase64=DATA.basic.photoBase64||'';
+      // affilItems 없으면 기본값으로
+      if(!DATA.basic.affilItems||!Array.isArray(DATA.basic.affilItems)){
+        DATA.basic.affilItems = DEF.basic.affilItems;
+      }
       setMsg('로드 완료');
     } else { setMsg('기본 데이터로 시작'); await saveFB(false); }
-  }catch(e){ console.warn(e); setMsg('오프라인 모드'); }
+  }catch(e){ console.warn('Firebase 로드 오류:', e); setMsg('오프라인 모드'); }
   setBar(100);
-  applyBasic(); renderAll();
-  setTimeout(()=>document.getElementById('ls').classList.add('done'),600);
+  try{ applyBasic(); } catch(e){ console.error('applyBasic 오류:', e); }
+  try{ renderAll(); } catch(e){ console.error('renderAll 오류:', e); }
+  setTimeout(()=>{ document.getElementById('ls').classList.add('done'); }, 600);
 }
 
 async function saveFB(show=true){
@@ -1045,15 +1050,17 @@ function applyBasic(){
   document.getElementById('h-desc').innerHTML=b.descHtml||'';
   // affil items
   const affilEl = document.getElementById('h-affil');
-  const items = b.affilItems||[];
+  const items = (b.affilItems && Array.isArray(b.affilItems)) ? b.affilItems : [];
   if(items.length){
     affilEl.innerHTML = items.map(it=>`
       <div class="affil-item">
         ${it.logo ? `<img class="affil-logo" src="${it.logo}" alt="">` : `<span class="affil-logo-ph"></span>`}
         <span class="affil-text">${it.text||''}</span>
       </div>`).join('');
+  } else if(b.affilHtml) {
+    affilEl.innerHTML = `<div class="affil-text">${b.affilHtml}</div>`;
   } else {
-    affilEl.innerHTML = `<div class="affil-text">${b.affilHtml||''}</div>`;
+    affilEl.innerHTML = '';
   }
   document.getElementById('h-interest').innerHTML=b.interestHtml||'';
   document.getElementById('h-team').innerHTML=b.teamHtml||'';
