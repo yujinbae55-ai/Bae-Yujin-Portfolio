@@ -232,6 +232,65 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:50px;display:flex;ali
 .dnd-item.dragging{opacity:.4;border:1px dashed var(--i3)!important}
 .dnd-item.drag-over{border-top:2px solid var(--blue)!important}
 
+/* ── CAREER ROADMAP ── */
+#roadmap{background:var(--p);overflow:hidden}
+.roadmap-wrap{padding:5.5rem 0 0}
+.roadmap-sec-head{display:flex;align-items:baseline;gap:1.25rem;border-bottom:.5px solid var(--rule);padding:0 3rem 1rem;margin-bottom:0}
+.roadmap-scroll-hint{font-size:9px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--i4);margin-left:auto;display:flex;align-items:center;gap:.4rem}
+/* track */
+.roadmap-track-outer{position:relative;overflow:hidden}
+.roadmap-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;cursor:grab;user-select:none}
+.roadmap-track:active{cursor:grabbing}
+.roadmap-track::-webkit-scrollbar{display:none}
+/* progress bar */
+.roadmap-progress{height:1px;background:var(--rule);margin:0}
+.roadmap-progress-bar{height:1px;background:var(--ink);width:0;transition:width .3s ease}
+/* nav dots */
+.roadmap-dots{display:flex;gap:.6rem;justify-content:center;padding:1.25rem 0 2rem}
+.roadmap-dot{width:5px;height:5px;border-radius:50%;background:var(--rule);cursor:pointer;transition:background .2s,transform .2s;border:none}
+.roadmap-dot.on{background:var(--ink);transform:scale(1.3)}
+/* card */
+.rm-card{flex:0 0 min(480px,85vw);scroll-snap-align:start;border-right:.5px solid var(--rule);padding:3rem 3rem 3.5rem;display:flex;flex-direction:column;gap:1.5rem;min-height:480px;transition:background .2s;position:relative}
+.rm-card:last-child{border-right:none}
+.rm-card:hover{background:rgba(20,20,18,.015)}
+/* card top */
+.rm-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.rm-num{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--i4)}
+.rm-period{font-size:10px;font-weight:400;letter-spacing:.06em;color:var(--i4);text-align:right;line-height:1.6}
+/* dot on card */
+.rm-dot-line{display:flex;align-items:center;gap:.75rem;margin-bottom:.25rem}
+.rm-circle{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink);background:var(--p);flex-shrink:0}
+.rm-circle.filled{background:var(--ink)}
+.rm-line{flex:1;height:.5px;background:var(--rule)}
+/* card content */
+.rm-title{font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--ink);line-height:1.35}
+.rm-quote{font-size:12px;font-weight:300;font-style:italic;color:var(--i3);line-height:1.85;padding-left:1rem;border-left:1.5px solid var(--i4)}
+.rm-body{font-size:11.5px;font-weight:300;color:var(--i3);line-height:1.9}
+/* tags */
+.rm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:auto}
+.rm-tag{font-size:9px;font-weight:500;letter-spacing:.06em;color:var(--i3);border:.5px solid var(--rule);padding:.22rem .6rem;border-radius:2px}
+.rm-tag.bold{background:var(--ink);color:var(--w);border-color:var(--ink)}
+/* transition label */
+.rm-transition{font-size:10px;font-weight:400;font-style:italic;color:var(--i4);letter-spacing:.04em;padding-top:.75rem;border-top:.5px solid var(--rule)}
+/* last card — goal */
+.rm-card.goal{background:var(--ink)}
+.rm-card.goal .rm-num{color:rgba(255,255,255,.3)}
+.rm-card.goal .rm-period{color:rgba(255,255,255,.3)}
+.rm-card.goal .rm-circle{border-color:rgba(255,255,255,.5);background:transparent}
+.rm-card.goal .rm-circle.filled{background:#fff;border-color:#fff}
+.rm-card.goal .rm-line{background:rgba(255,255,255,.15)}
+.rm-card.goal .rm-title{color:rgba(255,255,255,.92);font-size:18px}
+.rm-card.goal .rm-quote{color:rgba(255,255,255,.5);border-left-color:rgba(255,255,255,.2)}
+.rm-card.goal .rm-body{color:rgba(255,255,255,.5)}
+.rm-card.goal .rm-tag{color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.15)}
+.rm-card.goal .rm-tag.bold{background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.2)}
+.rm-card.goal .rm-transition{color:rgba(255,255,255,.25);border-top-color:rgba(255,255,255,.1)}
+/* nav arrows */
+.roadmap-nav{display:flex;gap:.5rem;justify-content:flex-end;padding:0 3rem}
+.rm-nav-btn{width:32px;height:32px;border:.5px solid var(--rule);border-radius:2px;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--i3);transition:border-color .15s,color .15s}
+.rm-nav-btn:hover{border-color:var(--ink);color:var(--ink)}
+.rm-nav-btn:disabled{opacity:.3;cursor:default}
+
 /* ── AWARDS ── */
 #awards{background:var(--p)}
 .aw-grid{display:grid;grid-template-columns:1fr 1fr;border-top:.5px solid var(--rule);border-left:.5px solid var(--rule)}
@@ -395,6 +454,7 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
 <nav>
   <a href="#" class="nav-mark" id="nav-name">배유진</a>
   <ul class="nav-items">
+    <li><a href="#roadmap">Career</a></li>
     <li><a href="#research">Research</a></li>
     <li><a href="#publications">Publications</a></li>
     <li><a href="#products">Products</a></li>
@@ -443,6 +503,26 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
     <div class="strip-item" id="strip3">ISSBD 2026 · KCI 제1저자 · 에드테크 실무</div>
   </div>
 </div>
+
+<section id="roadmap">
+  <div class="roadmap-wrap">
+    <div class="roadmap-sec-head">
+      <span class="sec-n">00</span>
+      <h2 class="sec-title">Career Narrative</h2>
+      <span class="sec-kr">커리어 서사</span>
+      <span class="roadmap-scroll-hint">← 슬라이드 →</span>
+      <div class="roadmap-nav">
+        <button class="rm-nav-btn" id="rm-prev" onclick="rmNav(-1)">‹</button>
+        <button class="rm-nav-btn" id="rm-next" onclick="rmNav(1)">›</button>
+      </div>
+    </div>
+    <div class="roadmap-progress"><div class="roadmap-progress-bar" id="rm-bar"></div></div>
+    <div class="roadmap-track-outer">
+      <div class="roadmap-track" id="rm-track"></div>
+    </div>
+    <div class="roadmap-dots" id="rm-dots"></div>
+  </div>
+</section>
 
 <section id="research"><div class="sec-wrap">
   <div class="sec-head reveal"><span class="sec-n">01</span><h2 class="sec-title">Research</h2><span class="sec-kr">학술 연구</span></div>
@@ -522,16 +602,17 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
     <div id="adm-editor" style="display:none">
       <div class="adm-tabs">
         <div class="adm-tab on" onclick="sAt(0)">기본정보</div>
-        <div class="adm-tab" onclick="sAt(1)">연구</div>
-        <div class="adm-tab" onclick="sAt(2)">논문</div>
-        <div class="adm-tab" onclick="sAt(3)">프로덕트</div>
-        <div class="adm-tab" onclick="sAt(4)">기관협력</div>
-        <div class="adm-tab" onclick="sAt(5)">실무경험</div>
-        <div class="adm-tab" onclick="sAt(6)">Creative</div>
-        <div class="adm-tab" onclick="sAt(7)">수상</div>
-        <div class="adm-tab" onclick="sAt(8)">연락처</div>
+        <div class="adm-tab" onclick="sAt(1)">Career</div>
+        <div class="adm-tab" onclick="sAt(2)">연구</div>
+        <div class="adm-tab" onclick="sAt(3)">논문</div>
+        <div class="adm-tab" onclick="sAt(4)">프로덕트</div>
+        <div class="adm-tab" onclick="sAt(5)">기관협력</div>
+        <div class="adm-tab" onclick="sAt(6)">실무경험</div>
+        <div class="adm-tab" onclick="sAt(7)">Creative</div>
+        <div class="adm-tab" onclick="sAt(8)">수상</div>
+        <div class="adm-tab" onclick="sAt(9)">연락처</div>
       </div>
-      <div class="adm-pane on" id="ap-0">
+      <div class="adm-pane on" id="ap-0"><!-- 기본정보 -->
         <div class="af">
           <label>프로필 사진</label>
           <div style="display:flex;gap:1rem;align-items:flex-start">
@@ -561,14 +642,15 @@ footer{background:var(--ink);border-top:.5px solid rgba(255,255,255,.05);padding
         <div class="af-row3"><div class="af"><label>통계 1</label><input id="e-n1" value="3+"></div><div class="af"><label>통계 2</label><input id="e-n2" value="68"></div><div class="af"><label>통계 3</label><input id="e-n3" value="5"></div></div>
         <div class="af-row3"><div class="af"><label>하단 띠 1</label><input id="e-s1"></div><div class="af"><label>하단 띠 2</label><input id="e-s2"></div><div class="af"><label>하단 띠 3</label><input id="e-s3"></div></div>
       </div>
-      <div class="adm-pane" id="ap-1"><div id="r-ed-list"></div><button class="adm-add" onclick="addR()">+ 연구 추가</button></div>
-      <div class="adm-pane" id="ap-2"><div id="pub-ed-list"></div><button class="adm-add" onclick="addPub()">+ 논문 추가</button></div>
-      <div class="adm-pane" id="ap-3"><div id="prod-ed-list"></div><button class="adm-add" onclick="addProd()">+ 프로덕트 추가</button></div>
-      <div class="adm-pane" id="ap-4"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">각 카드에서 문제·역할·툴·역량·결과를 입력하세요.</p><div id="collab-ed-list"></div><button class="adm-add" onclick="addCollab()">+ 기관협력 추가</button></div>
-      <div class="adm-pane" id="ap-5"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">각 카드에서 문제·역할·툴·역량·결과를 입력하세요.</p><div id="exp-ed-list"></div><button class="adm-add" onclick="addExp()">+ 경험 추가</button></div>
-      <div class="adm-pane" id="ap-6"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">주제별 그룹을 만들고, 각 그룹에 이미지와 링크를 추가하세요.</p><div id="cw-ed-list"></div><button class="adm-add" onclick="addCW()">+ 그룹 추가</button></div>
-      <div class="adm-pane" id="ap-7"><div id="aw-ed-list"></div><button class="adm-add" onclick="addAw()">+ 수상 추가</button></div>
-      <div class="adm-pane" id="ap-8">
+      <div class="adm-pane" id="ap-1"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">커리어 서사 슬라이드를 편집합니다. 각 카드의 제목·기간·인용구·내용·태그·전환 메시지를 수정하세요.</p><div id="rm-ed-list"></div><button class="adm-add" onclick="addRMCard()">+ 카드 추가</button></div>
+      <div class="adm-pane" id="ap-2"><div id="r-ed-list"></div><button class="adm-add" onclick="addR()">+ 연구 추가</button></div>
+      <div class="adm-pane" id="ap-3"><div id="pub-ed-list"></div><button class="adm-add" onclick="addPub()">+ 논문 추가</button></div>
+      <div class="adm-pane" id="ap-4"><div id="prod-ed-list"></div><button class="adm-add" onclick="addProd()">+ 프로덕트 추가</button></div>
+      <div class="adm-pane" id="ap-5"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">각 카드에서 문제·역할·툴·역량·결과를 입력하세요.</p><div id="collab-ed-list"></div><button class="adm-add" onclick="addCollab()">+ 기관협력 추가</button></div>
+      <div class="adm-pane" id="ap-6"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">각 카드에서 문제·역할·툴·역량·결과를 입력하세요.</p><div id="exp-ed-list"></div><button class="adm-add" onclick="addExp()">+ 경험 추가</button></div>
+      <div class="adm-pane" id="ap-7"><p style="font-size:11px;color:var(--i3);margin-bottom:1rem;font-weight:300">주제별 그룹을 만들고, 각 그룹에 이미지와 링크를 추가하세요.</p><div id="cw-ed-list"></div><button class="adm-add" onclick="addCW()">+ 그룹 추가</button></div>
+      <div class="adm-pane" id="ap-8"><div id="aw-ed-list"></div><button class="adm-add" onclick="addAw()">+ 수상 추가</button></div>
+      <div class="adm-pane" id="ap-9">
         <div class="af-row"><div class="af"><label>이메일</label><input id="e-email" value="your.email@yonsei.ac.kr"></div><div class="af"><label>GitHub URL</label><input id="e-github" value="github.com/your-handle"></div></div>
         <div class="af"><label>Contact 본문</label><div id="rte-cbody" class="rte-wrap"></div></div>
       </div>
@@ -670,6 +752,13 @@ const DEF={
      skillTags:[{label:'UX 설계',color:'sk-blue'},{label:'서비스 디자인',color:'sk-sage'},{label:'심리지원',color:'sk-violet'}],
      result:'진행 중 — 서비스 UX 설계 + 홍보물 제작 기여 중.'}
   ],
+  roadmap:[
+    {num:'01',period:'2016–2018',title:'한국애니메이션고등학교',subtitle:'애니메이션학과',quote:'"단순히 만드는 게 아니라, 기획하고 설계해서 아이들에게 닿고 싶었다."',body:'디자인 툴·영상 제작·창작 경험을 쌓으며 콘텐츠 제작자에서 기획·설계자로의 자각을 얻은 시기.',tags:['디자인 툴','영상 제작','창작 경험'],transition:'콘텐츠 제작자 → 기획·설계자로의 자각',isCurrent:false},
+    {num:'02',period:'2020–2024',title:'덕성여자대학교',subtitle:'유아교육학과',quote:'"현장에 가되, 교사 루트가 아닌 설계자 루트로."',body:'학부연구보조원·학생회·사회혁신 공모전(자폐스펙트럼 Calm-room, 입선)을 경험하며 현장 문제를 발견하는 눈을 키웠다.',tags:['유아교육','학부연구보조원','사회혁신공모전 입선','Link Art 2024'],transition:'현장 이해 → 문제 발굴자로의 성장',isCurrent:false},
+    {num:'03',period:'2023–2024',title:'디자인 리서치 전환기',subtitle:'KT&G · VoiceWell · Selftune',quote:'"연구자 단일 경로 거부 — 연구 × 디자인 듀얼 포지셔닝 선택."',body:'KT&G 사회혁신 공모전 입상, 시각장애 성인 VoiceWell MVP 검증(N=6), SNS 자기조절 Selftune 6일 실험(N=6)을 통해 연구-디자인 통합 방법론을 체득.',tags:['KT&G 공모전 입상','VoiceWell','Selftune','MVP 검증','혼합연구방법론'],transition:'연구자 × 디자이너 듀얼 정체성 확립',isCurrent:false},
+    {num:'04',period:'2025–현재',title:'연세대학교 대학원',subtitle:'아동·가족학과 × 인간생활과 혁신디자인 융합전공',quote:'"연구와 디자인이 만나는 지점에서, 사람에게 닿는 것을 만든다."',body:'Caremate 연구팀·BK21 참여, ISSBD 2026 포스터 발표, 온숨 프로그램·사이사이 플랫폼 개발·운영, 키드링크 앱 설계 등 연구에서 실제 서비스로 이어지는 전 과정을 직접 수행 중.',tags:['BK21','ISSBD 2026','온숨·사이사이','키드링크','KCI 제1저자'],transition:'',isCurrent:true},
+    {num:'→',period:'지향점',title:'Research-driven\nImpact Designer / PM',subtitle:'',quote:'"도메인에 얽매이지 않고, 당사자를 직접 만나 문제를 정의하고 데이터와 디자인으로 실제로 쓰이는 것을 만드는 사람."',body:'',tags:['Research','Design','Build'],transition:'',isCurrent:false,isGoal:true}
+  ],
   awards:[
     {title:'BK21 미래교육디자인연구유닛 참여 대학원생',org:'연세대학교',year:'2025–'},
     {title:'IHEI WORKSTATION 사회혁신 프로그램 수료',org:'연세대학교 IHEI',year:'2025'},
@@ -714,11 +803,15 @@ async function loadFB(){
       DATA.collabs=d.collabs||DEF.collabs;
       DATA.experiences=d.experiences||DEF.experiences;
       DATA.creativeWorks=d.creativeWorks||DEF.creativeWorks;
+      DATA.roadmap=d.roadmap||DEF.roadmap;
       DATA.awards=d.awards||DEF.awards;
       photoBase64=DATA.basic.photoBase64||'';
       // affilItems 없으면 기본값으로
       if(!DATA.basic.affilItems||!Array.isArray(DATA.basic.affilItems)){
         DATA.basic.affilItems = DEF.basic.affilItems;
+      }
+      if(!DATA.roadmap||!Array.isArray(DATA.roadmap)){
+        DATA.roadmap = DEF.roadmap;
       }
       setMsg('로드 완료');
     } else { setMsg('기본 데이터로 시작'); await saveFB(false); }
@@ -736,7 +829,7 @@ async function saveFB(show=true){
   if(show){ sync.classList.add('show'); saving.classList.add('show'); }
   try{
     DATA.basic.photoBase64=photoBase64;
-    await set(ref(db,'portfolio'),{basic:DATA.basic,researches:DATA.researches,pubs:DATA.pubs,products:DATA.products,collabs:DATA.collabs,experiences:DATA.experiences,creativeWorks:DATA.creativeWorks,awards:DATA.awards});
+    await set(ref(db,'portfolio'),{basic:DATA.basic,researches:DATA.researches,pubs:DATA.pubs,products:DATA.products,collabs:DATA.collabs,experiences:DATA.experiences,creativeWorks:DATA.creativeWorks,roadmap:DATA.roadmap,awards:DATA.awards});
     if(show){ sync.classList.remove('show'); saving.classList.remove('show'); saved.classList.add('show'); setTimeout(()=>saved.classList.remove('show'),2500); }
   }catch(e){
     console.error(e);
@@ -746,7 +839,126 @@ async function saveFB(show=true){
 }
 
 /* ── render ── */
-function renderAll(){ renderR(); renderPubs(); renderProds(); renderCollabs(); renderExps(); renderCW(); renderAws(); }
+function renderAll(){ renderRoadmap(); renderR(); renderPubs(); renderProds(); renderCollabs(); renderExps(); renderCW(); renderAws(); }
+
+/* ══ ROADMAP ══ */
+let rmCurIdx = 0;
+
+function renderRoadmap(){
+  const cards = DATA.roadmap||[];
+  if(!cards.length){ document.getElementById('rm-track').innerHTML=''; return; }
+  document.getElementById('rm-track').innerHTML = cards.map((c,i)=>{
+    const tags = (c.tags||[]).map((t,ti)=>`<span class="rm-tag${ti===0?' bold':''}">${t}</span>`).join('');
+    const bodyLines = (c.body||'').split('\n').filter(Boolean).join('<br>');
+    return `<div class="rm-card${c.isGoal?' goal':''}" id="rmc-${i}">
+      <div class="rm-card-top">
+        <span class="rm-num">${c.num||String(i+1).padStart(2,'0')}</span>
+        <span class="rm-period">${(c.period||'').replace('–','—')}</span>
+      </div>
+      <div class="rm-dot-line">
+        <div class="rm-circle${c.isCurrent?' filled':''}"></div>
+        <div class="rm-line"></div>
+      </div>
+      <div>
+        <div class="rm-title">${(c.title||'').replace(/\n/g,'<br>')}</div>
+        ${c.subtitle?`<div style="font-size:11px;font-weight:300;color:${c.isGoal?'rgba(255,255,255,.35)':'var(--i3)'};margin-top:.25rem;letter-spacing:.02em">${c.subtitle}</div>`:''}
+      </div>
+      ${c.quote?`<div class="rm-quote">${c.quote}</div>`:''}
+      ${bodyLines?`<div class="rm-body">${bodyLines}</div>`:''}
+      ${tags?`<div class="rm-tags">${tags}</div>`:''}
+      ${c.transition?`<div class="rm-transition">→ ${c.transition}</div>`:''}
+    </div>`;
+  }).join('');
+  // dots
+  document.getElementById('rm-dots').innerHTML = cards.map((_,i)=>
+    `<button class="roadmap-dot${i===0?' on':''}" onclick="rmGoTo(${i})"></button>`).join('');
+  // scroll handler
+  const track = document.getElementById('rm-track');
+  track.addEventListener('scroll', onRmScroll, {passive:true});
+  // drag scroll
+  let isDragging=false, startX=0, scrollLeft=0;
+  track.addEventListener('mousedown', e=>{ isDragging=true; startX=e.pageX-track.offsetLeft; scrollLeft=track.scrollLeft; });
+  track.addEventListener('mouseleave',()=>isDragging=false);
+  track.addEventListener('mouseup',()=>isDragging=false);
+  track.addEventListener('mousemove', e=>{ if(!isDragging) return; e.preventDefault(); const x=e.pageX-track.offsetLeft; track.scrollLeft=scrollLeft-(x-startX)*1.5; });
+  // nav btn state
+  updateRmNav();
+}
+
+function onRmScroll(){
+  const track = document.getElementById('rm-track');
+  if(!track) return;
+  const cardW = track.querySelector('.rm-card')?.offsetWidth||480;
+  const idx = Math.round(track.scrollLeft/cardW);
+  if(idx!==rmCurIdx){ rmCurIdx=idx; updateRmNav(); }
+  // progress bar
+  const maxScroll = track.scrollWidth-track.clientWidth;
+  const pct = maxScroll>0 ? (track.scrollLeft/maxScroll)*100 : 0;
+  const bar = document.getElementById('rm-bar');
+  if(bar) bar.style.width=pct+'%';
+  // dots
+  document.querySelectorAll('.roadmap-dot').forEach((d,i)=>d.classList.toggle('on',i===rmCurIdx));
+}
+
+function updateRmNav(){
+  const total=(DATA.roadmap||[]).length;
+  const prev=document.getElementById('rm-prev'); const next=document.getElementById('rm-next');
+  if(prev) prev.disabled=rmCurIdx<=0;
+  if(next) next.disabled=rmCurIdx>=total-1;
+}
+
+window.rmNav=dir=>{ rmGoTo(rmCurIdx+dir); };
+window.rmGoTo=i=>{
+  const track=document.getElementById('rm-track'); if(!track) return;
+  const cards=track.querySelectorAll('.rm-card');
+  if(i<0||i>=cards.length) return;
+  rmCurIdx=i;
+  cards[i].scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'});
+  document.querySelectorAll('.roadmap-dot').forEach((d,di)=>d.classList.toggle('on',di===i));
+  updateRmNav();
+};
+
+/* admin roadmap */
+function buildAdmRM(){
+  const listEl=document.getElementById('rm-ed-list');
+  listEl.innerHTML=(DATA.roadmap||[]).map((c,i)=>`
+  <div class="list-item dnd-item" style="padding-left:2.2rem">
+    <span class="dnd-handle">⠿</span>
+    <div class="list-item-head"><span class="list-item-num">카드 ${i+1}${c.isGoal?' (지향점)':''}</span><button class="adm-del" onclick="delRM(${i})">삭제</button></div>
+    <div class="af-row3">
+      <div class="af"><label>번호 표시</label><input class="rmi-num" data-i="${i}" value="${c.num||''}"></div>
+      <div class="af"><label>기간</label><input class="rmi-period" data-i="${i}" value="${c.period||''}"></div>
+      <div class="af"><label>현재 (●)</label><select class="rmi-cur" data-i="${i}"><option value="1"${c.isCurrent?'selected':''}>예</option><option value="0"${!c.isCurrent?'selected':''}>아니오</option></select></div>
+    </div>
+    <div class="af"><label>제목</label><input class="rmi-title" data-i="${i}" value="${(c.title||'').replace(/\n/g,' / ')}"></div>
+    <div class="af"><label>부제</label><input class="rmi-sub" data-i="${i}" value="${c.subtitle||''}"></div>
+    <div class="af"><label>인용구</label><input class="rmi-quote" data-i="${i}" value="${(c.quote||'').replace(/"/g,'&quot;')}"></div>
+    <div class="af"><label>본문</label><textarea class="rmi-body" data-i="${i}" style="min-height:60px;width:100%;padding:.55rem .8rem;border:.5px solid var(--rule);border-radius:2px;font-size:12px;font-family:Pretendard,sans-serif;font-weight:300;outline:none;resize:vertical;background:var(--w);color:var(--ink);line-height:1.7">${c.body||''}</textarea></div>
+    <div class="af"><label>태그 (쉼표 구분 · 첫 번째 태그는 강조)</label><input class="rmi-tags" data-i="${i}" value="${(c.tags||[]).join(', ')}"></div>
+    <div class="af"><label>전환 메시지</label><input class="rmi-transition" data-i="${i}" value="${c.transition||''}"></div>
+    <div class="af"><label>스타일</label><select class="rmi-goal" data-i="${i}"><option value="0"${!c.isGoal?'selected':''}>일반</option><option value="1"${c.isGoal?'selected':''}>지향점 (다크)</option></select></div>
+  </div>`).join('');
+  initDnD(listEl, DATA.roadmap, buildAdmRM);
+}
+window.delRM=i=>{ if(confirm('삭제?')){ DATA.roadmap.splice(i,1); buildAdmRM(); }};
+window.addRMCard=()=>{
+  DATA.roadmap.push({num:String(DATA.roadmap.length+1).padStart(2,'0'),period:'20XX',title:'새 챕터',subtitle:'',quote:'',body:'',tags:[],transition:'',isCurrent:false,isGoal:false});
+  buildAdmRM();
+};
+function readRM(){
+  (DATA.roadmap||[]).forEach((_,i)=>{
+    DATA.roadmap[i].num=document.querySelector(`.rmi-num[data-i="${i}"]`)?.value||'';
+    DATA.roadmap[i].period=document.querySelector(`.rmi-period[data-i="${i}"]`)?.value||'';
+    DATA.roadmap[i].isCurrent=document.querySelector(`.rmi-cur[data-i="${i}"]`)?.value==='1';
+    DATA.roadmap[i].title=document.querySelector(`.rmi-title[data-i="${i}"]`)?.value||'';
+    DATA.roadmap[i].subtitle=document.querySelector(`.rmi-sub[data-i="${i}"]`)?.value||'';
+    DATA.roadmap[i].quote=document.querySelector(`.rmi-quote[data-i="${i}"]`)?.value||'';
+    DATA.roadmap[i].body=document.querySelector(`.rmi-body[data-i="${i}"]`)?.value||'';
+    DATA.roadmap[i].tags=(document.querySelector(`.rmi-tags[data-i="${i}"]`)?.value||'').split(',').map(t=>t.trim()).filter(Boolean);
+    DATA.roadmap[i].transition=document.querySelector(`.rmi-transition[data-i="${i}"]`)?.value||'';
+    DATA.roadmap[i].isGoal=document.querySelector(`.rmi-goal[data-i="${i}"]`)?.value==='1';
+  });
+}
 
 function renderR(){
   document.getElementById('r-grid').innerHTML=DATA.researches.map((r,i)=>`
@@ -1161,6 +1373,7 @@ function initAdm(){
   if(!b.affilItems||!b.affilItems.length) DATA.basic.affilItems=[{logo:'',text:''}];
   buildAffilEditor();
   if(photoBase64){document.getElementById('photo-preview-img').src=photoBase64;document.getElementById('photo-preview-img').style.display='block';document.getElementById('photo-preview-ph').style.display='none';}
+  buildAdmRM();
   buildAdmRWithDnD(); buildAdmPubsWithDnD(); buildAdmProdsWithDnD(); buildAdmCollabsWithDnD(); buildAdmExpsWithDnD(); buildAdmCW(); buildAdmAwsWithDnD();
 }
 
@@ -1353,7 +1566,7 @@ function readAffilItems(){
   });
 }
 
-window.applyAll=async()=>{readAffilItems();readAll();applyBasic();renderAll();await saveFB(true);};
+window.applyAll=async()=>{readAffilItems();readRM();readAll();applyBasic();renderAll();await saveFB(true);};
 
 /* ── cursor + reveal ── */
 const cur=document.getElementById('cur');
