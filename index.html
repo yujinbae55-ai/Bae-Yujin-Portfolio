@@ -215,6 +215,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
 .pub-badge.inpress{border-color:var(--ink3);color:var(--ink2)}
 .pub-content{}
 .pub-title{font-size:13px;font-weight:500;color:var(--ink);line-height:1.7;margin-bottom:.4rem;word-break:keep-all}
+.pub-title strong{font-weight:800;color:var(--ink);background:#fefce8;padding:0 .1em}
 .pub-venue{font-size:11.5px;font-weight:300;color:var(--ink3);line-height:1.6}
 .pub-link{display:inline-flex;align-items:center;gap:.3rem;font-size:10px;font-weight:500;letter-spacing:.06em;color:var(--ink);text-decoration:none;margin-top:.5rem;border-bottom:1px solid var(--rule);padding-bottom:1px;transition:border-color .2s}
 .pub-link:hover{border-color:var(--ink)}
@@ -403,6 +404,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
 
 /* ── NAV ACTIVE ── */
 .section[data-section]{scroll-margin-top:52px}
+/* ── ADMIN 추가 스타일 ── */
+.adm-section-title{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);padding-bottom:.6rem;border-bottom:1px solid var(--rule);margin-bottom:1.25rem}
+.adm-hint{font-size:11px;font-weight:300;color:var(--ink3);line-height:1.7;background:var(--bg2);border:1px solid var(--rule);border-left:3px solid var(--ink3);padding:.75rem 1rem;margin-bottom:1.25rem}
+.adm-hint strong{font-weight:600;color:var(--ink);background:#fffde7;padding:0 .2em}
+.adm-card-actions{position:absolute;top:.75rem;right:.75rem;display:flex;gap:.4rem}
+.adm-card-btn{font-size:10px;font-weight:500;letter-spacing:.06em;color:var(--ink3);background:none;border:1px solid var(--rule);padding:.2rem .6rem;cursor:pointer;transition:all .2s}
+.adm-card-btn:hover{border-color:var(--ink);color:var(--ink)}
+.adm-card-btn.danger:hover{border-color:#c0392b;color:#c0392b}
+/* 폼 오버레이 */
+.form-section{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);padding:.5rem 0;border-bottom:1px solid var(--rule);margin:1.75rem 0 1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.form-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2rem}
+/* 텍스트 스타일 조절 */
+.adm-style-row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.5rem}
+.adm-style-btn{font-size:11px;font-weight:500;padding:.35rem .75rem;border:1px solid var(--rule);background:none;cursor:pointer;color:var(--ink2);transition:all .15s}
+.adm-style-btn.on,.adm-style-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.adm-color-swatch{width:24px;height:24px;border:2px solid var(--rule);cursor:pointer;flex-shrink:0}
+.adm-color-swatch.on{border-color:var(--ink)}
 </style>
 </head>
 <body>
@@ -702,21 +721,25 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
     <div id="admin-content" style="display:none">
       <div class="admin-header">
         <span class="admin-title">관리자 패널</span>
-        <button class="admin-close" onclick="closeAdmin()">✕</button>
+        <div style="display:flex;gap:.75rem;align-items:center">
+          <div class="adm-saving" id="adm-saving" style="margin:0">저장 중…</div>
+          <div class="adm-saved" id="adm-saved" style="margin:0">✓ 저장 완료</div>
+          <button class="admin-close" onclick="closeAdmin()">✕</button>
+        </div>
       </div>
       <div class="admin-tabs">
-        <button class="admin-tab on" onclick="switchAdminTab(this,'tab-basic')">기본</button>
+        <button class="admin-tab on" onclick="switchAdminTab(this,'tab-basic')">기본 정보</button>
         <button class="admin-tab" onclick="switchAdminTab(this,'tab-pubs')">Publications</button>
         <button class="admin-tab" onclick="switchAdminTab(this,'tab-projs')">Projects</button>
-        <button class="admin-tab" onclick="switchAdminTab(this,'tab-collab')">Collab</button>
+        <button class="admin-tab" onclick="switchAdminTab(this,'tab-collab')">Collaboration</button>
         <button class="admin-tab" onclick="switchAdminTab(this,'tab-awards')">Awards</button>
         <button class="admin-tab" onclick="switchAdminTab(this,'tab-contact')">Contact</button>
       </div>
 
-      <!-- 기본 -->
+      <!-- ── 기본 정보 ── -->
       <div class="admin-pane on" id="tab-basic">
+        <div class="adm-section-title">프로필 사진</div>
         <div class="adm-field">
-          <label class="adm-label">프로필 사진</label>
           <div class="photo-ph" id="photo-ph" onclick="document.getElementById('photo-input').click()">
             <img class="photo-preview" id="photo-prev" src="" alt="">
             <span id="photo-ph-text">클릭해서 사진 업로드</span>
@@ -727,97 +750,78 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
             <button class="btn-sm danger" onclick="deletePhoto()">삭제</button>
           </div>
         </div>
-        <div class="adm-field"><label class="adm-label">Hero 소개 문구</label><textarea class="adm-textarea" id="a-tagline-inp" rows="3"></textarea></div>
-        <div class="adm-field"><label class="adm-label">About 인용구</label><input class="adm-input" id="a-quote-inp"></div>
-        <div class="adm-field"><label class="adm-label">About 설명</label><textarea class="adm-textarea" id="a-desc-inp" rows="4"></textarea></div>
-        <div class="adm-field"><label class="adm-label">통계 1 (숫자)</label><input class="adm-input" id="s1-inp"></div>
-        <div class="adm-field"><label class="adm-label">통계 1 (레이블)</label><input class="adm-input" id="sl1-inp"></div>
-        <div class="adm-field"><label class="adm-label">통계 2 (숫자)</label><input class="adm-input" id="s2-inp"></div>
-        <div class="adm-field"><label class="adm-label">통계 2 (레이블)</label><input class="adm-input" id="sl2-inp"></div>
-        <div class="adm-field"><label class="adm-label">통계 3 (숫자)</label><input class="adm-input" id="s3-inp"></div>
-        <div class="adm-field"><label class="adm-label">통계 3 (레이블)</label><input class="adm-input" id="sl3-inp"></div>
-        <div class="adm-saving" id="adm-saving">저장 중…</div>
-        <div class="adm-saved" id="adm-saved">✓ 저장 완료</div>
+        <div class="adm-section-title" style="margin-top:1.5rem">Hero 섹션</div>
+        <div class="adm-field"><label class="adm-label">상단 eyebrow 텍스트</label><input class="adm-input" id="a-eyebrow-inp" placeholder="Researcher · Designer · Yonsei University"></div>
+        <div class="adm-field"><label class="adm-label">메인 태그라인</label><textarea class="adm-textarea" id="a-tagline-inp" rows="3"></textarea></div>
+        <div class="adm-field"><label class="adm-label">하단 strip — Research</label><input class="adm-input" id="h-strip1-inp"></div>
+        <div class="adm-field"><label class="adm-label">하단 strip — Work</label><input class="adm-input" id="h-strip2-inp"></div>
+        <div class="adm-field"><label class="adm-label">하단 strip — Affiliation</label><input class="adm-input" id="h-strip3-inp"></div>
+        <div class="adm-section-title" style="margin-top:1.5rem">About 섹션</div>
+        <div class="adm-field"><label class="adm-label">인용구</label><input class="adm-input" id="a-quote-inp"></div>
+        <div class="adm-field"><label class="adm-label">소개 본문</label><textarea class="adm-textarea" id="a-desc-inp" rows="4"></textarea></div>
+        <div class="adm-section-title" style="margin-top:1.5rem">Contact 타이틀</div>
+        <div class="adm-field"><label class="adm-label">Contact 부제</label><textarea class="adm-textarea" id="c-sub-inp" rows="2"></textarea></div>
         <button class="btn-save" onclick="saveBasic()">저장</button>
       </div>
 
-      <!-- Publications -->
+      <!-- ── Publications ── -->
       <div class="admin-pane" id="tab-pubs">
+        <div class="adm-section-title">논문 · 학술 발표 목록</div>
+        <div class="adm-hint">내 이름(배유진/Bae, Y.)을 <strong>**배유진**</strong> 처럼 **별표 두 개**로 감싸면 볼드 강조됩니다.</div>
         <div id="pub-adm-list"></div>
-        <button class="btn-adm-add" onclick="addPub()">+ Publication 추가</button>
+        <button class="btn-adm-add" onclick="openPubForm(-1)">+ 항목 추가</button>
         <div style="height:1rem"></div>
-        <button class="btn-save" onclick="savePubs()">저장</button>
+        <button class="btn-save" onclick="savePubs()">전체 저장</button>
       </div>
 
-      <!-- Projects -->
+      <!-- ── Projects ── -->
       <div class="admin-pane" id="tab-projs">
+        <div class="adm-section-title">선정 프로젝트 (Selected Work)</div>
         <div id="proj-adm-list"></div>
         <button class="btn-adm-add" onclick="openProjForm(-1)">+ Project 추가</button>
+        <div style="height:1.5rem"></div>
+        <div class="adm-section-title">사이드 프로젝트</div>
+        <div id="mini-adm-list"></div>
+        <button class="btn-adm-add" onclick="openMiniForm(-1)">+ Side Project 추가</button>
         <div style="height:1rem"></div>
-        <button class="btn-save" onclick="saveProjs()">저장</button>
-        <!-- 인라인 편집 폼 -->
-        <div id="proj-form-wrap" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);display:none;align-items:flex-start;justify-content:center;padding-top:60px">
-          <div style="width:min(640px,95vw);max-height:88vh;overflow-y:auto;background:var(--bg);border:1px solid var(--rule);padding:2.5rem">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
-              <span style="font-size:13px;font-weight:600;color:var(--ink)" id="pf-mode-label">프로젝트 편집</span>
-              <button onclick="closeProjForm()" style="font-size:18px;color:var(--ink3);background:none;border:none;cursor:pointer">✕</button>
-            </div>
-            <div class="adm-field"><label class="adm-label">프로젝트 이름</label><input class="adm-input" id="pf-name"></div>
-            <div class="adm-field"><label class="adm-label">카테고리</label>
-              <select class="adm-select" id="pf-cat">
-                <option value="research">Research</option>
-                <option value="design">Service Design</option>
-                <option value="dev">Development</option>
-              </select>
-            </div>
-            <div class="adm-field"><label class="adm-label">후크 문구 (한 줄 요약)</label><input class="adm-input" id="pf-hook"></div>
-            <div class="adm-field"><label class="adm-label">태그 (쉼표로 구분)</label><input class="adm-input" id="pf-tags" placeholder="Figma, UX Research, MVP"></div>
-            <div class="adm-field"><label class="adm-label">Problem</label><textarea class="adm-textarea" id="pf-problem" rows="3"></textarea></div>
-            <div class="adm-field"><label class="adm-label">Solution</label><textarea class="adm-textarea" id="pf-solution" rows="4"></textarea></div>
-            <div class="adm-field"><label class="adm-label">Result</label><textarea class="adm-textarea" id="pf-result" rows="3"></textarea></div>
-            <!-- 이미지 업로드 -->
-            <div class="adm-field">
-              <label class="adm-label">이미지 (최대 4장)</label>
-              <div id="pf-img-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem"></div>
-              <button type="button" onclick="document.getElementById('pf-img-input').click()" class="btn-adm-add">+ 이미지 추가</button>
-              <input type="file" id="pf-img-input" accept="image/*" multiple style="display:none" onchange="handleProjImgUpload(this)">
-              <div style="font-size:10px;color:var(--ink4);margin-top:.4rem;letter-spacing:.02em">JPG/PNG · 각 파일 2MB 이하 권장</div>
-            </div>
-            <div style="display:flex;gap:.75rem;margin-top:1.5rem">
-              <button class="btn-save" onclick="saveProjForm()" style="flex:1">저장</button>
-              <button onclick="closeProjForm()" style="flex:0 0 80px;font-size:11px;font-weight:500;color:var(--ink);background:none;border:1px solid var(--rule);padding:.85rem;cursor:pointer">취소</button>
-            </div>
-          </div>
-        </div>
+        <button class="btn-save" onclick="saveProjs()">전체 저장</button>
       </div>
 
-      <!-- Collab -->
+      <!-- ── Collaboration ── -->
       <div class="admin-pane" id="tab-collab">
+        <div class="adm-section-title">국가기관 · 협력 연구</div>
         <div id="collab-adm-list"></div>
-        <button class="btn-adm-add" onclick="addCollab()">+ 협력 추가</button>
+        <button class="btn-adm-add" onclick="openCollabForm(-1)">+ 협력 추가</button>
         <div style="height:1rem"></div>
-        <button class="btn-save" onclick="saveCollab()">저장</button>
+        <button class="btn-save" onclick="saveCollab()">전체 저장</button>
       </div>
 
-      <!-- Awards -->
+      <!-- ── Awards ── -->
       <div class="admin-pane" id="tab-awards">
+        <div class="adm-section-title">수상 · 프로그램 · 자격증</div>
         <div id="aw-adm-list"></div>
-        <button class="btn-adm-add" onclick="addAward()">+ 수상 추가</button>
+        <button class="btn-adm-add" onclick="openAwardForm(-1)">+ 항목 추가</button>
         <div style="height:1rem"></div>
-        <button class="btn-save" onclick="saveAwards()">저장</button>
+        <button class="btn-save" onclick="saveAwards()">전체 저장</button>
       </div>
 
-      <!-- Contact -->
+      <!-- ── Contact ── -->
       <div class="admin-pane" id="tab-contact">
+        <div class="adm-section-title">연락처 정보</div>
         <div class="adm-field"><label class="adm-label">이메일</label><input class="adm-input" id="c-email-inp"></div>
         <div class="adm-field"><label class="adm-label">GitHub URL</label><input class="adm-input" id="c-github-inp"></div>
-        <div class="adm-field"><label class="adm-label">소속 라벨</label><input class="adm-input" id="c-lab-inp"></div>
-        <div class="adm-field"><label class="adm-label">Contact 부제</label><textarea class="adm-textarea" id="c-sub-inp" rows="2"></textarea></div>
+        <div class="adm-field"><label class="adm-label">소속 표시 텍스트</label><input class="adm-input" id="c-lab-inp"></div>
         <button class="btn-save" onclick="saveContact()">저장</button>
       </div>
-    </div>
-  </div>
+    </div><!-- /admin-content -->
+  </div><!-- /admin-panel -->
 </div>
+
+<!-- ── INLINE FORM OVERLAY (공용) ── -->
+<div id="form-overlay" onclick="if(event.target===this)closeFormOverlay()" style="display:none;position:fixed;inset:0;z-index:1100;background:rgba(17,17,16,.6);backdrop-filter:blur(4px);overflow-y:auto;padding:60px 1rem 2rem">
+  <div id="form-box" style="width:min(660px,100%);margin:0 auto;background:var(--bg);border:1px solid var(--rule);padding:2.5rem 2.5rem 3rem"></div>
+</div>
+
 
 <script>
 /* ══════ DEFAULT DATA ══════ */
@@ -830,12 +834,12 @@ const DEF = {
     photoBase64:''
   },
   pubs:[
-    {year:'2026',type:'journal',title:'주수산나, 김예진, 배유진, 김현경 (2026.03.31). 한국 디지털 사회화 척도 타당화 연구 현황: 심리측정학적 분석 및 주제 동향(2011-2025년). 인간발달연구, 33(1), 97-116.',venue:'인간발달연구 Vol.33(1) · 공동저자',badge:'Journal',first:false,url:'https://doi.org/10.15284/kjhd.2026.33.1.97'},
-    {year:'2026',type:'journal',title:'SNS 자기조절을 위한 앱 디자인 연구 — Selftune MVP 검증을 중심으로',venue:'한국디자인문화학회지 Vol.32(1) · 제1저자',badge:'In Press',first:true,url:''},
-    {year:'2025',type:'conf',title:'배유진 외. (2025.06.) 시각장애 성인의 정서 지원 서비스를 위한 디자인 탐색.',conf:'한국디자인학회 춘계 학술대회',type2:'Oral',first:true},
+    {year:'2026',type:'journal',title:'주수산나, 김예진, **배유진**, 김현경 (2026.03.31). 한국 디지털 사회화 척도 타당화 연구 현황: 심리측정학적 분석 및 주제 동향(2011-2025년). 인간발달연구, 33(1), 97-116.',venue:'인간발달연구 Vol.33(1) · 공동저자',badge:'Journal',first:false,url:'https://doi.org/10.15284/kjhd.2026.33.1.97'},
+    {year:'2026',type:'journal',title:'**배유진** (2026). SNS 자기조절을 위한 앱 디자인 연구 — Selftune MVP 검증을 중심으로',venue:'한국디자인문화학회지 Vol.32(1) · 제1저자',badge:'In Press',first:true,url:''},
+    {year:'2025',type:'conf',title:'**배유진** 외. (2025.06.) 시각장애 성인의 정서 지원 서비스를 위한 디자인 탐색.',conf:'한국디자인학회 춘계 학술대회',type2:'Oral',first:true},
     {year:'2025',type:'conf',title:'이예슬, 박소희, 배유진, 김현경. (2025.12.) 알파세대 청소년의 정서조절 곤란이 온라인 및 오프라인 또래관계에 미치는 영향: 성차에 따른 매개모형 검증.',conf:'한국인간발달학회 추계 학술대회',type2:'Poster',first:false},
     {year:'2025',type:'conf',title:'주수산나, 김예진, 배유진, 김현경. (2025.12.) 디지털 사회화 척도 타당화 연구의 심리측정적 고찰과 주제 동향.',conf:'한국인간발달학회 추계 학술대회',type2:'Poster',first:false},
-    {year:'2026',type:'conf',title:'Bae, Y., et al. (2026). Longitudinal links between peer exclusion, depression, and smartphone overdependence: Gender as a moderator.',conf:'ISSBD 2026 · Incheon, Korea',type2:'Poster',first:true}
+    {year:'2026',type:'conf',title:'**Bae, Y.**, et al. (2026). Longitudinal links between peer exclusion, depression, and smartphone overdependence: Gender as a moderator.',conf:'ISSBD 2026 · Incheon, Korea',type2:'Poster',first:true}
   ],
   projects:[
     {id:'selftune',cat:'research',name:'Selftune',hook:'SNS 과사용을 행동 변화로 — 6일 실험으로 검증한 앱 디자인',tags:['Figma','UX Research','MVP','KCI'],wide:false,
@@ -958,10 +962,19 @@ function applyAll() {
 
 function applyBasic() {
   const b = DATA.basic;
+  // eyebrow
+  const eyebrowEl = document.getElementById('h-eyebrow');
+  if(eyebrowEl) eyebrowEl.textContent = b.eyebrow||'Researcher · Designer · Yonsei University';
+  // tagline
   const lines = (b.tagline||'').split('\n');
   document.getElementById('h-tagline').innerHTML = lines.map((l,i)=>i===1?`<strong>${l}</strong>`:l).join('<br>');
+  // about
   document.getElementById('a-quote').innerHTML = (b.quote||'').replace(/\n/g,'<br>');
   document.getElementById('a-desc').textContent = b.desc||'';
+  // strips
+  const s1=document.getElementById('h-strip1'); if(s1) s1.textContent=b.strip1||'ISSBD 2026 · KCI 제1저자';
+  const s2=document.getElementById('h-strip2'); if(s2) s2.textContent=b.strip2||'LearningSpark · 두부 AI';
+  const s3=document.getElementById('h-strip3'); if(s3) s3.textContent=b.strip3||'Caremate 연구팀 · BK21';
 
   // photo
   if(b.photoBase64){ photoB64=b.photoBase64; showPhoto(); }
@@ -988,7 +1001,7 @@ function renderPubs() {
       <div class="pub-row">
         <div class="pub-year-col">${p.year||''}</div>
         <div class="pub-content">
-          <div class="pub-title">${p.title||''}</div>
+          <div class="pub-title">${mdBold(p.title||'')}</div>
           <div class="pub-venue">${p.venue||''}</div>
           ${p.url?`<a href="${p.url}" target="_blank" class="pub-link">DOI ↗</a>`:''}
         </div>
@@ -1007,7 +1020,7 @@ function renderPubs() {
         <div class="pub-year-col">${p.year||''}</div>
         <div class="pub-content">
           <div class="pub-conf-meta">${p.conf||''} · <span class="pub-type2">${p.type2||'발표'}</span></div>
-          <div class="pub-title">${p.title||''}</div>
+          <div class="pub-title">${mdBold(p.title||'')}</div>
         </div>
         <div class="pub-badge-col">
           ${p.first?'<span class="pub-badge first">1st Author</span>':''}
@@ -1103,7 +1116,9 @@ function openMiniModal(id) {
       </div>
       <button onclick="closeMiniModalBtn()" style="font-size:18px;color:var(--ink3);background:none;border:none;cursor:pointer">✕</button>
     </div>
-    <p style="font-size:13px;font-weight:300;color:var(--ink2);line-height:1.95">${p.desc||''}</p>
+    ${p.img?`<img src="${p.img}" style="width:100%;aspect-ratio:16/8;object-fit:cover;border:1px solid var(--rule);margin-bottom:1.25rem">`:''}
+    <p style="font-size:13px;font-weight:300;color:var(--ink2);line-height:1.95;margin-bottom:.75rem">${p.desc||''}</p>
+    ${p.detail?`<p style="font-size:12.5px;font-weight:300;color:var(--ink3);line-height:2;border-top:1px solid var(--rule);padding-top:1rem;margin-top:1rem">${p.detail}</p>`:''}
   `;
   document.getElementById('mini-modal').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1215,240 +1230,360 @@ function switchAdminTab(btn,id){
 
 function populateAdmin(){
   const b = DATA.basic;
+  document.getElementById('a-eyebrow-inp').value = b.eyebrow||'Researcher · Designer · Yonsei University';
   document.getElementById('a-tagline-inp').value = b.tagline||'';
   document.getElementById('a-quote-inp').value = b.quote||'';
   document.getElementById('a-desc-inp').value = b.desc||'';
-  document.getElementById('s1-inp').value = b.s1||'';
-  document.getElementById('sl1-inp').value = b.sl1||'';
-  document.getElementById('s2-inp').value = b.s2||'';
-  document.getElementById('sl2-inp').value = b.sl2||'';
-  document.getElementById('s3-inp').value = b.s3||'';
-  document.getElementById('sl3-inp').value = b.sl3||'';
-  if(photoB64){ document.getElementById('photo-prev').src=photoB64; document.getElementById('photo-prev').classList.add('loaded'); document.getElementById('photo-ph-text').style.display='none'; }
-  // contact
+  document.getElementById('h-strip1-inp').value = b.strip1||'';
+  document.getElementById('h-strip2-inp').value = b.strip2||'';
+  document.getElementById('h-strip3-inp').value = b.strip3||'';
   const c = DATA.contact;
   document.getElementById('c-email-inp').value = c.email||'';
   document.getElementById('c-github-inp').value = c.github||'';
   document.getElementById('c-lab-inp').value = c.lab||'';
   document.getElementById('c-sub-inp').value = c.sub||'';
-  // pubs admin
-  renderPubAdm();
-  // proj admin
-  renderProjAdm();
-  // collab admin
-  renderCollabAdm();
-  // awards admin
-  renderAwAdm();
+  if(photoB64){ document.getElementById('photo-prev').src=photoB64; document.getElementById('photo-prev').classList.add('loaded'); document.getElementById('photo-ph-text').style.display='none'; }
+  renderPubAdm(); renderProjAdm(); renderMiniAdm(); renderCollabAdm(); renderAwAdm();
 }
 
-/* Photo */
+/* ── Photo ── */
 function handlePhotoUpload(input){
-  const f = input.files[0]; if(!f) return;
-  const r = new FileReader();
-  r.onload = e=>{
-    photoB64 = e.target.result;
-    showPhoto();
+  const f=input.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=e=>{ photoB64=e.target.result; showPhoto();
     document.getElementById('photo-prev').src=photoB64;
     document.getElementById('photo-prev').classList.add('loaded');
-    document.getElementById('photo-ph-text').style.display='none';
-  };
+    document.getElementById('photo-ph-text').style.display='none'; };
   r.readAsDataURL(f);
 }
-function deletePhoto(){
-  photoB64=''; showPhoto();
-  document.getElementById('photo-prev').classList.remove('loaded');
-  document.getElementById('photo-ph-text').style.display='';
-}
+function deletePhoto(){ photoB64=''; showPhoto(); document.getElementById('photo-prev').classList.remove('loaded'); document.getElementById('photo-ph-text').style.display=''; }
 
-/* Save Basic */
+/* ── Save Basic ── */
 async function saveBasic(){
+  DATA.basic.eyebrow = document.getElementById('a-eyebrow-inp').value;
   DATA.basic.tagline = document.getElementById('a-tagline-inp').value;
   DATA.basic.quote = document.getElementById('a-quote-inp').value;
   DATA.basic.desc = document.getElementById('a-desc-inp').value;
-  DATA.basic.s1 = document.getElementById('s1-inp').value;
-  DATA.basic.sl1 = document.getElementById('sl1-inp').value;
-  DATA.basic.s2 = document.getElementById('s2-inp').value;
-  DATA.basic.sl2 = document.getElementById('sl2-inp').value;
-  DATA.basic.s3 = document.getElementById('s3-inp').value;
-  DATA.basic.sl3 = document.getElementById('sl3-inp').value;
-  applyBasic();
-  await fbSave();
+  DATA.basic.strip1 = document.getElementById('h-strip1-inp').value;
+  DATA.basic.strip2 = document.getElementById('h-strip2-inp').value;
+  DATA.basic.strip3 = document.getElementById('h-strip3-inp').value;
+  DATA.contact.sub = document.getElementById('c-sub-inp').value;
+  applyBasic(); await fbSave();
 }
 
-/* Save Contact */
+/* ── Save Contact ── */
 async function saveContact(){
   DATA.contact.email = document.getElementById('c-email-inp').value;
   DATA.contact.github = document.getElementById('c-github-inp').value;
-  DATA.contact.githubLabel = document.getElementById('c-github-inp').value.replace('https://','').replace('http://','');
+  DATA.contact.githubLabel = DATA.contact.github.replace(/^https?:\/\//,'');
   DATA.contact.lab = document.getElementById('c-lab-inp').value;
   DATA.contact.sub = document.getElementById('c-sub-inp').value;
-  applyContact();
-  await fbSave();
+  applyContact(); await fbSave();
 }
 
-/* ── Publications Admin ── */
+/* ══ 공용 오버레이 ══ */
+function openFormOverlay(html){
+  document.getElementById('form-box').innerHTML = html;
+  document.getElementById('form-overlay').style.display = 'block';
+}
+function closeFormOverlay(){
+  document.getElementById('form-overlay').style.display = 'none';
+  document.getElementById('form-box').innerHTML = '';
+}
+
+/* ══════ PUBLICATIONS ADMIN ══════ */
+/* **텍스트** → <strong>텍스트</strong> 변환 */
+function mdBold(str){ return (str||'').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>'); }
+
 function renderPubAdm(){
-  document.getElementById('pub-adm-list').innerHTML = (DATA.pubs||[]).map((p,i)=>`
-    <div class="adm-card">
-      <div class="adm-card-title">${p.title||'(제목 없음)'}</div>
-      <div class="adm-card-sub">${p.type==='journal'?'Journal':'Conference'} · ${p.year||''}</div>
-      <button class="adm-card-del" onclick="delPub(${i})">✕</button>
-    </div>`).join('');
+  document.getElementById('pub-adm-list').innerHTML = (DATA.pubs||[]).length
+    ? (DATA.pubs||[]).map((p,i)=>`
+      <div class="adm-card" style="padding-right:6rem">
+        <div class="adm-card-title" style="font-size:11.5px;line-height:1.6;word-break:keep-all">${mdBold(p.title)||'(제목 없음)'}</div>
+        <div class="adm-card-sub" style="margin-top:.3rem">${p.type==='journal'?'📄 Journal':'🎤 Presentation'} · ${p.year||''}</div>
+        <div class="adm-card-actions">
+          <button class="adm-card-btn" onclick="openPubForm(${i})">편집</button>
+          <button class="adm-card-btn danger" onclick="delPub(${i})">✕</button>
+        </div>
+      </div>`).join('')
+    : '<div style="padding:1.5rem 0;color:var(--ink4);font-size:12px">항목 없음</div>';
 }
-function delPub(i){ DATA.pubs.splice(i,1); renderPubAdm(); renderPubs(); }
-function addPub(){
-  const title = prompt('논문/발표 제목:'); if(!title) return;
-  const type = prompt('타입 (journal / conf):','journal')||'journal';
-  const year = prompt('연도:','2026')||'2026';
-  const venue = prompt('게재지/학술대회:')||'';
-  const badge = prompt('뱃지 (Journal/In Press/Poster/Oral):','Journal')||'Journal';
-  const first = confirm('제1저자입니까?');
-  const conf = type==='conf'?prompt('학회명:',''):undefined;
-  const type2 = type==='conf'?prompt('발표 형식 (Poster/Oral):','Poster'):'';
-  DATA.pubs.push({year,type,title,venue,badge,first,conf:conf||undefined,type2:type2||undefined,url:''});
-  renderPubAdm(); renderPubs();
-}
+function delPub(i){ if(!confirm('삭제하시겠습니까?')) return; DATA.pubs.splice(i,1); renderPubAdm(); renderPubs(); }
 async function savePubs(){ await fbSave(); }
 
-/* ── Projects Admin ── */
-let _projFormIdx = -1; // -1 = 신규, 0+ = 편집
-let _projImgs = []; // 현재 편집 중인 이미지 배열 (base64 or url)
+function openPubForm(idx){
+  const p = idx>=0 ? DATA.pubs[idx] : {};
+  openFormOverlay(`
+    <div class="form-title">${idx>=0?'Publication 편집':'Publication 추가'}</div>
+    <div class="adm-hint" style="margin-bottom:1.5rem">내 이름을 <strong>**배유진**</strong> 처럼 **별표 두 개**로 감싸면 볼드+강조됩니다.</div>
+    <div class="adm-field">
+      <label class="adm-label">유형</label>
+      <select class="adm-select" id="pf2-type" onchange="togglePubFields()">
+        <option value="journal" ${(!p.type||p.type==='journal')?'selected':''}>Journal Article</option>
+        <option value="conf" ${p.type==='conf'?'selected':''}>Conference Presentation</option>
+      </select>
+    </div>
+    <div class="adm-field"><label class="adm-label">제목 전문 (저자·게재지 포함 전체 인용 가능)</label>
+      <textarea class="adm-textarea" id="pf2-title" rows="4" placeholder="주수산나, **배유진**, 김현경 (2026). 제목. 학술지명, 권(호), 쪽.">${p.title||''}</textarea>
+    </div>
+    <div class="form-row">
+      <div class="adm-field"><label class="adm-label">연도</label><input class="adm-input" id="pf2-year" value="${p.year||''}"></div>
+      <div class="adm-field"><label class="adm-label">뱃지 (Journal/In Press/Poster/Oral)</label><input class="adm-input" id="pf2-badge" value="${p.badge||'Journal'}"></div>
+    </div>
+    <div class="adm-field"><label class="adm-label">게재지 / 학술대회명 (부제)</label>
+      <input class="adm-input" id="pf2-venue" value="${p.venue||p.conf||''}">
+    </div>
+    <div id="pf2-conf-wrap" class="adm-field" style="${p.type==='conf'?'':'display:none'}">
+      <label class="adm-label">발표 형식 (Poster / Oral)</label>
+      <select class="adm-select" id="pf2-type2">
+        <option ${p.type2==='Poster'?'selected':''}>Poster</option>
+        <option ${p.type2==='Oral'?'selected':''}>Oral</option>
+      </select>
+    </div>
+    <div class="adm-field"><label class="adm-label">DOI / URL (있으면)</label><input class="adm-input" id="pf2-url" value="${p.url||''}" placeholder="https://doi.org/..."></div>
+    <div class="form-row">
+      <div class="adm-field" style="display:flex;align-items:center;gap:.5rem;padding-top:1.5rem">
+        <input type="checkbox" id="pf2-first" ${p.first?'checked':''} style="width:16px;height:16px;cursor:pointer">
+        <label for="pf2-first" class="adm-label" style="margin:0;cursor:pointer">제1저자</label>
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem;margin-top:2rem">
+      <button class="btn-save" style="flex:1" onclick="savePubForm(${idx})">저장</button>
+      <button onclick="closeFormOverlay()" style="flex:0 0 80px;font-size:11px;font-weight:500;color:var(--ink);background:none;border:1px solid var(--rule);padding:.85rem;cursor:pointer">취소</button>
+    </div>
+  `);
+}
+function togglePubFields(){
+  const isConf = document.getElementById('pf2-type').value==='conf';
+  document.getElementById('pf2-conf-wrap').style.display = isConf?'':'none';
+}
+function savePubForm(idx){
+  const obj = {
+    type: document.getElementById('pf2-type').value,
+    title: document.getElementById('pf2-title').value,
+    year: document.getElementById('pf2-year').value,
+    badge: document.getElementById('pf2-badge').value,
+    venue: document.getElementById('pf2-venue').value,
+    conf: document.getElementById('pf2-venue').value,
+    type2: document.getElementById('pf2-type2')?.value||'',
+    url: document.getElementById('pf2-url').value,
+    first: document.getElementById('pf2-first').checked
+  };
+  if(idx>=0) DATA.pubs[idx]=obj; else DATA.pubs.push(obj);
+  closeFormOverlay(); renderPubAdm(); renderPubs();
+}
+
+/* ══════ PROJECTS ADMIN ══════ */
+let _projFormIdx=-1, _projImgs=[];
 
 function renderProjAdm(){
-  document.getElementById('proj-adm-list').innerHTML = (DATA.projects||[]).map((p,i)=>`
-    <div class="adm-card" style="padding-right:5.5rem">
-      ${(p.imgs||[]).length ? `<div style="width:48px;height:36px;background:var(--bg3);border:1px solid var(--rule);overflow:hidden;margin-bottom:.5rem"><img src="${p.imgs[0]}" style="width:100%;height:100%;object-fit:cover"></div>` : ''}
-      <div class="adm-card-title">${p.name||'(이름 없음)'}</div>
-      <div class="adm-card-sub">${p.cat||''} · ${p.hook||''}</div>
-      <button class="adm-card-del" onclick="openProjForm(${i})" style="right:2.5rem;color:var(--ink3)">편집</button>
-      <button class="adm-card-del" onclick="delProj(${i})">✕</button>
-    </div>`).join('');
+  document.getElementById('proj-adm-list').innerHTML = (DATA.projects||[]).length
+    ? (DATA.projects||[]).map((p,i)=>`
+      <div class="adm-card" style="padding-right:6rem">
+        ${(p.imgs||[]).length?`<div style="width:56px;height:36px;overflow:hidden;border:1px solid var(--rule);margin-bottom:.5rem;float:right;margin-left:.75rem"><img src="${p.imgs[0]}" style="width:100%;height:100%;object-fit:cover"></div>`:''}
+        <div class="adm-card-title">${p.name||'(이름 없음)'}</div>
+        <div class="adm-card-sub">${p.cat||''} · ${p.hook||''}</div>
+        <div class="adm-card-actions">
+          <button class="adm-card-btn" onclick="openProjForm(${i})">편집</button>
+          <button class="adm-card-btn danger" onclick="delProj(${i})">✕</button>
+        </div>
+      </div>`).join('')
+    : '<div style="padding:1rem 0;color:var(--ink4);font-size:12px">항목 없음</div>';
 }
-
-function openProjForm(idx){
-  _projFormIdx = idx;
-  const wrap = document.getElementById('proj-form-wrap');
-  wrap.style.display = 'flex';
-  if(idx >= 0){
-    const p = DATA.projects[idx];
-    document.getElementById('pf-mode-label').textContent = '프로젝트 편집';
-    document.getElementById('pf-name').value = p.name||'';
-    document.getElementById('pf-cat').value = p.cat||'research';
-    document.getElementById('pf-hook').value = p.hook||'';
-    document.getElementById('pf-tags').value = (p.tags||[]).join(', ');
-    document.getElementById('pf-problem').value = p.problem||'';
-    document.getElementById('pf-solution').value = p.solution||'';
-    document.getElementById('pf-result').value = p.result||'';
-    _projImgs = [...(p.imgs||[])];
-  } else {
-    document.getElementById('pf-mode-label').textContent = '새 프로젝트 추가';
-    ['pf-name','pf-hook','pf-tags','pf-problem','pf-solution','pf-result'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('pf-cat').value = 'research';
-    _projImgs = [];
-  }
-  renderProjImgGrid();
-}
-
-function closeProjForm(){
-  document.getElementById('proj-form-wrap').style.display = 'none';
-}
-
-function renderProjImgGrid(){
-  const grid = document.getElementById('pf-img-grid');
-  grid.innerHTML = _projImgs.map((src,i)=>`
-    <div style="position:relative;aspect-ratio:16/10;background:var(--bg2);border:1px solid var(--rule);overflow:hidden">
-      <img src="${src}" style="width:100%;height:100%;object-fit:cover">
-      <button onclick="removeProjImg(${i})" style="position:absolute;top:.3rem;right:.3rem;width:22px;height:22px;background:rgba(0,0,0,.6);color:#fff;border:none;cursor:pointer;font-size:11px;line-height:1">✕</button>
-    </div>`).join('');
-  // 빈 슬롯 (최대 4)
-  const empty = 4 - _projImgs.length;
-  for(let i=0;i<empty;i++){
-    grid.innerHTML += `<div style="aspect-ratio:16/10;background:var(--bg2);border:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);cursor:pointer" onclick="document.getElementById('pf-img-input').click()">+ 이미지</div>`;
-  }
-}
-
-function removeProjImg(i){ _projImgs.splice(i,1); renderProjImgGrid(); }
-
-function handleProjImgUpload(input){
-  const files = Array.from(input.files).slice(0, 4 - _projImgs.length);
-  let loaded = 0;
-  files.forEach(f=>{
-    const r = new FileReader();
-    r.onload = e => {
-      _projImgs.push(e.target.result);
-      loaded++;
-      if(loaded === files.length) renderProjImgGrid();
-    };
-    r.readAsDataURL(f);
-  });
-  input.value = '';
-}
-
-function saveProjForm(){
-  const name = document.getElementById('pf-name').value.trim();
-  if(!name){ alert('프로젝트 이름을 입력해주세요.'); return; }
-  const proj = {
-    id: name.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,''),
-    name,
-    cat: document.getElementById('pf-cat').value,
-    hook: document.getElementById('pf-hook').value,
-    tags: document.getElementById('pf-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
-    problem: document.getElementById('pf-problem').value,
-    solution: document.getElementById('pf-solution').value,
-    result: document.getElementById('pf-result').value,
-    imgs: [..._projImgs]
-  };
-  if(_projFormIdx >= 0){ DATA.projects[_projFormIdx] = proj; }
-  else { DATA.projects.push(proj); }
-  closeProjForm();
-  renderProjAdm();
-  renderProjects();
-}
-
-function delProj(i){ if(!confirm('삭제하시겠습니까?')) return; DATA.projects.splice(i,1); renderProjAdm(); renderProjects(); }
+function delProj(i){ if(!confirm('삭제?')) return; DATA.projects.splice(i,1); renderProjAdm(); renderProjects(); }
 async function saveProjs(){ await fbSave(); }
 
-/* ── Collab Admin ── */
-function renderCollabAdm(){
-  document.getElementById('collab-adm-list').innerHTML = (DATA.collabs||[]).map((c,i)=>`
-    <div class="adm-card">
-      <div class="adm-card-title">${c.title||'(제목 없음)'}</div>
-      <div class="adm-card-sub">${c.org||''} · ${c.year||''}</div>
-      <button class="adm-card-del" onclick="delCollab(${i})">✕</button>
+function openProjForm(idx){
+  _projFormIdx=idx; _projImgs=[...(idx>=0?(DATA.projects[idx].imgs||[]):[])];
+  const p=idx>=0?DATA.projects[idx]:{};
+  openFormOverlay(`
+    <div class="form-title">${idx>=0?'Project 편집':'Project 추가'}</div>
+    <div class="form-row">
+      <div class="adm-field"><label class="adm-label">프로젝트 이름</label><input class="adm-input" id="pf-name" value="${p.name||''}"></div>
+      <div class="adm-field"><label class="adm-label">카테고리</label>
+        <select class="adm-select" id="pf-cat">
+          <option value="research" ${p.cat==='research'?'selected':''}>Research</option>
+          <option value="design" ${p.cat==='design'?'selected':''}>Service Design</option>
+          <option value="dev" ${p.cat==='dev'?'selected':''}>Development</option>
+        </select>
+      </div>
+    </div>
+    <div class="adm-field"><label class="adm-label">후크 문구 (한 줄 요약)</label><input class="adm-input" id="pf-hook" value="${(p.hook||'').replace(/"/g,'&quot;')}"></div>
+    <div class="adm-field"><label class="adm-label">태그 (쉼표로 구분)</label><input class="adm-input" id="pf-tags" value="${(p.tags||[]).join(', ')}" placeholder="Figma, UX Research, MVP"></div>
+    <div class="form-section">프로젝트 내용</div>
+    <div class="adm-field"><label class="adm-label">Problem — 문제 정의</label><textarea class="adm-textarea" id="pf-problem" rows="3">${p.problem||''}</textarea></div>
+    <div class="adm-field"><label class="adm-label">Solution — 접근 방법</label><textarea class="adm-textarea" id="pf-solution" rows="4">${p.solution||''}</textarea></div>
+    <div class="adm-field"><label class="adm-label">Result — 결과 및 성과</label><textarea class="adm-textarea" id="pf-result" rows="3">${p.result||''}</textarea></div>
+    <div class="form-section">이미지 (최대 4장)</div>
+    <div id="pf-img-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin-bottom:.75rem"></div>
+    <button type="button" onclick="document.getElementById('pf-img-input').click()" class="btn-adm-add">+ 이미지 추가 (파일 직접 업로드)</button>
+    <input type="file" id="pf-img-input" accept="image/*" multiple style="display:none" onchange="handleProjImgUpload(this)">
+    <div style="font-size:10px;color:var(--ink4);margin-top:.4rem">파일당 2MB 이하 권장 · JPG/PNG · base64 저장</div>
+    <div style="display:flex;gap:.75rem;margin-top:2rem">
+      <button class="btn-save" style="flex:1" onclick="saveProjForm()">저장</button>
+      <button onclick="closeFormOverlay()" style="flex:0 0 80px;font-size:11px;font-weight:500;color:var(--ink);background:none;border:1px solid var(--rule);padding:.85rem;cursor:pointer">취소</button>
+    </div>
+  `);
+  renderProjImgGrid();
+}
+function renderProjImgGrid(){
+  const g=document.getElementById('pf-img-grid'); if(!g) return;
+  g.innerHTML = _projImgs.map((src,i)=>`
+    <div style="position:relative;aspect-ratio:16/10;background:var(--bg2);border:1px solid var(--rule);overflow:hidden">
+      <img src="${src}" style="width:100%;height:100%;object-fit:cover">
+      <button onclick="removeProjImg(${i})" style="position:absolute;top:.3rem;right:.3rem;width:22px;height:22px;background:rgba(0,0,0,.65);color:#fff;border:none;cursor:pointer;font-size:11px;line-height:1;border-radius:2px">✕</button>
     </div>`).join('');
+  const empty=4-_projImgs.length;
+  for(let i=0;i<empty;i++) g.innerHTML+=`<div style="aspect-ratio:16/10;background:var(--bg2);border:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);cursor:pointer" onclick="document.getElementById('pf-img-input').click()">+ 이미지</div>`;
 }
-function delCollab(i){ DATA.collabs.splice(i,1); renderCollabAdm(); renderCollabs(); }
-function addCollab(){
-  const title = prompt('프로젝트명:'); if(!title) return;
-  const org = prompt('기관명:')||'';
-  const badge = prompt('배지 (예: 국가기관):')||'기관';
-  const year = prompt('연도:')||'';
-  const sub = prompt('역할 요약:')||'';
-  const role = prompt('담당 역할 상세:')||'';
-  const result = prompt('결과:')||'';
-  DATA.collabs.push({title,org,badge,year,sub,role,result});
-  renderCollabAdm(); renderCollabs();
+function removeProjImg(i){ _projImgs.splice(i,1); renderProjImgGrid(); }
+function handleProjImgUpload(input){
+  const files=Array.from(input.files).slice(0,4-_projImgs.length);
+  let loaded=0;
+  files.forEach(f=>{ const r=new FileReader(); r.onload=e=>{ _projImgs.push(e.target.result); loaded++; if(loaded===files.length) renderProjImgGrid(); }; r.readAsDataURL(f); });
+  input.value='';
 }
-async function saveCollab(){ await fbSave(); }
+function saveProjForm(){
+  const name=document.getElementById('pf-name').value.trim(); if(!name){alert('이름을 입력해주세요.');return;}
+  const proj={id:name.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9가-힣-]/g,''),name,cat:document.getElementById('pf-cat').value,hook:document.getElementById('pf-hook').value,tags:document.getElementById('pf-tags').value.split(',').map(t=>t.trim()).filter(Boolean),problem:document.getElementById('pf-problem').value,solution:document.getElementById('pf-solution').value,result:document.getElementById('pf-result').value,imgs:[..._projImgs]};
+  if(_projFormIdx>=0) DATA.projects[_projFormIdx]=proj; else DATA.projects.push(proj);
+  closeFormOverlay(); renderProjAdm(); renderProjects();
+}
 
-/* ── Awards Admin ── */
+/* ── Side Projects Admin ── */
+let _miniFormIdx=-1, _miniImgs=[];
+function renderMiniAdm(){
+  const el=document.getElementById('mini-adm-list'); if(!el) return;
+  el.innerHTML=(DATA.miniProjects||[]).length
+    ? (DATA.miniProjects||[]).map((p,i)=>`
+      <div class="adm-card" style="padding-right:6rem">
+        <div class="adm-card-title">${p.name||'(이름 없음)'}</div>
+        <div class="adm-card-sub">${p.tag||''} · ${p.desc||''}</div>
+        <div class="adm-card-actions">
+          <button class="adm-card-btn" onclick="openMiniForm(${i})">편집</button>
+          <button class="adm-card-btn danger" onclick="delMini(${i})">✕</button>
+        </div>
+      </div>`).join('')
+    : '<div style="padding:1rem 0;color:var(--ink4);font-size:12px">항목 없음</div>';
+}
+function delMini(i){ if(!confirm('삭제?')) return; DATA.miniProjects.splice(i,1); renderMiniAdm(); renderProjects(); }
+function openMiniForm(idx){
+  _miniFormIdx=idx; _miniImgs=[...(idx>=0?(DATA.miniProjects[idx].imgs||[]):[])];
+  const p=idx>=0?DATA.miniProjects[idx]:{};
+  openFormOverlay(`
+    <div class="form-title">${idx>=0?'Side Project 편집':'Side Project 추가'}</div>
+    <div class="form-row">
+      <div class="adm-field"><label class="adm-label">이름</label><input class="adm-input" id="mf-name" value="${p.name||''}"></div>
+      <div class="adm-field"><label class="adm-label">태그 (한 줄)</label><input class="adm-input" id="mf-tag" value="${p.tag||''}"></div>
+    </div>
+    <div class="adm-field"><label class="adm-label">설명</label><textarea class="adm-textarea" id="mf-desc" rows="3">${p.desc||''}</textarea></div>
+    <div class="adm-field"><label class="adm-label">상세 내용 (모달에서 표시)</label><textarea class="adm-textarea" id="mf-detail" rows="4">${p.detail||''}</textarea></div>
+    <div class="form-section">썸네일 이미지 (1장)</div>
+    <div id="mf-img-wrap" style="margin-bottom:.75rem">${_miniImgs[0]?`<div style="position:relative;width:200px;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--rule)"><img src="${_miniImgs[0]}" style="width:100%;height:100%;object-fit:cover"><button onclick="removeMiniImg()" style="position:absolute;top:.3rem;right:.3rem;width:20px;height:20px;background:rgba(0,0,0,.65);color:#fff;border:none;cursor:pointer;font-size:10px">✕</button></div>`:'<div style="width:200px;aspect-ratio:16/9;background:var(--bg2);border:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink4);cursor:pointer" onclick="document.getElementById(\'mf-img-input\').click()">+ 이미지</div>'}</div>
+    <button type="button" onclick="document.getElementById('mf-img-input').click()" class="btn-adm-add" style="width:200px">이미지 선택</button>
+    <input type="file" id="mf-img-input" accept="image/*" style="display:none" onchange="handleMiniImg(this)">
+    <div style="display:flex;gap:.75rem;margin-top:2rem">
+      <button class="btn-save" style="flex:1" onclick="saveMiniForm()">저장</button>
+      <button onclick="closeFormOverlay()" style="flex:0 0 80px;font-size:11px;font-weight:500;color:var(--ink);background:none;border:1px solid var(--rule);padding:.85rem;cursor:pointer">취소</button>
+    </div>
+  `);
+}
+function removeMiniImg(){ _miniImgs=[]; document.getElementById('mf-img-wrap').innerHTML='<div style="width:200px;aspect-ratio:16/9;background:var(--bg2);border:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink4);cursor:pointer" onclick="document.getElementById(\'mf-img-input\').click()">+ 이미지</div>'; }
+function handleMiniImg(input){ const f=input.files[0];if(!f)return; const r=new FileReader();r.onload=e=>{_miniImgs=[e.target.result];document.getElementById('mf-img-wrap').innerHTML=`<div style="position:relative;width:200px;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--rule)"><img src="${_miniImgs[0]}" style="width:100%;height:100%;object-fit:cover"><button onclick="removeMiniImg()" style="position:absolute;top:.3rem;right:.3rem;width:20px;height:20px;background:rgba(0,0,0,.65);color:#fff;border:none;cursor:pointer;font-size:10px">✕</button></div>`;}; r.readAsDataURL(f);input.value=''; }
+function saveMiniForm(){
+  const name=document.getElementById('mf-name').value.trim();if(!name){alert('이름 입력');return;}
+  const obj={id:name.toLowerCase().replace(/\s+/g,'-'),name,tag:document.getElementById('mf-tag').value,desc:document.getElementById('mf-desc').value,detail:document.getElementById('mf-detail').value,img:_miniImgs[0]||''};
+  if(_miniFormIdx>=0) DATA.miniProjects[_miniFormIdx]=obj; else DATA.miniProjects.push(obj);
+  closeFormOverlay(); renderMiniAdm(); renderProjects();
+}
+
+/* ══════ COLLAB ADMIN ══════ */
+function renderCollabAdm(){
+  document.getElementById('collab-adm-list').innerHTML=(DATA.collabs||[]).length
+    ?(DATA.collabs||[]).map((c,i)=>`
+      <div class="adm-card" style="padding-right:6rem">
+        <div class="adm-card-title">${c.title||'(제목 없음)'}</div>
+        <div class="adm-card-sub">${c.org||''} · ${c.year||''}</div>
+        <div class="adm-card-actions">
+          <button class="adm-card-btn" onclick="openCollabForm(${i})">편집</button>
+          <button class="adm-card-btn danger" onclick="delCollab(${i})">✕</button>
+        </div>
+      </div>`).join('')
+    :'<div style="padding:1rem 0;color:var(--ink4);font-size:12px">항목 없음</div>';
+}
+function delCollab(i){if(!confirm('삭제?'))return;DATA.collabs.splice(i,1);renderCollabAdm();renderCollabs();}
+async function saveCollab(){await fbSave();}
+function openCollabForm(idx){
+  const c=idx>=0?DATA.collabs[idx]:{};
+  openFormOverlay(`
+    <div class="form-title">${idx>=0?'Collaboration 편집':'Collaboration 추가'}</div>
+    <div class="form-row">
+      <div class="adm-field"><label class="adm-label">기관명</label><input class="adm-input" id="cf-org" value="${c.org||''}"></div>
+      <div class="adm-field"><label class="adm-label">뱃지 (공공기관/국가기관 등)</label><input class="adm-input" id="cf-badge" value="${c.badge||''}"></div>
+    </div>
+    <div class="form-row">
+      <div class="adm-field"><label class="adm-label">연도</label><input class="adm-input" id="cf-year" value="${c.year||''}"></div>
+      <div class="adm-field"><label class="adm-label">역할 요약 (부제)</label><input class="adm-input" id="cf-sub" value="${c.sub||''}"></div>
+    </div>
+    <div class="adm-field"><label class="adm-label">프로젝트명</label><input class="adm-input" id="cf-title" value="${c.title||''}"></div>
+    <div class="adm-field"><label class="adm-label">담당 역할 상세</label><textarea class="adm-textarea" id="cf-role" rows="3">${c.role||''}</textarea></div>
+    <div class="adm-field"><label class="adm-label">결과</label><textarea class="adm-textarea" id="cf-result" rows="2">${c.result||''}</textarea></div>
+    <div style="display:flex;gap:.75rem;margin-top:2rem">
+      <button class="btn-save" style="flex:1" onclick="saveCollabForm(${idx})">저장</button>
+      <button onclick="closeFormOverlay()" style="flex:0 0 80px;font-size:11px;font-weight:500;color:var(--ink);background:none;border:1px solid var(--rule);padding:.85rem;cursor:pointer">취소</button>
+    </div>
+  `);
+}
+function saveCollabForm(idx){
+  const obj={org:document.getElementById('cf-org').value,badge:document.getElementById('cf-badge').value,year:document.getElementById('cf-year').value,sub:document.getElementById('cf-sub').value,title:document.getElementById('cf-title').value,role:document.getElementById('cf-role').value,result:document.getElementById('cf-result').value};
+  if(idx>=0)DATA.collabs[idx]=obj;else DATA.collabs.push(obj);
+  closeFormOverlay();renderCollabAdm();renderCollabs();
+}
+
+/* ══════ AWARDS ADMIN ══════ */
 function renderAwAdm(){
-  document.getElementById('aw-adm-list').innerHTML = (DATA.awards||[]).map((a,i)=>`
-    <div class="adm-card">
-      <div class="adm-card-title">${a.title||'(제목 없음)'}</div>
-      <div class="adm-card-sub">${a.org||''} · ${a.year||''}</div>
-      <button class="adm-card-del" onclick="delAward(${i})">✕</button>
-    </div>`).join('');
+  document.getElementById('aw-adm-list').innerHTML=(DATA.awards||[]).length
+    ?(DATA.awards||[]).map((a,i)=>{
+      const catLabel={'award':'🏆 수상·선발','program':'📋 프로그램','cert':'📜 자격증'}[a.category||'award']||'수상';
+      return `<div class="adm-card" style="padding-right:6rem">
+        <div class="adm-card-title">${a.title||'(제목 없음)'}</div>
+        <div class="adm-card-sub">${catLabel} · ${a.org||''} · ${a.year||''}</div>
+        <div class="adm-card-actions">
+          <button class="adm-card-btn" onclick="openAwardForm(${i})">편집</button>
+          <button class="adm-card-btn danger" onclick="delAward(${i})">✕</button>
+        </div>
+      </div>`;}).join('')
+    :'<div style="padding:1rem 0;color:var(--ink4);font-size:12px">항목 없음</div>';
 }
-function delAward(i){ DATA.awards.splice(i,1); renderAwAdm(); renderAwards(); }
-function addAward(){
-  const title = prompt('수상명:'); if(!title) return;
-  const org = prompt('기관명:')||'';
-  const year = prompt('연도:')||'';
-  DATA.awards.push({title,org,year});
-  renderAwAdm(); renderAwards();
+function delAward(i){if(!confirm('삭제?'))return;DATA.awards.splice(i,1);renderAwAdm();renderAwards();}
+async function saveAwards(){await fbSave();}
+function openAwardForm(idx){
+  const a=idx>=0?DATA.awards[idx]:{};
+  openFormOverlay(`
+    <div class="form-title">${idx>=0?'항목 편집':'항목 추가'}</div>
+    <div class="adm-field"><label class="adm-label">카테고리</label>
+      <select class="adm-select" id="af-cat">
+        <option value="award" ${(!a.category||a.category==='award')?'selected':''}>🏆 수상 · 선발</option>
+        <option value="program" ${a.category==='program'?'selected':''}>📋 프로그램 수료 · 참여</option>
+        <option value="cert" ${a.category==='cert'?'selected':''}>📜 자격증</option>
+      </select>
+    </div>
+    <div class="adm-field"><label class="adm-label">제목</label><input class="adm-input" id="af-title" value="${a.title||''}"></div>
+    <div class="form-row">
+      <div class="adm-field"><label class="adm-label">기관명</label><input class="adm-input" id="af-org" value="${a.org||''}"></div>
+      <div class="adm-field"><label class="adm-label">연도</label><input class="adm-input" id="af-year" value="${a.year||''}"></div>
+    </div>
+    <div style="display:flex;gap:.75rem;margin-top:2rem">
+      <button class="btn-save" style="flex:1" onclick="saveAwardForm(${idx})">저장</button>
+      <button onclick="closeFormOverlay()" style="flex:0 0 80px;font-size:11px;font-weight:500;color:var(--ink);background:none;border:1px solid var(--rule);padding:.85rem;cursor:pointer">취소</button>
+    </div>
+  `);
 }
-async function saveAwards(){ await fbSave(); }
+function saveAwardForm(idx){
+  const obj={category:document.getElementById('af-cat').value,title:document.getElementById('af-title').value,org:document.getElementById('af-org').value,year:document.getElementById('af-year').value};
+  if(idx>=0)DATA.awards[idx]=obj;else DATA.awards.push(obj);
+  closeFormOverlay();renderAwAdm();renderAwards();
+}
 
 /* ══════ ESC KEY ══════ */
 document.addEventListener('keydown', e=>{
