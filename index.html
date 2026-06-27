@@ -918,8 +918,23 @@ window.addEventListener('fb-ready', async () => {
       try { await fbSave(false); } catch(e2) { console.warn('초기 저장 실패:', e2); }
     }
   } catch(e) {
-    console.warn('Firebase 오류 (오프라인 모드):', e);
-    setMsg('오프라인 모드');
+    console.warn('Firebase 오류 — localStorage fallback 시도:', e);
+    setMsg('로컬 데이터 불러오는 중…');
+    // localStorage에서 복원 시도
+    const local = loadFromLocalStorage ? loadFromLocalStorage() : null;
+    if(local) {
+      if(local.basic) DATA.basic = {...DEF.basic,...local.basic};
+      if(local.pubs) DATA.pubs = local.pubs;
+      if(local.projects) DATA.projects = local.projects;
+      if(local.miniProjects) DATA.miniProjects = local.miniProjects;
+      if(local.collabs) DATA.collabs = local.collabs;
+      if(local.awards) DATA.awards = local.awards;
+      if(local.contact) DATA.contact = {...DEF.contact,...local.contact};
+      photoB64 = DATA.basic.photoBase64 || '';
+      setMsg('로컬 저장 데이터로 복원됨');
+    } else {
+      setMsg('오프라인 모드 (기본 데이터)');
+    }
   }
   setBar(100);
   try { applyAll(); } catch(e) { console.error('applyAll 오류:', e); }
@@ -934,34 +949,65 @@ async function fbSave(show=true) {
   const saving = document.getElementById('adm-saving');
   const saved = document.getElementById('adm-saved');
   if(show){ sync.classList.add('show'); saving && saving.classList.add('show'); }
+
+  DATA.basic.photoBase64 = photoB64;
+  const payload = {
+    basic:DATA.basic, pubs:DATA.pubs, projects:DATA.projects,
+    miniProjects:DATA.miniProjects, collabs:DATA.collabs,
+    awards:DATA.awards, contact:DATA.contact
+  };
+
+  // 용량 체크
+  const size = new Blob([JSON.stringify(payload)]).size;
+  const sizeMB = (size/1024/1024).toFixed(2);
+  console.log(`저장 데이터 크기: ${sizeMB}MB`);
+  if(size > 9 * 1024 * 1024){
+    alert(`데이터가 너무 큽니다 (${sizeMB}MB). 이미지를 일부 삭제해주세요.`);
+    if(show){ sync.classList.remove('show'); saving && saving.classList.remove('show'); }
+    return;
+  }
+
+  // ① localStorage 우선 저장 (항상 성공)
   try {
-    DATA.basic.photoBase64 = photoB64;
-    const payload = {
-      basic:DATA.basic, pubs:DATA.pubs, projects:DATA.projects,
-      miniProjects:DATA.miniProjects, collabs:DATA.collabs,
-      awards:DATA.awards, contact:DATA.contact
-    };
-    // 용량 체크 (Realtime DB 노드 한도 ~10MB)
-    const size = new Blob([JSON.stringify(payload)]).size;
-    const sizeMB = (size/1024/1024).toFixed(2);
-    console.log(`저장 데이터 크기: ${sizeMB}MB`);
-    if(size > 8 * 1024 * 1024){
-      alert(`데이터가 너무 큽니다 (${sizeMB}MB). 이미지를 줄이거나 일부를 삭제해주세요.`);
-      sync.classList.remove('show'); saving && saving.classList.remove('show');
-      return;
-    }
-    await window._fbSet(window._fbRef(window._db,'portfolio'), payload);
-    if(show){
-      sync.classList.remove('show');
-      saving && saving.classList.remove('show');
-      saved && saved.classList.add('show');
-      setTimeout(()=>saved && saved.classList.remove('show'),2500);
-    }
+    localStorage.setItem('portfolio_data', JSON.stringify(payload));
+    console.log('localStorage 저장 완료');
   } catch(e) {
-    console.error(e);
-    alert('저장 실패 — Firebase 규칙 확인 필요');
+    console.warn('localStorage 저장 실패 (용량 초과일 수 있음):', e);
+  }
+
+  // ② Firebase 저장 시도 (연결된 경우만)
+  let fbOk = false;
+  if(window._db && window._fbSet && window._fbRef) {
+    try {
+      await window._fbSet(window._fbRef(window._db,'portfolio'), payload);
+      fbOk = true;
+      console.log('Firebase 저장 완료');
+    } catch(e) {
+      console.warn('Firebase 저장 실패 (오프라인 모드, localStorage에는 저장됨):', e);
+    }
+  }
+
+  if(show){
     sync.classList.remove('show');
     saving && saving.classList.remove('show');
+    // 저장 완료 표시 — Firebase든 localStorage든 어느 쪽이라도 저장됐으면 표시
+    const savedEl = document.getElementById('adm-saved');
+    if(savedEl){
+      savedEl.textContent = fbOk ? '✓ 저장 완료' : '✓ 로컬 저장 (Firebase 미연결)';
+      savedEl.classList.add('show');
+      setTimeout(()=>savedEl.classList.remove('show'), 3000);
+    }
+  }
+}
+
+// localStorage에서 불러오기 (Firebase 실패 시 fallback으로 사용)
+function loadFromLocalStorage() {
+  try {
+    const raw = localStorage.getItem('portfolio_data');
+    if(!raw) return null;
+    return JSON.parse(raw);
+  } catch(e) {
+    return null;
   }
 }
 
@@ -1289,7 +1335,7 @@ function compressImage(file, maxW, maxH, quality){
 async function handlePhotoUpload(input){
   const f=input.files[0]; if(!f) return;
   // 프로필 사진: 최대 600x800, 품질 0.82
-  photoB64 = await compressImage(f, 600, 800, 0.82);
+  photoB64 = await compressImage(f, 900, 1200, 0.92);
   showPhoto();
   document.getElementById('photo-prev').src=photoB64;
   document.getElementById('photo-prev').classList.add('loaded');
@@ -1479,7 +1525,7 @@ function removeProjImg(i){ _projImgs.splice(i,1); renderProjImgGrid(); }
 async function handleProjImgUpload(input){
   const files=Array.from(input.files).slice(0,4-_projImgs.length);
   // 프로젝트 이미지: 최대 1200x800, 품질 0.78
-  const compressed = await Promise.all(files.map(f => compressImage(f, 1200, 800, 0.78)));
+  const compressed = await Promise.all(files.map(f => compressImage(f, 1600, 1200, 0.92)));
   _projImgs.push(...compressed);
   renderProjImgGrid();
   input.value='';
@@ -1533,7 +1579,7 @@ function removeMiniImg(){ _miniImgs=[]; document.getElementById('mf-img-wrap').i
 async function handleMiniImg(input){
   const f=input.files[0]; if(!f) return;
   // 썸네일: 최대 800x450, 품질 0.75
-  _miniImgs = [await compressImage(f, 800, 450, 0.75)];
+  _miniImgs = [await compressImage(f, 1200, 675, 0.92)];
   document.getElementById('mf-img-wrap').innerHTML=`<div style="position:relative;width:200px;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--rule)"><img src="${_miniImgs[0]}" style="width:100%;height:100%;object-fit:cover"><button onclick="removeMiniImg()" style="position:absolute;top:.3rem;right:.3rem;width:20px;height:20px;background:rgba(0,0,0,.65);color:#fff;border:none;cursor:pointer;font-size:10px">✕</button></div>`;
   input.value='';
 }
