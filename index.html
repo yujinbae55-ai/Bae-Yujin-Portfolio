@@ -22,8 +22,9 @@
 
 <!-- Firebase -->
 <script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-  import { getDatabase, ref, get, child, set } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+try {
+  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+  const { getDatabase, ref, get, child, set } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js');
   window._fbSet = set; window._fbRef = ref; window._fbGet = get; window._fbChild = child;
   const app = initializeApp({
     apiKey:"AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -36,6 +37,27 @@
   });
   window._db = getDatabase(app);
   window.dispatchEvent(new Event('fb-ready'));
+} catch(e) {
+  console.warn('Firebase 초기화 실패 — 오프라인 모드:', e);
+  // Firebase 없이 기본 데이터로 바로 시작
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      if(typeof applyAll === 'function') applyAll();
+      const ld = document.getElementById('loader');
+      if(ld) ld.classList.add('out');
+    }, 800);
+  });
+}
+</script>
+<script>
+// Firebase 로딩 실패 fallback: 3초 후에도 안 뜨면 오프라인 모드로 강제 시작
+setTimeout(() => {
+  if(document.getElementById('loader') && !document.getElementById('loader').classList.contains('out')) {
+    console.warn('Firebase timeout — 오프라인 모드로 전환');
+    if(typeof applyAll === 'function') applyAll();
+    setTimeout(() => { document.getElementById('loader').classList.add('out'); }, 300);
+  }
+}, 3000);
 </script>
 
 <style>
@@ -69,14 +91,14 @@ body,input,textarea,button,select{
   word-break:keep-all;
 }
 /* DM Serif는 명시적으로 지정한 요소에만 */
-.hero-name-en,.sec-title,.modal-title,.contact-title,.stat-n,.pub-year,.proj-num,.award-n,.about-quote,.poster-title{
+.hero-name-en,.sec-title,.modal-title,.contact-title,.pub-year-col,.proj-num,.award-n,.about-quote{
   font-family:var(--serif);
 }
 
 /* ── LOADING ── */
 #loader{position:fixed;inset:0;background:var(--ink);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity .6s .2s}
 #loader.out{opacity:0;pointer-events:none}
-.ld-name{font-family:var(--serif);font-size:2rem;color:#fff;letter-spacing:.02em}
+.ld-name{font-family:var(--sans);font-size:2rem;color:#fff;letter-spacing:-.02em;font-weight:600}
 .ld-bar-wrap{width:160px;height:1px;background:rgba(255,255,255,.15)}
 .ld-bar{height:1px;background:#fff;width:0;transition:width .5s ease}
 .ld-msg{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35)}
@@ -114,11 +136,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
 .hero-photo.loaded{display:block}
 .hero-photo-ph{display:flex;flex-direction:column;gap:.5rem;color:var(--ink4);font-size:10px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;position:relative;z-index:1}
 .hero-photo-ph svg{width:40px;height:40px;stroke:var(--rule);stroke-width:1;fill:none}
-.hero-stats{padding:2rem 3rem}
-.hero-stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
-.stat-item{}
-.stat-n{font-family:var(--serif);font-size:2.5rem;color:var(--ink);line-height:1;margin-bottom:.2rem}
-.stat-l{font-size:10px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);line-height:1.5}
+
 /* Hero strip */
 .hero-strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule)}
 .strip-cell{padding:1rem 3.5rem;border-right:1px solid var(--rule);font-size:10.5px;font-weight:400;letter-spacing:.04em;color:var(--ink3);line-height:1.6}
@@ -183,9 +201,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
 .r-panel.on{display:block;animation:fadeUp .25s ease}
 /* Publications 리스트 */
 .pub-list{border-top:1px solid var(--rule)}
-.pub-row{display:grid;grid-template-columns:56px 1fr 90px;gap:2rem;align-items:start;padding:2rem 0;border-bottom:1px solid var(--rule);transition:background .15s;margin:0 -3.5rem;padding-left:3.5rem;padding-right:3.5rem}
+.pub-unified-list{border-top:1px solid var(--rule)}
+/* 섹션 구분 레이블 */
+.pub-section-label{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);padding:2.5rem 0 .75rem;border-bottom:1px solid var(--rule)}
+.pub-section-label--conf{margin-top:1rem;padding-top:3rem;border-top:1px solid var(--rule)}
+/* pub row */
+.pub-row{display:grid;grid-template-columns:56px 1fr 100px;gap:2rem;align-items:start;padding:2rem 0;border-bottom:1px solid var(--rule);transition:background .15s;margin:0 -3.5rem;padding-left:3.5rem;padding-right:3.5rem}
 .pub-row:hover{background:var(--bg2)}
-.pub-year{font-family:var(--serif);font-size:1.1rem;color:var(--ink3);line-height:1}
+.pub-row--conf .pub-title{font-weight:400;color:var(--ink2)}
+.pub-year-col{font-family:var(--serif);font-size:1.1rem;color:var(--ink3);line-height:1;padding-top:.15rem}
+.pub-conf-meta{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);margin-bottom:.4rem}
+.pub-type2{font-weight:600;color:var(--ink3)}
+.pub-badge.inpress{border-color:var(--ink3);color:var(--ink2)}
 .pub-content{}
 .pub-title{font-size:13px;font-weight:500;color:var(--ink);line-height:1.7;margin-bottom:.4rem;word-break:keep-all}
 .pub-venue{font-size:11.5px;font-weight:300;color:var(--ink3);line-height:1.6}
@@ -214,6 +241,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
 .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
 .proj-card{background:var(--bg);cursor:pointer;transition:background .2s;display:flex;flex-direction:column;position:relative;overflow:hidden}
 .proj-card:hover{background:var(--bg2)}
+.proj-card-img{width:100%;aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--rule)}
+.proj-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.proj-card:hover .proj-card-img img{transform:scale(1.03)}
 .proj-card-top{padding:2.5rem 2.5rem 2rem;flex:1;display:flex;flex-direction:column;gap:1rem}
 .proj-num{font-family:var(--serif);font-size:3.5rem;color:var(--rule);line-height:1;user-select:none;position:absolute;top:1.25rem;right:1.75rem}
 .proj-cat{font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink4);margin-bottom:.25rem;position:relative;z-index:1}
@@ -231,12 +261,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
 .mini-proj-section{margin-top:3rem}
 .mini-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--rule)}
 .mini-title{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
-.mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.mini-card{background:var(--bg);padding:1.75rem;transition:background .2s;cursor:pointer}
-.mini-card:hover{background:var(--bg2)}
-.mini-card-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:.4rem}
-.mini-card-desc{font-size:11.5px;font-weight:300;color:var(--ink3);line-height:1.75}
-.mini-card-tag{font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-top:.75rem}
+/* mini-grid → mini-card-grid 로 교체됨 */
+
 
 /* ── COLLAB ── */
 #collab{}
@@ -273,7 +299,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
 .modal-tag{font-size:10px;font-weight:400;letter-spacing:.04em;color:var(--ink3);border:1px solid var(--rule);padding:.3rem .7rem}
 .modal-result-box{background:var(--bg2);border:1px solid var(--rule);border-left:3px solid var(--ink);padding:1.25rem 1.5rem;font-size:13px;font-weight:400;color:var(--ink);line-height:1.8;margin-top:.75rem}
 .modal-imgs{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-top:1rem}
+.modal-imgs--single{grid-template-columns:1fr}
 .modal-imgs img{width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid var(--rule)}
+.modal-imgs--single img{aspect-ratio:16/7}
 .modal-img-ph{width:100%;aspect-ratio:16/10;background:var(--bg2);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
 /* mini modal */
 #mini-modal{display:none;position:fixed;inset:0;z-index:800;background:rgba(17,17,16,.6);backdrop-filter:blur(4px);align-items:center;justify-content:center}
@@ -325,13 +353,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
 
 /* ── AWARDS ── */
 #awards{background:var(--bg2)}
-.awards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.award-card{background:var(--bg2);padding:2rem 2.5rem;transition:background .2s}
-.award-card:hover{background:var(--bg3)}
-.award-n{font-family:var(--serif);font-size:2rem;color:var(--rule);margin-bottom:.75rem;line-height:1}
-.award-title{font-size:13px;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:.35rem;word-break:keep-all}
-.award-org{font-size:11px;font-weight:300;color:var(--ink3)}
-.award-year{font-size:10px;font-weight:500;letter-spacing:.06em;color:var(--ink4);margin-top:.4rem}
+.aw-category-label{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);padding-bottom:.75rem;border-bottom:1px solid var(--rule);margin-bottom:0}
+.aw-list{border-bottom:1px solid var(--rule)}
+.aw-row{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:baseline;padding:1.25rem 0;border-top:1px solid var(--rule);transition:background .15s;margin:0 -3.5rem;padding-left:3.5rem;padding-right:3.5rem}
+.aw-row:hover{background:var(--bg3)}
+.aw-row-left{}
+.aw-row-title{font-size:13px;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:.2rem;word-break:keep-all}
+.aw-row-org{font-size:11.5px;font-weight:300;color:var(--ink3)}
+.aw-row-right{text-align:right;flex-shrink:0}
+.aw-row-year{font-size:10px;font-weight:500;letter-spacing:.04em;color:var(--ink4);white-space:nowrap}
+
+/* ── MINI PROJECTS ── */
+.mini-card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.mini-proj-card{background:var(--bg);display:flex;flex-direction:column;cursor:pointer;transition:background .2s;overflow:hidden}
+.mini-proj-card:hover{background:var(--bg2)}
+.mini-proj-thumb{aspect-ratio:16/9;background:var(--bg2);position:relative;overflow:hidden;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:center}
+.mini-proj-thumb-word{font-family:var(--serif);font-size:3rem;color:var(--rule);user-select:none;font-style:italic}
+.mini-proj-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mini-proj-body{padding:1.5rem 2rem 1.75rem}
+.mini-proj-tag{font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem}
+.mini-proj-name{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:.5rem}
+.mini-proj-desc{font-size:12px;font-weight:300;color:var(--ink3);line-height:1.85}
+.mini-proj-footer{display:flex;justify-content:space-between;align-items:center;padding:.85rem 2rem;border-top:1px solid var(--rule)}
+.mini-proj-footer-label{font-size:9px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4)}
+.mini-proj-arrow{font-size:1rem;color:var(--ink3);transition:transform .2s}
+.mini-proj-card:hover .mini-proj-arrow{transform:translate(3px,-3px)}
 
 /* ── CONTACT ── */
 #contact{background:var(--ink);padding:6rem 3.5rem}
@@ -414,22 +460,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
           <span>사진을 추가해주세요</span>
         </div>
       </div>
-      <div class="hero-stats">
-        <div class="hero-stats-grid">
-          <div class="stat-item">
-            <div class="stat-n" id="h-s1">3+</div>
-            <div class="stat-l" id="h-sl1">Projects</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-n" id="h-s2">68</div>
-            <div class="stat-l" id="h-sl2">Participants</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-n" id="h-s3">5</div>
-            <div class="stat-l" id="h-sl3">Products</div>
-          </div>
-        </div>
-      </div>
+
     </div>
   </div>
   <div class="hero-strip">
@@ -561,18 +592,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
   <div class="sec-eyebrow">Research</div>
   <div class="sec-title">Publications &<br>Presentations</div>
   <div class="sec-sub">아동·가족 및 디지털 웰빙 영역에서 수행한 학술 연구 성과입니다.</div>
-  <div class="research-tabs">
-    <button class="r-tab on" onclick="switchRTab(this,'journals')">Journal Articles</button>
-    <button class="r-tab" onclick="switchRTab(this,'conferences')">Conference Presentations</button>
-  </div>
-  <!-- Journal -->
-  <div class="r-panel on" id="r-panel-journals">
-    <div class="pub-list" id="pub-list-journals"></div>
-  </div>
-  <!-- Conference -->
-  <div class="r-panel" id="r-panel-conferences">
-    <div class="poster-grid" id="poster-grid"></div>
-  </div>
+  <div class="pub-unified-list" id="pub-unified-list"></div>
 </section>
 
 <!-- ══════════════════ PROJECTS ══════════════════ -->
@@ -590,12 +610,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
     </div>
   </div>
   <div class="proj-grid" id="proj-grid"></div>
-  <!-- 미니 프로젝트 -->
+  <!-- 사이드 프로젝트 -->
   <div class="mini-proj-section">
     <div class="mini-header">
       <div class="mini-title">Side & Personal Projects</div>
     </div>
-    <div class="mini-grid" id="mini-grid"></div>
+    <div class="mini-card-grid" id="mini-grid"></div>
   </div>
 </section>
 
@@ -609,10 +629,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
 
 <!-- ══════════════════ AWARDS ══════════════════ -->
 <section id="awards" class="section" data-section="awards">
-  <div class="sec-eyebrow">Awards & Honors</div>
-  <div class="sec-title">Recognition</div>
-  <div class="sec-divider"></div>
-  <div class="awards-grid" id="awards-grid"></div>
+  <div class="sec-eyebrow">Awards & Recognition</div>
+  <div class="sec-title">Honors</div>
+  <div class="sec-sub">수상·선발·수료 및 자격증 현황입니다.</div>
+
+  <!-- 수상 -->
+  <div class="aw-category-label">수상 · 선발</div>
+  <div class="aw-list" id="aw-list-awards"></div>
+
+  <!-- 수료 프로그램 -->
+  <div class="aw-category-label" style="margin-top:3rem">프로그램 수료 · 참여</div>
+  <div class="aw-list" id="aw-list-programs"></div>
+
+  <!-- 자격증 -->
+  <div class="aw-category-label" style="margin-top:3rem">자격증</div>
+  <div class="aw-list" id="aw-list-certs"></div>
 </section>
 
 <!-- ══════════════════ CONTACT ══════════════════ -->
@@ -721,9 +752,43 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:52px;display:flex;ali
       <!-- Projects -->
       <div class="admin-pane" id="tab-projs">
         <div id="proj-adm-list"></div>
-        <button class="btn-adm-add" onclick="addProj()">+ Project 추가</button>
+        <button class="btn-adm-add" onclick="openProjForm(-1)">+ Project 추가</button>
         <div style="height:1rem"></div>
         <button class="btn-save" onclick="saveProjs()">저장</button>
+        <!-- 인라인 편집 폼 -->
+        <div id="proj-form-wrap" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);display:none;align-items:flex-start;justify-content:center;padding-top:60px">
+          <div style="width:min(640px,95vw);max-height:88vh;overflow-y:auto;background:var(--bg);border:1px solid var(--rule);padding:2.5rem">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
+              <span style="font-size:13px;font-weight:600;color:var(--ink)" id="pf-mode-label">프로젝트 편집</span>
+              <button onclick="closeProjForm()" style="font-size:18px;color:var(--ink3);background:none;border:none;cursor:pointer">✕</button>
+            </div>
+            <div class="adm-field"><label class="adm-label">프로젝트 이름</label><input class="adm-input" id="pf-name"></div>
+            <div class="adm-field"><label class="adm-label">카테고리</label>
+              <select class="adm-select" id="pf-cat">
+                <option value="research">Research</option>
+                <option value="design">Service Design</option>
+                <option value="dev">Development</option>
+              </select>
+            </div>
+            <div class="adm-field"><label class="adm-label">후크 문구 (한 줄 요약)</label><input class="adm-input" id="pf-hook"></div>
+            <div class="adm-field"><label class="adm-label">태그 (쉼표로 구분)</label><input class="adm-input" id="pf-tags" placeholder="Figma, UX Research, MVP"></div>
+            <div class="adm-field"><label class="adm-label">Problem</label><textarea class="adm-textarea" id="pf-problem" rows="3"></textarea></div>
+            <div class="adm-field"><label class="adm-label">Solution</label><textarea class="adm-textarea" id="pf-solution" rows="4"></textarea></div>
+            <div class="adm-field"><label class="adm-label">Result</label><textarea class="adm-textarea" id="pf-result" rows="3"></textarea></div>
+            <!-- 이미지 업로드 -->
+            <div class="adm-field">
+              <label class="adm-label">이미지 (최대 4장)</label>
+              <div id="pf-img-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem"></div>
+              <button type="button" onclick="document.getElementById('pf-img-input').click()" class="btn-adm-add">+ 이미지 추가</button>
+              <input type="file" id="pf-img-input" accept="image/*" multiple style="display:none" onchange="handleProjImgUpload(this)">
+              <div style="font-size:10px;color:var(--ink4);margin-top:.4rem;letter-spacing:.02em">JPG/PNG · 각 파일 2MB 이하 권장</div>
+            </div>
+            <div style="display:flex;gap:.75rem;margin-top:1.5rem">
+              <button class="btn-save" onclick="saveProjForm()" style="flex:1">저장</button>
+              <button onclick="closeProjForm()" style="flex:0 0 80px;font-size:11px;font-weight:500;color:var(--ink);background:none;border:1px solid var(--rule);padding:.85rem;cursor:pointer">취소</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Collab -->
@@ -801,12 +866,14 @@ const DEF = {
      result:'공공기관 연구 납품 완료. 보고회 발표 자료 일체 제작 기여.'}
   ],
   awards:[
-    {title:'한국영유아교육학회 춘계학술대회 최우수 포스터',org:'한국영유아교육학회',year:'2026.05'},
-    {title:'ISSBD 2026 포스터 발표 채택',org:'International Society for the Study of Behavioural Development',year:'2026'},
-    {title:'BK21 미래교육디자인연구유닛 참여 대학원생',org:'연세대학교 BK21',year:'2025–'},
-    {title:'IHEI WORKSTATION 사회혁신 프로그램 수료',org:'연세대학교 IHEI',year:'2025'},
-    {title:'KT&G 제3회 사회혁신 아이디어 공모전 입상',org:'KT&G · 다학제팀',year:'2023'},
-    {title:'아동권리보장원 제5기 서포터즈 선발',org:'아동권리보장원 · Translators팀',year:'2025–2026'}
+    {category:'award', title:'한국영유아교육학회 춘계학술대회 최우수 포스터',org:'한국영유아교육학회',year:'2026.05'},
+    {category:'award', title:'ISSBD 2026 포스터 발표 채택',org:'ISSBD · 인천 송도',year:'2026'},
+    {category:'award', title:'KT&G 제3회 사회혁신 아이디어 공모전 입상',org:'KT&G · 다학제팀',year:'2023'},
+    {category:'award', title:'아동권리보장원 제5기 서포터즈 선발',org:'아동권리보장원 · Translators팀',year:'2025–2026'},
+    {category:'program', title:'BK21 미래교육디자인연구유닛 참여 대학원생',org:'연세대학교 BK21',year:'2025–'},
+    {category:'program', title:'IHEI WORKSTATION 사회혁신 프로그램 수료',org:'연세대학교 IHEI',year:'2025'},
+    {category:'program', title:'보건복지부 영마인드링크 3기',org:'연세대학교 신촌·송도 기숙사',year:'2026–'},
+    {category:'cert', title:'사회조사분석사 2급',org:'한국사회조사협회',year:'취득예정'}
   ],
   contact:{
     email:'your.email@yonsei.ac.kr',
@@ -842,11 +909,20 @@ window.addEventListener('fb-ready', async () => {
       if(d.contact) DATA.contact = {...DEF.contact,...d.contact};
       photoB64 = DATA.basic.photoBase64 || '';
       setMsg('로드 완료');
-    } else { setMsg('기본 데이터로 시작'); await fbSave(false); }
-  } catch(e) { console.warn('Firebase 오류:', e); setMsg('오프라인 모드'); }
+    } else {
+      setMsg('기본 데이터로 시작');
+      try { await fbSave(false); } catch(e2) { console.warn('초기 저장 실패:', e2); }
+    }
+  } catch(e) {
+    console.warn('Firebase 오류 (오프라인 모드):', e);
+    setMsg('오프라인 모드');
+  }
   setBar(100);
-  applyAll();
-  setTimeout(() => { document.getElementById('loader').classList.add('out'); }, 600);
+  try { applyAll(); } catch(e) { console.error('applyAll 오류:', e); }
+  setTimeout(() => {
+    const ld = document.getElementById('loader');
+    if(ld) ld.classList.add('out');
+  }, 600);
 });
 
 async function fbSave(show=true) {
@@ -886,12 +962,7 @@ function applyBasic() {
   document.getElementById('h-tagline').innerHTML = lines.map((l,i)=>i===1?`<strong>${l}</strong>`:l).join('<br>');
   document.getElementById('a-quote').innerHTML = (b.quote||'').replace(/\n/g,'<br>');
   document.getElementById('a-desc').textContent = b.desc||'';
-  document.getElementById('h-s1').textContent = b.s1||'';
-  document.getElementById('h-sl1').textContent = b.sl1||'';
-  document.getElementById('h-s2').textContent = b.s2||'';
-  document.getElementById('h-sl2').textContent = b.sl2||'';
-  document.getElementById('h-s3').textContent = b.s3||'';
-  document.getElementById('h-sl3').textContent = b.sl3||'';
+
   // photo
   if(b.photoBase64){ photoB64=b.photoBase64; showPhoto(); }
 }
@@ -907,35 +978,46 @@ function showPhoto(){
 function renderPubs() {
   const journals = (DATA.pubs||[]).filter(p=>p.type==='journal');
   const confs = (DATA.pubs||[]).filter(p=>p.type==='conf');
-  // Journals
-  document.getElementById('pub-list-journals').innerHTML = journals.length
-    ? journals.map(p=>`
+
+  let html = '';
+
+  // ── Published journals (항상 위) ──
+  if(journals.length) {
+    html += `<div class="pub-section-label">Published</div>`;
+    html += journals.map(p=>`
       <div class="pub-row">
-        <div class="pub-year">${p.year||''}</div>
+        <div class="pub-year-col">${p.year||''}</div>
         <div class="pub-content">
           <div class="pub-title">${p.title||''}</div>
           <div class="pub-venue">${p.venue||''}</div>
           ${p.url?`<a href="${p.url}" target="_blank" class="pub-link">DOI ↗</a>`:''}
         </div>
         <div class="pub-badge-col">
-          <span class="pub-badge${p.first?' first':''}">${p.badge||''}</span>
+          <span class="pub-badge${p.badge==='In Press'?' inpress':''}">${p.badge||''}</span>
           ${p.first?'<span class="pub-badge first">1st Author</span>':''}
         </div>
-      </div>`).join('')
-    : '<div style="padding:3rem;color:var(--ink4);font-size:12px">등록된 논문이 없습니다.</div>';
-  // Conferences
-  document.getElementById('poster-grid').innerHTML = confs.length
-    ? confs.map(p=>`
-      <div class="poster-card">
-        <div class="poster-conf">${p.conf||''} · ${p.type2||'Presentation'}</div>
-        <div class="poster-title">${p.title||''}</div>
-        <div class="poster-tags">
-          <span class="poster-tag">${p.year||''}</span>
-          ${p.first?'<span class="poster-tag" style="border-color:var(--ink);color:var(--ink)">1st Author</span>':''}
-          <span class="poster-tag">${p.type2||''}</span>
+      </div>`).join('');
+  }
+
+  // ── Conference presentations (아래) ──
+  if(confs.length) {
+    html += `<div class="pub-section-label pub-section-label--conf">Presentations</div>`;
+    html += confs.map(p=>`
+      <div class="pub-row pub-row--conf">
+        <div class="pub-year-col">${p.year||''}</div>
+        <div class="pub-content">
+          <div class="pub-conf-meta">${p.conf||''} · <span class="pub-type2">${p.type2||'발표'}</span></div>
+          <div class="pub-title">${p.title||''}</div>
         </div>
-      </div>`).join('')
-    : '<div style="padding:3rem;color:var(--ink4);font-size:12px">등록된 발표가 없습니다.</div>';
+        <div class="pub-badge-col">
+          ${p.first?'<span class="pub-badge first">1st Author</span>':''}
+          <span class="pub-badge">${p.type2||''}</span>
+        </div>
+      </div>`).join('');
+  }
+
+  const el = document.getElementById('pub-unified-list');
+  if(el) el.innerHTML = html || '<div style="padding:3rem;color:var(--ink4);font-size:12px">등록된 내용이 없습니다.</div>';
 }
 
 /* ══════ RENDER PROJECTS ══════ */
@@ -945,6 +1027,7 @@ function renderProjects(filter='all') {
   document.getElementById('proj-grid').innerHTML = projs.length
     ? projs.map((p,i)=>`
       <div class="proj-card${p.wide?' wide':''}" data-id="${p.id}" onclick="openProjModal('${p.id}')">
+        ${(p.imgs||[]).length ? `<div class="proj-card-img"><img src="${p.imgs[0]}" alt="${p.name}"></div>` : ''}
         <div class="proj-card-top">
           <div class="proj-num">${String(i+1).padStart(2,'0')}</div>
           <div class="proj-cat">${catColors[p.cat]||p.cat||''}</div>
@@ -958,12 +1041,21 @@ function renderProjects(filter='all') {
         </div>
       </div>`).join('')
     : '<div style="padding:3rem;grid-column:1/-1;color:var(--ink4);font-size:12px;text-align:center">해당 카테고리의 프로젝트가 없습니다.</div>';
-  // Mini
+  // Mini — 이미지+설명 카드 구조
   document.getElementById('mini-grid').innerHTML = (DATA.miniProjects||[]).map(p=>`
-    <div class="mini-card" onclick="openMiniModal('${p.id}')">
-      <div class="mini-card-name">${p.name||''}</div>
-      <div class="mini-card-desc">${p.desc||''}</div>
-      <div class="mini-card-tag">${p.tag||''}</div>
+    <div class="mini-proj-card" onclick="openMiniModal('${p.id}')">
+      <div class="mini-proj-thumb">
+        ${p.img ? `<img src="${p.img}" alt="${p.name}">` : `<div class="mini-proj-thumb-word">${(p.name||'').charAt(0)}</div>`}
+      </div>
+      <div class="mini-proj-body">
+        <div class="mini-proj-tag">${p.tag||''}</div>
+        <div class="mini-proj-name">${p.name||''}</div>
+        <div class="mini-proj-desc">${p.desc||''}</div>
+      </div>
+      <div class="mini-proj-footer">
+        <span class="mini-proj-footer-label">상세 보기</span>
+        <span class="mini-proj-arrow">↗</span>
+      </div>
     </div>`).join('');
 }
 
@@ -990,8 +1082,9 @@ function openProjModal(id) {
     <div class="modal-result-box">${p.result||''}</div>
     <div class="modal-section-label" style="margin-top:2rem">Tags</div>
     <div class="modal-tags">${(p.tags||[]).map(t=>`<span class="modal-tag">${t}</span>`).join('')}</div>
-    ${(p.imgs||[]).length?`<div class="modal-section-label" style="margin-top:2rem">Images</div><div class="modal-imgs">${p.imgs.map(src=>`<img src="${src}" alt="">`).join('')}</div>`
-    :`<div class="modal-section-label" style="margin-top:2rem">Images</div><div class="modal-imgs"><div class="modal-img-ph">이미지 준비 중</div><div class="modal-img-ph">이미지 준비 중</div></div>`}
+    ${(p.imgs||[]).length ? `
+      <div class="modal-section-label" style="margin-top:2rem">Images</div>
+      <div class="modal-imgs${p.imgs.length===1?' modal-imgs--single':''}">${p.imgs.map(src=>`<img src="${src}" alt="${p.name}">`).join('')}</div>` : ''}
   `;
   document.getElementById('proj-modal').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1034,13 +1127,28 @@ function renderCollabs() {
 
 /* ══════ RENDER AWARDS ══════ */
 function renderAwards() {
-  document.getElementById('awards-grid').innerHTML = (DATA.awards||[]).map((a,i)=>`
-    <div class="award-card">
-      <div class="award-n">${String(i+1).padStart(2,'0')}</div>
-      <div class="award-title">${a.title||''}</div>
-      <div class="award-org">${a.org||''}</div>
-      <div class="award-year">${a.year||''}</div>
-    </div>`).join('');
+  const all = DATA.awards || [];
+  // category: 'award'(기본), 'program', 'cert'
+  const awards   = all.filter(a => !a.category || a.category === 'award');
+  const programs = all.filter(a => a.category === 'program');
+  const certs    = all.filter(a => a.category === 'cert');
+
+  const rowHtml = (a) => `
+    <div class="aw-row">
+      <div class="aw-row-left">
+        <div class="aw-row-title">${a.title||''}</div>
+        <div class="aw-row-org">${a.org||''}</div>
+      </div>
+      <div class="aw-row-right">
+        <div class="aw-row-year">${a.year||''}</div>
+      </div>
+    </div>`;
+
+  const empty = `<div style="padding:1.5rem 3.5rem;color:var(--ink4);font-size:12px">—</div>`;
+
+  document.getElementById('aw-list-awards').innerHTML   = awards.length   ? awards.map(rowHtml).join('')   : empty;
+  document.getElementById('aw-list-programs').innerHTML = programs.length ? programs.map(rowHtml).join('') : empty;
+  document.getElementById('aw-list-certs').innerHTML    = certs.length    ? certs.map(rowHtml).join('')    : empty;
 }
 
 /* ══════ APPLY CONTACT ══════ */
@@ -1203,27 +1311,101 @@ function addPub(){
 async function savePubs(){ await fbSave(); }
 
 /* ── Projects Admin ── */
+let _projFormIdx = -1; // -1 = 신규, 0+ = 편집
+let _projImgs = []; // 현재 편집 중인 이미지 배열 (base64 or url)
+
 function renderProjAdm(){
   document.getElementById('proj-adm-list').innerHTML = (DATA.projects||[]).map((p,i)=>`
-    <div class="adm-card">
+    <div class="adm-card" style="padding-right:5.5rem">
+      ${(p.imgs||[]).length ? `<div style="width:48px;height:36px;background:var(--bg3);border:1px solid var(--rule);overflow:hidden;margin-bottom:.5rem"><img src="${p.imgs[0]}" style="width:100%;height:100%;object-fit:cover"></div>` : ''}
       <div class="adm-card-title">${p.name||'(이름 없음)'}</div>
       <div class="adm-card-sub">${p.cat||''} · ${p.hook||''}</div>
+      <button class="adm-card-del" onclick="openProjForm(${i})" style="right:2.5rem;color:var(--ink3)">편집</button>
       <button class="adm-card-del" onclick="delProj(${i})">✕</button>
     </div>`).join('');
 }
-function delProj(i){ DATA.projects.splice(i,1); renderProjAdm(); renderProjects(); }
-function addProj(){
-  const name = prompt('프로젝트 이름:'); if(!name) return;
-  const id = name.toLowerCase().replace(/\s+/g,'-');
-  const hook = prompt('후크 문구 (한 줄 요약):')||'';
-  const cat = prompt('카테고리 (research/design/dev):','research')||'research';
-  const tags = (prompt('태그 (쉼표로 구분):')||'').split(',').map(t=>t.trim()).filter(Boolean);
-  const problem = prompt('Problem:')||'';
-  const solution = prompt('Solution:')||'';
-  const result = prompt('Result:')||'';
-  DATA.projects.push({id,name,hook,cat,tags,problem,solution,result});
-  renderProjAdm(); renderProjects();
+
+function openProjForm(idx){
+  _projFormIdx = idx;
+  const wrap = document.getElementById('proj-form-wrap');
+  wrap.style.display = 'flex';
+  if(idx >= 0){
+    const p = DATA.projects[idx];
+    document.getElementById('pf-mode-label').textContent = '프로젝트 편집';
+    document.getElementById('pf-name').value = p.name||'';
+    document.getElementById('pf-cat').value = p.cat||'research';
+    document.getElementById('pf-hook').value = p.hook||'';
+    document.getElementById('pf-tags').value = (p.tags||[]).join(', ');
+    document.getElementById('pf-problem').value = p.problem||'';
+    document.getElementById('pf-solution').value = p.solution||'';
+    document.getElementById('pf-result').value = p.result||'';
+    _projImgs = [...(p.imgs||[])];
+  } else {
+    document.getElementById('pf-mode-label').textContent = '새 프로젝트 추가';
+    ['pf-name','pf-hook','pf-tags','pf-problem','pf-solution','pf-result'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('pf-cat').value = 'research';
+    _projImgs = [];
+  }
+  renderProjImgGrid();
 }
+
+function closeProjForm(){
+  document.getElementById('proj-form-wrap').style.display = 'none';
+}
+
+function renderProjImgGrid(){
+  const grid = document.getElementById('pf-img-grid');
+  grid.innerHTML = _projImgs.map((src,i)=>`
+    <div style="position:relative;aspect-ratio:16/10;background:var(--bg2);border:1px solid var(--rule);overflow:hidden">
+      <img src="${src}" style="width:100%;height:100%;object-fit:cover">
+      <button onclick="removeProjImg(${i})" style="position:absolute;top:.3rem;right:.3rem;width:22px;height:22px;background:rgba(0,0,0,.6);color:#fff;border:none;cursor:pointer;font-size:11px;line-height:1">✕</button>
+    </div>`).join('');
+  // 빈 슬롯 (최대 4)
+  const empty = 4 - _projImgs.length;
+  for(let i=0;i<empty;i++){
+    grid.innerHTML += `<div style="aspect-ratio:16/10;background:var(--bg2);border:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);cursor:pointer" onclick="document.getElementById('pf-img-input').click()">+ 이미지</div>`;
+  }
+}
+
+function removeProjImg(i){ _projImgs.splice(i,1); renderProjImgGrid(); }
+
+function handleProjImgUpload(input){
+  const files = Array.from(input.files).slice(0, 4 - _projImgs.length);
+  let loaded = 0;
+  files.forEach(f=>{
+    const r = new FileReader();
+    r.onload = e => {
+      _projImgs.push(e.target.result);
+      loaded++;
+      if(loaded === files.length) renderProjImgGrid();
+    };
+    r.readAsDataURL(f);
+  });
+  input.value = '';
+}
+
+function saveProjForm(){
+  const name = document.getElementById('pf-name').value.trim();
+  if(!name){ alert('프로젝트 이름을 입력해주세요.'); return; }
+  const proj = {
+    id: name.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,''),
+    name,
+    cat: document.getElementById('pf-cat').value,
+    hook: document.getElementById('pf-hook').value,
+    tags: document.getElementById('pf-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    problem: document.getElementById('pf-problem').value,
+    solution: document.getElementById('pf-solution').value,
+    result: document.getElementById('pf-result').value,
+    imgs: [..._projImgs]
+  };
+  if(_projFormIdx >= 0){ DATA.projects[_projFormIdx] = proj; }
+  else { DATA.projects.push(proj); }
+  closeProjForm();
+  renderProjAdm();
+  renderProjects();
+}
+
+function delProj(i){ if(!confirm('삭제하시겠습니까?')) return; DATA.projects.splice(i,1); renderProjAdm(); renderProjects(); }
 async function saveProjs(){ await fbSave(); }
 
 /* ── Collab Admin ── */
