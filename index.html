@@ -83,15 +83,15 @@ a{color:inherit}
 .hero__top{margin-bottom:auto;padding-top:6vh}
 .hero__name{
   font-weight:800;font-stretch:118%;
-  font-size:clamp(3.4rem,15.5vw,15rem);
-  line-height:.82;letter-spacing:-.035em;
+  font-size:clamp(2.6rem,9.5vw,8.5rem);
+  line-height:.87;letter-spacing:-.035em;
   margin:0;text-transform:uppercase;
 }
 .hero__kr{
   display:block;font-weight:800;font-stretch:100%;
-  font-size:clamp(1.1rem,3.4vw,2.4rem);
+  font-size:clamp(1rem,2.7vw,1.9rem);
   letter-spacing:-.025em;line-height:1.1;
-  margin-bottom:.35em;text-transform:none;
+  margin-bottom:.4em;text-transform:none;
 }
 .hero__thesis{
   font-size:clamp(1.15rem,3vw,2.05rem);
@@ -411,6 +411,8 @@ a{color:inherit}
 .gate__box input{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;text-align:center;font-size:20px;letter-spacing:.4em;font-weight:600}
 .gate__box input:focus{outline:none;border-color:var(--point)}
 .gate__err{color:#C42B1C;font-size:12px;margin:10px 0 0;min-height:18px}
+.gate__lead{font-size:13px;color:var(--mute);margin:0 0 16px;line-height:1.55}
+.btn--wide{width:100%;padding:13px;font-size:13px;letter-spacing:.02em}
 .gate__acts{display:flex;gap:8px;margin-top:14px}
 .gate__acts .btn{flex:1;padding:11px}
 
@@ -542,7 +544,7 @@ a{color:inherit}
     <button class="tab" role="tab" data-tab="foot" aria-selected="false">연락처</button>
   </div>
   <div class="adm__body" id="adm-body"></div>
-  <div class="adm__foot">수정은 즉시 화면에 반영됩니다. 영구 저장하려면 <b>HTML 내보내기</b>로 파일을 받아 다시 배포하세요.</div>
+  <div class="adm__foot" id="adm-foot">수정은 즉시 화면에 반영됩니다. 영구 저장하려면 <b>HTML 내보내기</b>로 파일을 받아 다시 배포하세요.</div>
 </aside>
 
 <script type="application/json" id="site-data">
@@ -1343,6 +1345,9 @@ const FB_CONFIG = {
 };
 const FB_ON = !!FB_CONFIG.apiKey;
 
+/* Firebase 사용 시 관리자 계정. 비밀번호만 입력하면 되도록 이메일은 고정합니다. */
+const ADMIN_EMAIL = "yujinbae55@gmail.com";
+
 const PW = "1734";
 const TAGS = ["연구","디자인","개발"];
 
@@ -1550,27 +1555,49 @@ function askPw(){
   gate.classList.add("is-open"); $("#gate-err").textContent = "";
   const box = $("#gate-box");
   if(FB_ON){
-    box.innerHTML = `<p class="gate__t">Admin Login</p>
-      <input type="email" id="gate-em" placeholder="이메일" autocomplete="username" style="letter-spacing:0;font-size:15px;text-align:left;margin-bottom:8px">
-      <input type="password" id="gate-pw" placeholder="비밀번호" autocomplete="current-password" style="letter-spacing:0;font-size:15px;text-align:left">
+    box.innerHTML = `<p class="gate__t">Admin</p>
+      <p class="gate__lead">관리자 구글 계정으로 로그인하세요.</p>
+      <button class="btn btn--go btn--wide" id="gate-google">Google로 로그인</button>
       <p class="gate__err" id="gate-err2"></p>
-      <div class="gate__acts"><button class="btn" id="gate-cancel2">취소</button><button class="btn btn--go" id="gate-ok2">로그인</button></div>`;
+      <div class="gate__acts"><button class="btn" id="gate-cancel2">취소</button></div>`;
     $("#gate-cancel2").onclick = ()=>gate.classList.remove("is-open");
-    $("#gate-ok2").onclick = fbLogin;
-    $("#gate-pw").onkeydown = e=>{ if(e.key==="Enter") fbLogin(); };
-    setTimeout(()=>$("#gate-em").focus(), 60);
+    $("#gate-google").onclick = fbLogin;
+    setTimeout(()=>$("#gate-google").focus(), 60);
   } else {
     $("#gate-pw").value = ""; setTimeout(()=>$("#gate-pw").focus(), 60);
   }
 }
+
+const AUTH_MSG = {
+  "auth/operation-not-allowed":   "콘솔에서 Google 로그인을 켜 주세요.",
+  "auth/unauthorized-domain":     "이 도메인이 Firebase 승인 목록에 없습니다.",
+  "auth/popup-blocked":           "팝업이 차단되었습니다. 브라우저에서 허용해 주세요.",
+  "auth/popup-closed-by-user":    "로그인 창이 닫혔습니다.",
+  "auth/cancelled-popup-request": "로그인 창이 닫혔습니다.",
+  "auth/too-many-requests":       "시도가 많았습니다. 잠시 후 다시 해주세요.",
+  "auth/network-request-failed":  "네트워크 연결을 확인해 주세요."
+};
+
 async function fbLogin(){
   const err = $("#gate-err2");
-  err.textContent = "확인 중…";
+  err.textContent = "로그인 창을 여는 중…";
   try{
     const f = await fbInit();
-    await f.au.signInWithEmailAndPassword(f.auth, $("#gate-em").value.trim(), $("#gate-pw").value);
+    const provider = new f.au.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+    const res = await f.au.signInWithPopup(f.auth, provider);
+
+    // 관리자 계정이 아니면 즉시 로그아웃
+    if(ADMIN_EMAIL && res.user.email !== ADMIN_EMAIL){
+      await f.au.signOut(f.auth);
+      err.textContent = "이 계정에는 관리자 권한이 없습니다.";
+      return;
+    }
     gate.classList.remove("is-open"); openAdmin();
-  }catch(e){ err.textContent = "로그인에 실패했습니다."; }
+  }catch(e){
+    console.error(e.code, e.message);
+    err.textContent = AUTH_MSG[e.code] || ("로그인 실패 — " + e.code);
+  }
 }
 function tryPw(){
   if($("#gate-pw").value === PW){ gate.classList.remove("is-open"); openAdmin(); }
@@ -1958,6 +1985,22 @@ function syncSaveBtn(){
   const b = $("#adm-save"); if(!b) return;
   b.hidden = !FB_ON;
   b.textContent = fb?.user ? "저장" : "로그인 필요";
+
+  const f = $("#adm-foot");
+  if(!f) return;
+  if(fb?.user){
+    f.innerHTML = `<b>${esc(fb.user.email||"")}</b> 로그인됨 ·
+      <button class="btn btn--sm" id="uid-copy">UID 복사</button>
+      <span id="uid-val" style="display:block;margin-top:6px;font-size:10.5px;word-break:break-all;opacity:.75">${esc(fb.user.uid)}</span>`;
+    $("#uid-copy").onclick = async ()=>{
+      try{ await navigator.clipboard.writeText(fb.user.uid); $("#uid-copy").textContent = "복사됨 ✓"; }
+      catch{ $("#uid-copy").textContent = "아래 값을 직접 복사하세요"; }
+    };
+  } else {
+    f.textContent = FB_ON
+      ? "로그인하면 저장 버튼이 활성화됩니다."
+      : "수정은 즉시 화면에 반영됩니다. 영구 저장하려면 HTML 내보내기로 파일을 받아 다시 배포하세요.";
+  }
 }
 
 /* 파일 업로드 (미디어 편집 블록) */
