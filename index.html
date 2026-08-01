@@ -421,6 +421,20 @@ a{color:inherit}
    ───────────────────────────────────────────── */
 .rise{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rise.in{opacity:1;transform:none}
+
+/* 부팅 커버 — DB 응답 전 옛 데이터가 스치는 것을 방지 */
+.boot{
+  position:fixed;inset:0;z-index:120;background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .38s var(--ease);
+}
+.boot.is-done{opacity:0;pointer-events:none}
+.boot__b{width:34px;height:2px;border-radius:2px;background:var(--line);overflow:hidden}
+.boot__b::after{
+  content:"";display:block;width:40%;height:100%;background:var(--point);
+  animation:bootslide 1s var(--ease) infinite;
+}
+@keyframes bootslide{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
 @media(prefers-reduced-motion:reduce){
   *{transition-duration:.01ms !important;animation-duration:.01ms !important}
   .rise{opacity:1;transform:none}
@@ -428,6 +442,8 @@ a{color:inherit}
 </style>
 </head>
 <body>
+
+<div class="boot" id="boot" aria-hidden="true"><span class="boot__b"></span></div>
 
 <nav class="nav">
   <a href="#top" style="color:var(--ink)">BAE YUJIN</a>
@@ -2036,6 +2052,8 @@ $("#adm-export").onclick = ()=>{
   c.querySelector("#adm").setAttribute("aria-hidden","true");
   c.querySelector("#gate").classList.remove("is-open");
   c.querySelector("#gate-box").innerHTML = GATE_HTML;
+  const bt = c.querySelector("#boot");
+  if(bt){ bt.classList.remove("is-done"); bt.removeAttribute("style"); }
   c.querySelector("body").className = "";
   c.querySelectorAll(".rise").forEach(el=>el.classList.remove("in"));
   dl("index.html", "<!DOCTYPE html>\n<html lang=\"ko\">" + c.innerHTML + "</html>", "text/html");
@@ -2054,14 +2072,42 @@ if(location.hash === "#admin") setTimeout(askPw, 400);
 /* boot */
 const GATE_HTML = $("#gate-box").innerHTML;
 $("#adm-save").onclick = fbSave;
-DATA = normalizeData(DATA);
-renderSite();
-syncSaveBtn();
-if(FB_ON) fbLoad();
-const io = new IntersectionObserver(es=>{
-  es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("in"); });
-},{threshold:.12});
-document.querySelectorAll(".rise").forEach(el=>io.observe(el));
+
+function bootDone(){
+  const b = $("#boot");
+  if(!b || b.classList.contains("is-done")) return;
+  b.classList.add("is-done");
+  setTimeout(()=>{ b.style.display = "none"; }, 420);
+}
+
+function withTimeout(promise, ms){
+  return Promise.race([promise, new Promise(r=>setTimeout(()=>r("timeout"), ms))]);
+}
+
+(async function boot(){
+  DATA = normalizeData(DATA);
+
+  if(FB_ON){
+    // DB 응답을 기다렸다가 한 번만 그린다. 실패·지연 시 내장 데이터로 폴백.
+    let res;
+    try{ res = await withTimeout(fbLoad(), 4000); }
+    catch(e){ console.warn(e); }
+    if(res !== true) renderSite();   // fbLoad는 성공 시 스스로 렌더링함
+  } else {
+    renderSite();
+  }
+
+  syncSaveBtn();
+  bootDone();
+
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("in"); });
+  },{threshold:.12});
+  document.querySelectorAll(".rise").forEach(el=>io.observe(el));
+})();
+
+/* 스크립트가 어떤 이유로든 멈춰도 화면이 잠기지 않게 하는 안전장치 */
+setTimeout(bootDone, 7000);
 </script>
 </body>
 </html>
