@@ -1403,6 +1403,12 @@ function mediaSrc(m){
   return u;
 }
 
+let DATA = JSON.parse(document.getElementById("site-data").textContent);
+
+const $   = s => document.querySelector(s);
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const bold = s => esc(s).replace(/\*([^*]+)\*/g,"<b>$1</b>");
+
 const RATIOS = { a4:"1/1.414", wide:"16/9", four3:"4/3", square:"1/1", tall:"3/4" };
 
 function renderMedia(list){
