@@ -293,7 +293,7 @@ a{color:inherit}
 .case{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;padding:26px 0;border-top:1px solid rgba(255,255,255,.26)}
 .case:last-of-type{border-bottom:1px solid rgba(255,255,255,.26)}
 .case__k{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.72);padding-top:4px}
-.case__v{white-space:pre-wrap;font-size:clamp(.98rem,1.6vw,1.12rem);line-height:1.72;max-width:62ch;margin:0}
+.case__v{white-space:pre-wrap;font-size:clamp(.96rem,1.5vw,1.05rem);line-height:1.68;max-width:38em;margin:0}
 @media(max-width:720px){.case{grid-template-columns:1fr;gap:8px}}
 
 .ov__links{display:flex;gap:10px;flex-wrap:wrap;margin-top:36px}
@@ -339,7 +339,11 @@ a{color:inherit}
 .md__err{padding:30px 16px;text-align:center;font-size:12px;color:#5b5b66;background:var(--wash);line-height:1.6}
 @media(max-width:720px){.md{grid-template-columns:1fr;gap:12px}.md__i--full{grid-column:auto}}
 .ov__abs{white-space:pre-wrap;font-size:clamp(.98rem,1.6vw,1.1rem);line-height:1.75;max-width:60ch;margin:26px 0 0;color:rgba(255,255,255,.94)}
-.ov__cite{font-size:12.5px;line-height:1.7;color:rgba(255,255,255,.75);margin:16px 0 0;letter-spacing:.01em}
+.ov__meta{margin:22px 0 34px}
+.ov__cite{font-size:13px;line-height:1.65;color:rgba(255,255,255,.72);margin:0;letter-spacing:.01em}
+.ov__cite--em{color:#fff;font-weight:600;margin-top:6px}
+.case--wide .case__v,.case--wide > div:last-child{max-width:none}
+.case--wide .md{margin:0}
 
 /* ─────────────────────────────────────────────
    FOOT
@@ -414,7 +418,21 @@ a{color:inherit}
 .chks{display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
 .chks label{display:flex;align-items:center;gap:5px;cursor:pointer}
 .sub{border:1px dashed var(--line);border-radius:8px;padding:11px;margin-bottom:9px}
-.subrow{display:flex;justify-content:flex-end;margin-top:6px}
+.subrow{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:8px}
+.subrow--sp{justify-content:space-between}
+.card__top{display:flex;align-items:center;background:var(--wash);padding-right:9px}
+.card__top .card__h{flex:1;min-width:0}
+.sort{display:inline-flex;align-items:center;gap:3px;flex-shrink:0}
+.sort__g{cursor:grab;padding:3px 6px;color:var(--mute);font-size:14px;line-height:1;user-select:none;border-radius:5px}
+.sort__g:hover{color:var(--point);background:rgba(35,35,255,.07)}
+.sort__g:active{cursor:grabbing}
+.sort__b{border:1px solid var(--line);background:var(--paper);color:var(--mute);border-radius:5px;
+  width:23px;height:21px;font-size:9px;cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+.sort__b:disabled{opacity:.28;cursor:default}
+.sort__b:hover:not(:disabled){border-color:var(--point);color:var(--point)}
+.is-dragging{opacity:.35}
+.drop-mark{box-shadow:0 -3px 0 0 var(--point) inset}
+.drop-mark-after{box-shadow:0 3px 0 0 var(--point) inset}
 .adm__foot{padding:12px 20px;border-top:1px solid var(--line);flex-shrink:0;font-size:11px;color:var(--mute);line-height:1.5}
 
 /* gate */
@@ -1562,11 +1580,19 @@ function openPub(id){
     <span class="eyebrow" style="color:rgba(255,255,255,.7)">${esc(p.k)}</span>
     <h2 class="ov__title ov__title--pub" id="ov-title">${esc(p.t)}</h2>
     ${p.tEn?`<p class="ov__ten">${esc(p.tEn)}</p>`:""}
-    ${cite?`<p class="ov__cite">${esc(cite)}</p>`:""}
-    ${p.s?`<p class="ov__role">${esc(p.s)}</p>`:""}
-    ${p.abstract?`<p class="ov__abs">${esc(p.abstract)}</p>`
-      :`<p class="ov__abs" style="opacity:.62">초록이 아직 등록되지 않았습니다.</p>`}
-    ${renderMedia(p.media)}
+    <div class="ov__meta">
+      ${p.authors?`<p class="ov__cite">${esc(p.authors)}</p>`:""}
+      ${p.venue?`<p class="ov__cite">${esc(p.venue)}</p>`:""}
+      ${(p.s && p.s!==p.venue)?`<p class="ov__cite ov__cite--em">${esc(p.s)}</p>`:""}
+    </div>
+    <div class="case">
+      <div class="case__k">초록</div>
+      <p class="case__v">${p.abstract ? esc(p.abstract) : "초록이 아직 등록되지 않았습니다."}</p>
+    </div>
+    ${(p.media&&p.media.length)?`<div class="case case--wide">
+      <div class="case__k">자료</div>
+      <div>${renderMedia(p.media)}</div>
+    </div>`:""}
     ${(p.links&&p.links.length)?`<div class="ov__links">${p.links.map(l=>`<a class="ov__link" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>`:""}`;
   ov.classList.add("is-open"); ov.setAttribute("aria-hidden","false");
   document.body.classList.add("is-locked"); ov.scrollTop = 0; $("#ov-close").focus();
@@ -1673,6 +1699,24 @@ function F(label, path, {area=false, hint=""}={}){
   return `<div class="fld"><label>${label}</label>${el}${hint?`<p class="hint">${hint}</p>`:""}</div>`;
 }
 
+/* 순서 변경 컨트롤 — 드래그 핸들 + ▲▼ (터치·키보드 대체 수단) */
+function SORTBAR(path, i, len){
+  if(len < 2) return "";
+  return `<span class="sort">
+    <span class="sort__g" draggable="true" data-sp="${path}" data-si="${i}" title="드래그해서 순서 변경" aria-hidden="true">⠿</span>
+    <button class="sort__b" data-mv="${path}:${i}:-1" ${i===0?"disabled":""} title="위로" aria-label="위로">▲</button>
+    <button class="sort__b" data-mv="${path}:${i}:1" ${i===len-1?"disabled":""} title="아래로" aria-label="아래로">▼</button>
+  </span>`;
+}
+
+function moveItem(path, from, to){
+  const arr = getPath(path);
+  if(!Array.isArray(arr)) return false;
+  if(to < 0 || to >= arr.length || from === to) return false;
+  arr.splice(to, 0, arr.splice(from, 1)[0]);
+  return true;
+}
+
 function SEL(label, path, opts){
   const v = String(getPath(path) ?? "");
   return `<div class="fld"><label>${label}</label><select data-p="${path}" data-num="1">${
@@ -1687,7 +1731,7 @@ const MRATIO = [["a4","세로 문서 (A4)"],["four3","4:3"],["square","정사각
 /* 미디어 편집 블록 — projects / pubs 공용 */
 function MEDIA(base, list, key){
   return `<div class="fld"><label>첨부 자료</label>
-    ${list.map((m,j)=>`<div class="sub">
+    ${list.map((m,j)=>`<div class="sub" data-sp="${base}" data-si="${j}">
       <div class="grid2">
         ${SEL("종류",`${base}.${j}.t`,MTYPES)}
         ${SEL("폭",`${base}.${j}.w`,MWIDTH)}
@@ -1695,10 +1739,13 @@ function MEDIA(base, list, key){
       ${m.t!=="image"&&m.t!=="link"?`<div class="grid2">${SEL("비율",`${base}.${j}.r`,MRATIO)}<div></div></div>`:""}
       ${F("캡션",`${base}.${j}.c`)}
       ${F("URL",`${base}.${j}.u`)}
-      <div class="subrow" style="gap:6px">
-        ${FB_ON?`<label class="btn btn--sm" style="cursor:pointer">파일 업로드
-          <input type="file" data-up="${base}.${j}.u" hidden></label>`:""}
-        <button class="btn btn--sm btn--del" data-del="${key}:${j}">삭제</button>
+      <div class="subrow subrow--sp">
+        ${SORTBAR(base, j, list.length)}
+        <span style="display:flex;gap:6px">
+          ${FB_ON?`<label class="btn btn--sm" style="cursor:pointer">파일 업로드
+            <input type="file" data-up="${base}.${j}.u" hidden></label>`:""}
+          <button class="btn btn--sm btn--del" data-del="${key}:${j}">삭제</button>
+        </span>
       </div>
     </div>`).join("")}
     <button class="btn btn--sm" data-add="${key}">+ 자료 추가</button>
@@ -1718,21 +1765,21 @@ function renderAdmin(){
         <p class="hint">*별표*로 감싼 부분이 진하게 표시됩니다.</p></div>`;
     const ml = $("#metaList");
     ml.innerHTML = DATA.site.meta.map((m,i)=>
-      `<div class="sub"><input type="text" data-p="site.meta.${i}" value="${esc(m)}">
-       <div class="subrow"><button class="btn btn--sm btn--del" data-del="meta:${i}">삭제</button></div></div>`).join("");
+      `<div class="sub" data-sp="site.meta" data-si="${i}"><input type="text" data-p="site.meta.${i}" value="${esc(m)}">
+       <div class="subrow subrow--sp">${SORTBAR("site.meta", i, DATA.site.meta.length)}<button class="btn btn--sm btn--del" data-del="meta:${i}">삭제</button></div></div>`).join("");
   }
 
   if(tab==="track"){
     B.innerHTML = DATA.track.map((c,ci)=>`
-      <div class="card is-open">
-        <button class="card__h" data-toggle><span>${esc(c.h)}</span><small>${c.items.length} 항목</small></button>
+      <div class="card is-open" data-sp="track" data-si="${ci}">
+        <div class="card__top"><button class="card__h" data-toggle><span>${esc(c.h)}</span><small>${c.items.length} 항목</small></button>${SORTBAR("track", ci, DATA.track.length)}</div>
         <div class="card__b">
           ${F("컬럼 제목",`track.${ci}.h`)}
           ${c.items.map((it,ii)=>`
-            <div class="sub">
+            <div class="sub" data-sp="track.${ci}.items" data-si="${ii}">
               ${F("제목",`track.${ci}.items.${ii}.t`)}
               ${F("설명",`track.${ci}.items.${ii}.s`)}
-              <div class="subrow"><button class="btn btn--sm btn--del" data-del="trackitem:${ci}:${ii}">삭제</button></div>
+              <div class="subrow subrow--sp">${SORTBAR(`track.${ci}.items`, ii, c.items.length)}<button class="btn btn--sm btn--del" data-del="trackitem:${ci}:${ii}">삭제</button></div>
             </div>`).join("")}
           <button class="btn btn--sm" data-add="trackitem:${ci}">+ 항목 추가</button>
           <div class="subrow"><button class="btn btn--sm btn--del" data-del="track:${ci}">컬럼 삭제</button></div>
@@ -1748,19 +1795,19 @@ function renderAdmin(){
         ${L.map((lb,i)=>`<input type="text" data-p="skills.legend.${i}" value="${esc(lb)}">`).join("")}
       </div><p class="hint">1단계부터 4단계까지의 표기입니다.</p></div>` +
       DATA.skills.groups.map((g,gi)=>`
-      <div class="card">
-        <button class="card__h" data-toggle><span>${esc(g.h)}</span><small>${g.items.length} 항목</small></button>
+      <div class="card" data-sp="skills.groups" data-si="${gi}">
+        <div class="card__top"><button class="card__h" data-toggle><span>${esc(g.h)}</span><small>${g.items.length} 항목</small></button>${SORTBAR("skills.groups", gi, DATA.skills.groups.length)}</div>
         <div class="card__b">
           ${F("구획 제목",`skills.groups.${gi}.h`)}
           ${g.items.map((it,ii)=>`
-            <div class="sub">
+            <div class="sub" data-sp="skills.groups.${gi}.items" data-si="${ii}">
               ${F("도구명",`skills.groups.${gi}.items.${ii}.n`)}
               ${F("설명",`skills.groups.${gi}.items.${ii}.d`)}
               <div class="grid2">
                 ${F("사용 기간",`skills.groups.${gi}.items.${ii}.y`)}
                 ${SEL("숙련도",`skills.groups.${gi}.items.${ii}.l`,opts)}
               </div>
-              <div class="subrow"><button class="btn btn--sm btn--del" data-del="skitem:${gi}:${ii}">삭제</button></div>
+              <div class="subrow subrow--sp">${SORTBAR(`skills.groups.${gi}.items`, ii, g.items.length)}<button class="btn btn--sm btn--del" data-del="skitem:${gi}:${ii}">삭제</button></div>
             </div>`).join("")}
           <button class="btn btn--sm" data-add="skitem:${gi}">+ 도구 추가</button>
           <div class="subrow"><button class="btn btn--sm btn--del" data-del="skgroup:${gi}">구획 삭제</button></div>
@@ -1770,8 +1817,8 @@ function renderAdmin(){
 
   if(tab==="proj"){
     B.innerHTML = DATA.projects.map((p,i)=>`
-      <div class="card">
-        <button class="card__h" data-toggle><span>${esc(p.title)}</span><small>${esc(p.year)}</small></button>
+      <div class="card" data-sp="projects" data-si="${i}">
+        <div class="card__top"><button class="card__h" data-toggle><span>${esc(p.title)}</span><small>${esc(p.year)}</small></button>${SORTBAR("projects", i, DATA.projects.length)}</div>
         <div class="card__b">
           <div class="grid2">${F("연도",`projects.${i}.year`)}${F("ID (고유값)",`projects.${i}.id`)}</div>
           ${F("제목",`projects.${i}.title`)}
@@ -1786,39 +1833,35 @@ function renderAdmin(){
           </div><p class="hint">축 태그가 매트릭스에서 막대의 <b>가로 범위</b>를 결정합니다. 대표작은 파란 솔리드로 표시됩니다.</p></div>
 
           <div class="fld"><label>증거 수치</label>
-            ${p.ev.map((e,j)=>`<div class="sub"><div class="grid2">
+            ${p.ev.map((e,j)=>`<div class="sub" data-sp="projects.${i}.ev" data-si="${j}"><div class="grid2">
               ${F("값",`projects.${i}.ev.${j}.v`)}${F("라벨",`projects.${i}.ev.${j}.l`)}</div>
-              <div class="subrow"><button class="btn btn--sm btn--del" data-del="ev:${i}:${j}">삭제</button></div></div>`).join("")}
+              <div class="subrow subrow--sp">${SORTBAR(`projects.${i}.ev`, j, p.ev.length)}<button class="btn btn--sm btn--del" data-del="ev:${i}:${j}">삭제</button></div></div>`).join("")}
             <button class="btn btn--sm" data-add="ev:${i}">+ 수치 추가</button></div>
 
           <div class="fld"><label>케이스 블록</label>
-            ${p.blocks.map((b,j)=>`<div class="sub">
+            ${p.blocks.map((b,j)=>`<div class="sub" data-sp="projects.${i}.blocks" data-si="${j}">
               ${F("항목명",`projects.${i}.blocks.${j}.k`)}
               ${F("내용",`projects.${i}.blocks.${j}.v`,{area:true})}
-              <div class="subrow"><button class="btn btn--sm btn--del" data-del="blk:${i}:${j}">삭제</button></div></div>`).join("")}
+              <div class="subrow subrow--sp">${SORTBAR(`projects.${i}.blocks`, j, p.blocks.length)}<button class="btn btn--sm btn--del" data-del="blk:${i}:${j}">삭제</button></div></div>`).join("")}
             <button class="btn btn--sm" data-add="blk:${i}">+ 블록 추가</button></div>
 
           ${MEDIA(`projects.${i}.media`, p.media||[], `pmed:${i}`)}
 
           <div class="fld"><label>링크</label>
-            ${p.links.map((l,j)=>`<div class="sub"><div class="grid2">
+            ${p.links.map((l,j)=>`<div class="sub" data-sp="projects.${i}.links" data-si="${j}"><div class="grid2">
               ${F("표시명",`projects.${i}.links.${j}.label`)}${F("URL",`projects.${i}.links.${j}.url`)}</div>
-              <div class="subrow"><button class="btn btn--sm btn--del" data-del="lnk:${i}:${j}">삭제</button></div></div>`).join("")}
+              <div class="subrow subrow--sp">${SORTBAR(`projects.${i}.links`, j, p.links.length)}<button class="btn btn--sm btn--del" data-del="lnk:${i}:${j}">삭제</button></div></div>`).join("")}
             <button class="btn btn--sm" data-add="lnk:${i}">+ 링크 추가</button></div>
 
-          <div class="subrow" style="gap:6px">
-            <button class="btn btn--sm" data-move="${i}:-1">▲ 위로</button>
-            <button class="btn btn--sm" data-move="${i}:1">▼ 아래로</button>
-            <button class="btn btn--sm btn--del" data-del="proj:${i}">프로젝트 삭제</button>
-          </div>
+          <div class="subrow"><button class="btn btn--sm btn--del" data-del="proj:${i}">프로젝트 삭제</button></div>
         </div>
       </div>`).join("") + `<button class="btn btn--go" data-add="proj">+ 새 프로젝트</button>`;
   }
 
   if(tab==="pubs"){
     B.innerHTML = DATA.pubs.map((p,i)=>`
-      <div class="card">
-        <button class="card__h" data-toggle><span>${esc(p.t.slice(0,28))}</span><small>${esc(p.y)}</small></button>
+      <div class="card" data-sp="pubs" data-si="${i}">
+        <div class="card__top"><button class="card__h" data-toggle><span>${esc(p.t.slice(0,28))}</span><small>${esc(p.y)}</small></button>${SORTBAR("pubs", i, DATA.pubs.length)}</div>
         <div class="card__b">
           <div class="grid2">${F("연도",`pubs.${i}.y`)}${F("구분 배지",`pubs.${i}.k`)}</div>
           ${F("ID (고유값)",`pubs.${i}.id`)}
@@ -1829,9 +1872,9 @@ function renderAdmin(){
           ${F("초록 · 요약",`pubs.${i}.abstract`,{area:true})}
           ${MEDIA(`pubs.${i}.media`, p.media||[], `bmed:${i}`)}
           <div class="fld"><label>링크</label>
-            ${(p.links||[]).map((l,j)=>`<div class="sub"><div class="grid2">
+            ${(p.links||[]).map((l,j)=>`<div class="sub" data-sp="pubs.${i}.links" data-si="${j}"><div class="grid2">
               ${F("표시명",`pubs.${i}.links.${j}.label`)}${F("URL",`pubs.${i}.links.${j}.url`)}</div>
-              <div class="subrow"><button class="btn btn--sm btn--del" data-del="blnk:${i}:${j}">삭제</button></div></div>`).join("")}
+              <div class="subrow subrow--sp">${SORTBAR(`pubs.${i}.links`, j, (p.links||[]).length)}<button class="btn btn--sm btn--del" data-del="blnk:${i}:${j}">삭제</button></div></div>`).join("")}
             <button class="btn btn--sm" data-add="blnk:${i}">+ 링크 추가</button></div>
           <div class="subrow"><button class="btn btn--sm btn--del" data-del="pub:${i}">삭제</button></div>
         </div>
@@ -1842,9 +1885,9 @@ function renderAdmin(){
     B.innerHTML =
       F("큰 문구","foot.big",{area:true,hint:"줄바꿈이 그대로 반영됩니다."}) +
       `<div class="fld"><label>링크</label>
-        ${DATA.foot.links.map((l,i)=>`<div class="sub"><div class="grid2">
+        ${DATA.foot.links.map((l,i)=>`<div class="sub" data-sp="foot.links" data-si="${i}"><div class="grid2">
           ${F("표시명",`foot.links.${i}.label`)}${F("URL",`foot.links.${i}.url`)}</div>
-          <div class="subrow"><button class="btn btn--sm btn--del" data-del="flink:${i}">삭제</button></div></div>`).join("")}
+          <div class="subrow subrow--sp">${SORTBAR("foot.links", i, DATA.foot.links.length)}<button class="btn btn--sm btn--del" data-del="flink:${i}">삭제</button></div></div>`).join("")}
         <button class="btn btn--sm" data-add="flink">+ 링크 추가</button></div>` +
       F("하단 문구","foot.note");
   }
@@ -1915,15 +1958,59 @@ $("#adm-body").addEventListener("click", e=>{
     renderSite(); renderAdmin(); return;
   }
 
-  const mv = e.target.closest("[data-move]")?.dataset.move;
+  const mv = e.target.closest("[data-mv]")?.dataset.mv;
   if(mv){
-    const [i,d] = mv.split(":").map(Number);
-    const j = i + d;
-    if(j<0 || j>=DATA.projects.length) return;
-    [DATA.projects[i],DATA.projects[j]] = [DATA.projects[j],DATA.projects[i]];
-    renderSite(); renderAdmin();
+    const k = mv.lastIndexOf(":"), k2 = mv.lastIndexOf(":", k-1);
+    const path = mv.slice(0, k2), from = +mv.slice(k2+1, k), dir = +mv.slice(k+1);
+    if(moveItem(path, from, from + dir)){ renderSite(); renderAdmin(); }
   }
 });
+
+/* ── 드래그 앤 드롭 정렬 ── */
+let dragSrc = null;
+const admBody = $("#adm-body");
+
+admBody.addEventListener("dragstart", e=>{
+  const g = e.target.closest("[data-sp][draggable]");
+  if(!g) return;
+  dragSrc = { path: g.dataset.sp, i: +g.dataset.si };
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", "");
+  const host = g.closest("[data-sp][data-si]:not([draggable])");
+  if(host) host.classList.add("is-dragging");
+});
+
+admBody.addEventListener("dragover", e=>{
+  if(!dragSrc) return;
+  const t = e.target.closest(`[data-sp="${CSS.escape(dragSrc.path)}"][data-si]:not([draggable])`);
+  if(!t) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "move";
+  clearMarks();
+  const r = t.getBoundingClientRect();
+  t.classList.add(e.clientY < r.top + r.height/2 ? "drop-mark" : "drop-mark-after");
+});
+
+admBody.addEventListener("drop", e=>{
+  if(!dragSrc) return;
+  const t = e.target.closest(`[data-sp="${CSS.escape(dragSrc.path)}"][data-si]:not([draggable])`);
+  clearMarks();
+  if(!t){ dragSrc = null; return; }
+  e.preventDefault();
+  const r = t.getBoundingClientRect();
+  let to = +t.dataset.si + (e.clientY < r.top + r.height/2 ? 0 : 1);
+  if(to > dragSrc.i) to--;
+  const moved = moveItem(dragSrc.path, dragSrc.i, to);
+  dragSrc = null;
+  if(moved){ renderSite(); renderAdmin(); }
+});
+
+admBody.addEventListener("dragend", ()=>{ clearMarks(); dragSrc = null; });
+
+function clearMarks(){
+  admBody.querySelectorAll(".drop-mark,.drop-mark-after,.is-dragging")
+    .forEach(el=>el.classList.remove("drop-mark","drop-mark-after","is-dragging"));
+}
 
 /* ═══════════ FIREBASE LAYER (Realtime Database) ═══════════ */
 let fb = null;
