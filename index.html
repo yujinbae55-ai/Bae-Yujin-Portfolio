@@ -7,6 +7,8 @@
 <meta name="description" content="아동 발달을 연구하고, 그 근거로 서비스를 디자인하고, 직접 만듭니다. 배유진 프로젝트 아카이브.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://yujin-portfolio-e07ef-default-rtdb.asia-southeast1.firebasedatabase.app">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <style>
@@ -1607,14 +1609,14 @@ async function fbLogin(){
   const err = $("#gate-err2");
   err.textContent = "로그인 창을 여는 중…";
   try{
-    const f = await fbInit();
-    const provider = new f.au.GoogleAuthProvider();
+    const a = await getAdmin();
+    const provider = new a.au.GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
-    const res = await f.au.signInWithPopup(f.auth, provider);
+    const res = await a.au.signInWithPopup(a.auth, provider);
 
     // 관리자 계정이 아니면 즉시 로그아웃
     if(ADMIN_EMAIL && res.user.email !== ADMIN_EMAIL){
-      await f.au.signOut(f.auth);
+      await a.au.signOut(a.auth);
       err.textContent = "이 계정에는 관리자 권한이 없습니다.";
       return;
     }
@@ -1835,9 +1837,12 @@ function renderAdmin(){
 }
 
 /* admin events (delegated) */
+let rsTimer = null;
+function renderSoon(){ clearTimeout(rsTimer); rsTimer = setTimeout(renderSite, 180); }
+
 $("#adm-body").addEventListener("input", e=>{
   const t = e.target;
-  if(t.dataset.p){ setPath(t.dataset.p, t.dataset.num ? +t.value : t.value); renderSite(); }
+  if(t.dataset.p){ setPath(t.dataset.p, t.dataset.num ? +t.value : t.value); renderSoon(); }
 });
 $("#adm-body").addEventListener("change", e=>{
   const t = e.target;
@@ -1960,43 +1965,56 @@ function normalizeData(d){
   return d;
 }
 
-async function fbInit(){
-  if(!FB_ON || fb) return fb;
-  const [{ initializeApp }, rt, au, st] = await Promise.all([
-    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"),
-    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"),
-    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"),
-    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js")
+/* 방문자에게 필요한 최소 모듈(app+database)만 먼저 불러옵니다.
+   auth·storage는 관리자가 로그인할 때 처음 불러옵니다. */
+const FB_SDK = "https://www.gstatic.com/firebasejs/10.12.2/";
+let fbCore = null, fbAdmin = null;
+
+async function getCore(){
+  if(!FB_ON) return null;
+  if(fbCore) return fbCore;
+  const [appMod, rt] = await Promise.all([
+    import(FB_SDK + "firebase-app.js"),
+    import(FB_SDK + "firebase-database.js")
   ]);
-  const app = initializeApp(FB_CONFIG);
-  fb = { app, rt, au, st, db: rt.getDatabase(app), auth: au.getAuth(app), store: st.getStorage(app), user: null };
-  fb.au.onAuthStateChanged(fb.auth, u => { fb.user = u; syncSaveBtn(); });
-  return fb;
+  const app = appMod.initializeApp(FB_CONFIG);
+  fbCore = { app, rt, db: rt.getDatabase(app) };
+  return fbCore;
+}
+
+async function getAdmin(){
+  if(fbAdmin) return fbAdmin;
+  const c = await getCore();
+  if(!c) return null;
+  const [au, st] = await Promise.all([
+    import(FB_SDK + "firebase-auth.js"),
+    import(FB_SDK + "firebase-storage.js")
+  ]);
+  fbAdmin = { au, st, auth: au.getAuth(c.app), store: st.getStorage(c.app), user: null };
+  au.onAuthStateChanged(fbAdmin.auth, u => { fbAdmin.user = u; syncSaveBtn(); });
+  return fbAdmin;
 }
 
 async function fbLoad(){
   try{
-    const f = await fbInit(); if(!f) return false;
-    const snap = await f.rt.get(f.rt.ref(f.db, "site/content"));
-    if(snap.exists()){
-      DATA = normalizeData(snap.val());
-      renderSite();
-      return true;
-    }
-    console.info("Realtime Database가 비어 있습니다. 내장 데이터를 표시하고, 저장 시 업로드됩니다.");
+    const c = await getCore(); if(!c) return false;
+    const snap = await c.rt.get(c.rt.ref(c.db, "site/content"));
+    if(snap.exists()){ DATA = normalizeData(snap.val()); renderSite(); return true; }
+    console.info("DB가 비어 있습니다. 내장 데이터를 표시하고, 저장 시 업로드됩니다.");
   }catch(e){ console.warn("DB 로드 실패 — 내장 데이터로 표시합니다.", e); }
   return false;
 }
 
 async function fbSave(){
-  const f = await fbInit();
-  if(!f?.user) return alert("먼저 로그인해 주세요.");
+  const a = await getAdmin();
+  if(!a?.user) return alert("먼저 로그인해 주세요.");
+  const c = await getCore();
   const b = $("#adm-save"); const t0 = b.textContent;
   b.textContent = "저장 중…"; b.disabled = true;
   try{
-    await f.rt.set(f.rt.ref(f.db, "site/content"), JSON.parse(JSON.stringify(normalizeData(DATA))));
+    await c.rt.set(c.rt.ref(c.db, "site/content"), JSON.parse(JSON.stringify(normalizeData(DATA))));
     b.textContent = "저장됨 ✓";
-    setTimeout(()=>{ b.textContent = fb?.user ? "저장" : "로그인 필요"; b.disabled = false; }, 1600);
+    setTimeout(()=>{ b.textContent = "저장"; b.disabled = false; }, 1600);
   }catch(e){
     console.error(e); alert("저장에 실패했습니다: " + e.message);
     b.textContent = t0; b.disabled = false;
@@ -2004,34 +2022,32 @@ async function fbSave(){
 }
 
 async function fbUpload(file){
-  const f = await fbInit();
-  if(!f?.user){ alert("먼저 로그인해 주세요."); return null; }
+  const a = await getAdmin();
+  if(!a?.user){ alert("먼저 로그인해 주세요."); return null; }
   if(file.size > 20 * 1024 * 1024){ alert("20MB 이하 파일만 올릴 수 있습니다."); return null; }
   const safe = file.name.replace(/[^\w.\-]/g, "_");
-  const ref = f.st.ref(f.store, `media/${Date.now()}_${safe}`);
-  await f.st.uploadBytes(ref, file);
-  return await f.st.getDownloadURL(ref);
+  const ref = a.st.ref(a.store, `media/${Date.now()}_${safe}`);
+  await a.st.uploadBytes(ref, file);
+  return await a.st.getDownloadURL(ref);
 }
 
 function syncSaveBtn(){
   const b = $("#adm-save"); if(!b) return;
   b.hidden = !FB_ON;
-  b.textContent = fb?.user ? "저장" : "로그인 필요";
+  b.textContent = fbAdmin?.user ? "저장" : "로그인 필요";
 
-  const f = $("#adm-foot");
-  if(!f) return;
-  if(fb?.user){
-    f.innerHTML = `<b>${esc(fb.user.email||"")}</b> 로그인됨 ·
+  const f = $("#adm-foot"); if(!f) return;
+  if(fbAdmin?.user){
+    f.innerHTML = `<b>${esc(fbAdmin.user.email||"")}</b> 로그인됨 ·
       <button class="btn btn--sm" id="uid-copy">UID 복사</button>
-      <span id="uid-val" style="display:block;margin-top:6px;font-size:10.5px;word-break:break-all;opacity:.75">${esc(fb.user.uid)}</span>`;
+      <span style="display:block;margin-top:6px;font-size:10.5px;word-break:break-all;opacity:.75">${esc(fbAdmin.user.uid)}</span>`;
     $("#uid-copy").onclick = async ()=>{
-      try{ await navigator.clipboard.writeText(fb.user.uid); $("#uid-copy").textContent = "복사됨 ✓"; }
+      try{ await navigator.clipboard.writeText(fbAdmin.user.uid); $("#uid-copy").textContent = "복사됨 ✓"; }
       catch{ $("#uid-copy").textContent = "아래 값을 직접 복사하세요"; }
     };
   } else {
-    f.textContent = FB_ON
-      ? "로그인하면 저장 버튼이 활성화됩니다."
-      : "수정은 즉시 화면에 반영됩니다. 영구 저장하려면 HTML 내보내기로 파일을 받아 다시 배포하세요.";
+    f.textContent = FB_ON ? "로그인하면 저장 버튼이 활성화됩니다."
+      : "수정은 즉시 반영됩니다. 영구 저장은 HTML 내보내기로 파일을 받아 재배포하세요.";
   }
 }
 
@@ -2106,7 +2122,7 @@ function withTimeout(promise, ms){
   if(FB_ON){
     // DB 응답을 기다렸다가 한 번만 그린다. 실패·지연 시 내장 데이터로 폴백.
     let res;
-    try{ res = await withTimeout(fbLoad(), 4000); }
+    try{ res = await withTimeout(fbLoad(), 2500); }
     catch(e){ console.warn(e); }
     if(res !== true) renderSite();   // fbLoad는 성공 시 스스로 렌더링함
   } else {
@@ -2123,7 +2139,7 @@ function withTimeout(promise, ms){
 })();
 
 /* 스크립트가 어떤 이유로든 멈춰도 화면이 잠기지 않게 하는 안전장치 */
-setTimeout(bootDone, 7000);
+setTimeout(bootDone, 5000);
 </script>
 </body>
 </html>
