@@ -269,9 +269,11 @@ a{color:inherit}
 }
 .ov__close:hover{background:#fff;color:var(--point)}
 .ov__body{padding:clamp(40px,8vh,96px) var(--gut) clamp(80px,14vh,160px);max-width:1180px}
-.ov__title{font-size:clamp(2rem,7vw,5.2rem);font-weight:800;letter-spacing:-.04em;line-height:.98;margin:14px 0 0}
+.ov__title{font-size:clamp(1.7rem,4vw,3.1rem);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin:14px 0 0;max-width:20ch;white-space:pre-wrap}
+.ov__title--pub{font-size:clamp(1.3rem,2.7vw,2.05rem);line-height:1.28;max-width:26ch;letter-spacing:-.028em}
+.ov__ten{font-size:clamp(.95rem,1.5vw,1.15rem);font-weight:500;line-height:1.45;letter-spacing:-.01em;color:rgba(255,255,255,.72);margin:12px 0 0;max-width:44ch;white-space:pre-wrap}
 .ov__role{font-size:11.5px;font-weight:500;letter-spacing:.14em;color:rgba(255,255,255,.72);text-transform:uppercase;margin-top:18px}
-.ov__lead{font-size:clamp(1.05rem,2.2vw,1.5rem);font-weight:500;line-height:1.55;letter-spacing:-.02em;max-width:34ch;margin:clamp(24px,4vh,44px) 0 0}
+.ov__lead{white-space:pre-wrap;font-size:clamp(1.05rem,2.2vw,1.5rem);font-weight:500;line-height:1.55;letter-spacing:-.02em;max-width:34ch;margin:clamp(24px,4vh,44px) 0 0}
 
 .ev{display:flex;flex-wrap:wrap;gap:1px;background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.28);margin:clamp(36px,6vh,64px) 0}
 .ev__i{flex:1 1 130px;background:var(--point);padding:18px 20px}
@@ -281,7 +283,7 @@ a{color:inherit}
 .case{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;padding:26px 0;border-top:1px solid rgba(255,255,255,.26)}
 .case:last-of-type{border-bottom:1px solid rgba(255,255,255,.26)}
 .case__k{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.72);padding-top:4px}
-.case__v{font-size:clamp(.98rem,1.6vw,1.12rem);line-height:1.72;max-width:62ch;margin:0}
+.case__v{white-space:pre-wrap;font-size:clamp(.98rem,1.6vw,1.12rem);line-height:1.72;max-width:62ch;margin:0}
 @media(max-width:720px){.case{grid-template-columns:1fr;gap:8px}}
 
 .ov__links{display:flex;gap:10px;flex-wrap:wrap;margin-top:36px}
@@ -316,15 +318,17 @@ a{color:inherit}
 @media(max-width:720px){.pub{grid-template-columns:70px minmax(0,1fr) 22px}.pub__k{grid-column:2;margin-top:4px}}
 
 /* ── media gallery (overlay 내부) ── */
-.md{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px;margin:clamp(28px,5vh,52px) 0}
-.md__i{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.32);border-radius:10px;overflow:hidden}
-.md__i--wide{grid-column:1/-1}
-.md__f{display:block;width:100%;background:#fff}
+.md{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start;margin:clamp(28px,5vh,52px) 0}
+.md__i{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.3);border-radius:10px;overflow:hidden}
+.md__i--full{grid-column:1/-1}
+.md__f{display:block;width:100%;background:#fff;line-height:0}
 .md__f img{display:block;width:100%;height:auto}
-.md__f iframe{display:block;width:100%;height:min(72vh,620px);border:0;background:#fff}
-.md__c{padding:10px 13px;font-size:11.5px;line-height:1.5;color:rgba(255,255,255,.82)}
-.md__err{padding:26px 16px;text-align:center;font-size:12px;color:rgba(255,255,255,.75);background:rgba(255,255,255,.08)}
-.ov__abs{font-size:clamp(.98rem,1.6vw,1.1rem);line-height:1.75;max-width:60ch;margin:26px 0 0;color:rgba(255,255,255,.94)}
+.md__f iframe{display:block;width:100%;aspect-ratio:var(--ar,1/1.414);border:0;background:#fff}
+.md__c{padding:11px 14px;font-size:11.5px;line-height:1.5;color:rgba(255,255,255,.85);
+  border-top:1px solid rgba(255,255,255,.22);white-space:pre-wrap}
+.md__err{padding:30px 16px;text-align:center;font-size:12px;color:#5b5b66;background:var(--wash);line-height:1.6}
+@media(max-width:720px){.md{grid-template-columns:1fr;gap:12px}.md__i--full{grid-column:auto}}
+.ov__abs{white-space:pre-wrap;font-size:clamp(.98rem,1.6vw,1.1rem);line-height:1.75;max-width:60ch;margin:26px 0 0;color:rgba(255,255,255,.94)}
 .ov__cite{font-size:12.5px;line-height:1.7;color:rgba(255,255,255,.75);margin:16px 0 0;letter-spacing:.01em}
 
 /* ─────────────────────────────────────────────
@@ -1389,30 +1393,34 @@ function mediaSrc(m){
   return u;
 }
 
+const RATIOS = { a4:"1/1.414", wide:"16/9", four3:"4/3", square:"1/1", tall:"3/4" };
+
 function renderMedia(list){
   if(!list || !list.length) return "";
-  return `<div class="md">${list.map(m=>{
+  const items = list.map(m=>{
     const src = mediaSrc(m);
     if(!src) return "";
-    const wide = (m.t !== "image") ? " md__i--wide" : "";
+    if(m.t === "link")
+      return `<a class="ov__link" href="${esc(src)}" target="_blank" rel="noopener">${esc(m.c || "자료 열기")} ↗</a>`;
+
+    // 폭: 지정값이 없으면 이미지는 절반, 문서·영상은 전체
+    const full = (m.w || (m.t === "image" ? "half" : "full")) === "full";
     let frame;
     if(m.t === "image"){
       frame = `<span class="md__f"><img src="${esc(src)}" alt="${esc(m.c||"")}" loading="lazy"
-        onerror="this.closest('.md__f').innerHTML='<span class=&quot;md__err&quot;>이미지를 불러오지 못했습니다. 공유 설정이 공개인지 확인하세요.</span>'"></span>`;
-    } else if(m.t === "link"){
-      return `<a class="ov__link" href="${esc(src)}" target="_blank" rel="noopener">${esc(m.c || "자료 열기")} ↗</a>`;
+        onerror="this.closest('.md__f').innerHTML='<span class=&quot;md__err&quot;>이미지를 불러오지 못했습니다.<br>공유 설정이 공개인지 확인해 주세요.</span>'"></span>`;
     } else {
-      frame = `<span class="md__f"><iframe src="${esc(src)}" loading="lazy" allowfullscreen title="${esc(m.c||"첨부 자료")}"></iframe></span>`;
+      const ar = RATIOS[m.r] || (m.t === "embed" ? RATIOS.wide : RATIOS.a4);
+      frame = `<span class="md__f"><iframe style="--ar:${ar}" src="${esc(src)}" loading="lazy" allowfullscreen title="${esc(m.c||"첨부 자료")}"></iframe></span>`;
     }
-    return `<div class="md__i${wide}">${frame}${m.c?`<div class="md__c">${esc(m.c)}</div>`:""}</div>`;
-  }).join("")}</div>`;
+    return `<div class="md__i${full?" md__i--full":""}">${frame}${m.c?`<div class="md__c">${esc(m.c)}</div>`:""}</div>`;
+  }).filter(Boolean);
+
+  const links = items.filter(x=>x.startsWith("<a"));
+  const cards = items.filter(x=>!x.startsWith("<a"));
+  return (cards.length ? `<div class="md">${cards.join("")}</div>` : "")
+       + (links.length ? `<div class="ov__links">${links.join("")}</div>` : "");
 }
-
-let DATA = JSON.parse(document.getElementById("site-data").textContent);
-
-const $  = s => document.querySelector(s);
-const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const bold = s => esc(s).replace(/\*([^*]+)\*/g,"<b>$1</b>");
 
 /* ═══════════ RENDER SITE ═══════════ */
 function renderSite(){
@@ -1536,7 +1544,8 @@ function openPub(id){
   const cite = [p.authors, p.venue].filter(Boolean).join(" · ");
   $("#ov-body").innerHTML = `
     <span class="eyebrow" style="color:rgba(255,255,255,.7)">${esc(p.k)}</span>
-    <h2 class="ov__title" id="ov-title" style="font-size:clamp(1.6rem,4.6vw,3.4rem);line-height:1.1">${esc(p.t)}</h2>
+    <h2 class="ov__title ov__title--pub" id="ov-title">${esc(p.t)}</h2>
+    ${p.tEn?`<p class="ov__ten">${esc(p.tEn)}</p>`:""}
     ${cite?`<p class="ov__cite">${esc(cite)}</p>`:""}
     ${p.s?`<p class="ov__role">${esc(p.s)}</p>`:""}
     ${p.abstract?`<p class="ov__abs">${esc(p.abstract)}</p>`
@@ -1649,13 +1658,15 @@ function F(label, path, {area=false, hint=""}={}){
 }
 
 function SEL(label, path, opts){
-  const v = String(getPath(path));
+  const v = String(getPath(path) ?? "");
   return `<div class="fld"><label>${label}</label><select data-p="${path}" data-num="1">${
     opts.map(o=>`<option value="${o[0]}" ${String(o[0])===v?"selected":""}>${o[1]}</option>`).join("")
   }</select></div>`;
 }
 
 const MTYPES = [["image","이미지"],["pdf","PDF · 문서"],["embed","임베드 (영상 등)"],["link","링크 버튼"]];
+const MWIDTH = [["half","절반 폭"],["full","전체 폭"]];
+const MRATIO = [["a4","세로 문서 (A4)"],["four3","4:3"],["square","정사각"],["wide","가로 영상 16:9"],["tall","가로 4:3 낮게"]];
 
 /* 미디어 편집 블록 — projects / pubs 공용 */
 function MEDIA(base, list, key){
@@ -1663,8 +1674,10 @@ function MEDIA(base, list, key){
     ${list.map((m,j)=>`<div class="sub">
       <div class="grid2">
         ${SEL("종류",`${base}.${j}.t`,MTYPES)}
-        ${F("캡션",`${base}.${j}.c`)}
+        ${SEL("폭",`${base}.${j}.w`,MWIDTH)}
       </div>
+      ${m.t!=="image"&&m.t!=="link"?`<div class="grid2">${SEL("비율",`${base}.${j}.r`,MRATIO)}<div></div></div>`:""}
+      ${F("캡션",`${base}.${j}.c`)}
       ${F("URL",`${base}.${j}.u`)}
       <div class="subrow" style="gap:6px">
         ${FB_ON?`<label class="btn btn--sm" style="cursor:pointer">파일 업로드
@@ -1793,7 +1806,8 @@ function renderAdmin(){
         <div class="card__b">
           <div class="grid2">${F("연도",`pubs.${i}.y`)}${F("구분 배지",`pubs.${i}.k`)}</div>
           ${F("ID (고유값)",`pubs.${i}.id`)}
-          ${F("제목",`pubs.${i}.t`)}
+          ${F("제목 (국문)",`pubs.${i}.t`,{area:true,hint:"엔터로 줄을 나누면 화면에도 그대로 반영됩니다."})}
+          ${F("제목 (영문)",`pubs.${i}.tEn`,{area:true})}
           ${F("목록 표시 문구",`pubs.${i}.s`)}
           <div class="grid2">${F("저자",`pubs.${i}.authors`)}${F("게재처 · 학회",`pubs.${i}.venue`)}</div>
           ${F("초록 · 요약",`pubs.${i}.abstract`,{area:true})}
@@ -1853,10 +1867,10 @@ $("#adm-body").addEventListener("click", e=>{
     if(k==="ev") DATA.projects[+i].ev.push({v:"—",l:"라벨"});
     if(k==="blk") DATA.projects[+i].blocks.push({k:"항목",v:""});
     if(k==="lnk") DATA.projects[+i].links.push({label:"링크",url:"https://"});
-    if(k==="pmed") (DATA.projects[+i].media = DATA.projects[+i].media||[]).push({t:"image",u:"",c:""});
-    if(k==="bmed") (DATA.pubs[+i].media = DATA.pubs[+i].media||[]).push({t:"image",u:"",c:""});
+    if(k==="pmed") (DATA.projects[+i].media = DATA.projects[+i].media||[]).push({t:"image",u:"",c:"",w:"half",r:"a4"});
+    if(k==="bmed") (DATA.pubs[+i].media = DATA.pubs[+i].media||[]).push({t:"image",u:"",c:"",w:"half",r:"a4"});
     if(k==="blnk") (DATA.pubs[+i].links = DATA.pubs[+i].links||[]).push({label:"링크",url:"https://"});
-    if(k==="pub") DATA.pubs.unshift({id:"pub"+Date.now(),y:"2026",t:"제목",s:"게재처",k:"구분",authors:"",venue:"",abstract:"",media:[],links:[]});
+    if(k==="pub") DATA.pubs.unshift({id:"pub"+Date.now(),y:"2026",t:"제목",tEn:"",s:"게재처",k:"구분",authors:"",venue:"",abstract:"",media:[],links:[]});
     if(k==="flink") DATA.foot.links.push({label:"Link",url:"https://"});
     renderSite(); renderAdmin(); return;
   }
@@ -1918,7 +1932,9 @@ function normalizeData(d){
     items: A(g.items).map(i => ({ n: S(i.n), d: S(i.d), y: S(i.y), l: Number(i.l) || 1 }))
   }));
 
-  const MED = m => A(m).map(x => ({ t: S(x.t) || "image", u: S(x.u), c: S(x.c) }));
+  const MED = m => A(m).map(x => ({ t: S(x.t) || "image", u: S(x.u), c: S(x.c),
+    w: S(x.w) || (S(x.t) === "image" ? "half" : "full"),
+    r: S(x.r) || (S(x.t) === "embed" ? "wide" : "a4") }));
   const LNK = l => A(l).map(x => ({ label: S(x.label), url: S(x.url) }));
 
   d.projects = A(d.projects).map(p => ({
@@ -1932,7 +1948,7 @@ function normalizeData(d){
   }));
 
   d.pubs = A(d.pubs).map((p, i) => ({
-    id: S(p.id) || "pub" + (i + 1), y: S(p.y), t: S(p.t), s: S(p.s), k: S(p.k),
+    id: S(p.id) || "pub" + (i + 1), y: S(p.y), t: S(p.t), tEn: S(p.tEn), s: S(p.s), k: S(p.k),
     authors: S(p.authors), venue: S(p.venue), abstract: S(p.abstract),
     links: LNK(p.links), media: MED(p.media)
   }));
