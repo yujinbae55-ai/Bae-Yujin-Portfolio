@@ -80,7 +80,8 @@ a{color:inherit}
 .nav__links{display:flex;gap:20px}
 .nav a{text-decoration:none;color:var(--mute);transition:color .2s}
 .nav a:hover{color:var(--point)}
-@media(max-width:720px){.nav__links a:nth-child(2),.nav__links a:nth-child(4){display:none}}
+@media(max-width:900px){.nav__links a:nth-child(2),.nav__links a:nth-child(4){display:none}}
+@media(max-width:620px){.nav__links a:nth-child(3){display:none}}
 
 /* ─────────────────────────────────────────────
    HERO
@@ -162,7 +163,8 @@ a{color:inherit}
 .track__c{background:var(--paper);padding:26px 24px}
 .track__h{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--point);margin-bottom:16px}
 .track__l{list-style:none;margin:0;padding:0;font-size:14.5px;line-height:1.6}
-.track__l li{padding:9px 0;border-bottom:1px dashed var(--line)}
+.track__l li{padding:11px 0;border-bottom:1px dashed var(--line)}
+.track__y{display:inline-block;background:var(--wash);color:var(--mute);font-size:10.5px;font-weight:500;letter-spacing:.08em;padding:3px 8px;border-radius:4px;margin-bottom:6px;line-height:1.3}
 .track__l li:last-child{border-bottom:0}
 .track__l b{font-weight:600}
 .track__l span{display:block;color:var(--mute);font-size:13px;margin-top:2px}
@@ -235,6 +237,23 @@ a{color:inherit}
 .mx__bar--feat .mx__e{color:rgba(255,255,255,.8)}
 .mx__bar[hidden],.mx__yr[hidden]{display:none}
 
+/* ── GALLERY ── */
+.gal{margin-inline:var(--gut)}
+.gal__g{margin-bottom:clamp(34px,5vh,58px)}
+.gal__h{display:flex;align-items:baseline;gap:12px;padding-bottom:11px;margin-bottom:18px;border-bottom:1px solid var(--ink)}
+.gal__t{font-size:13px;font-weight:700;letter-spacing:.04em;margin:0}
+.gal__n{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.gal__d{font-size:12.5px;color:var(--mute);margin:0 0 16px;line-height:1.55}
+.gal__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,215px),1fr));gap:14px}
+.gal__i{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--paper);
+  cursor:pointer;padding:0;text-align:left;color:var(--ink);
+  transition:border-color .25s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease)}
+.gal__i:hover,.gal__i:focus-visible{border-color:var(--point);transform:translateY(-3px);box-shadow:0 9px 24px rgba(35,35,255,.12)}
+.gal__th{display:block;width:100%;aspect-ratio:4/3;background:var(--wash);overflow:hidden;position:relative}
+.gal__th img{width:100%;height:100%;object-fit:cover;display:block}
+.gal__ph{display:flex;align-items:center;justify-content:center;height:100%;
+  font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.gal__c{padding:10px 12px;font-size:12.5px;line-height:1.45;font-weight:500;border-top:1px solid var(--line)}
 .mxleg{display:flex;flex-wrap:wrap;gap:10px 22px;padding-inline:var(--gut);margin:-6px 0 22px;
   font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--mute)}
 .mxleg__i{display:flex;align-items:center;gap:7px}
@@ -320,7 +339,7 @@ a{color:inherit}
 .pub:hover::before,.pub:focus-visible::before{width:4px}
 .pub__go{font-size:15px;color:var(--line);justify-self:end;transition:color .25s,transform .3s var(--ease)}
 .pub:hover .pub__go{color:var(--point);transform:translate(3px,-3px)}
-.pub__m{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--point);vertical-align:middle;margin-left:7px}
+.pub__m{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.1em;padding:2px 7px;border:1px solid var(--point);border-radius:100px;color:var(--point);vertical-align:2px;margin-left:9px;white-space:nowrap}
 .pub__y{font-size:12px;font-weight:500;color:var(--mute);letter-spacing:.04em}
 .pub__t{font-size:15.5px;line-height:1.55;font-weight:500}
 .pub__t span{display:block;font-size:13.5px;color:var(--mute);font-weight:400;margin-top:3px}
@@ -488,6 +507,7 @@ a{color:inherit}
     <a href="#skill">Skill</a>
     <a href="#archive">Archive</a>
     <a href="#pubs">Publications</a>
+    <a href="#gallery">Gallery</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
@@ -547,6 +567,14 @@ a{color:inherit}
   <div class="pubs" id="m-pubs"></div>
 </section>
 
+<section class="sec" id="gallery">
+  <div class="sec__head rise">
+    <h2 class="sec__title">Gallery</h2>
+    <span class="sec__count" id="m-galcount"></span>
+  </div>
+  <div class="gal rise" id="m-gallery"></div>
+</section>
+
 <footer class="foot" id="contact">
   <p class="foot__big rise" id="m-footbig"></p>
   <div class="foot__row rise" id="m-footlinks"></div>
@@ -593,6 +621,7 @@ a{color:inherit}
     <button class="tab" role="tab" data-tab="skill" aria-selected="false">Skill</button>
     <button class="tab" role="tab" data-tab="proj" aria-selected="false">프로젝트</button>
     <button class="tab" role="tab" data-tab="pubs" aria-selected="false">논문·발표</button>
+    <button class="tab" role="tab" data-tab="gal" aria-selected="false">갤러리</button>
     <button class="tab" role="tab" data-tab="foot" aria-selected="false">연락처</button>
   </div>
   <div class="adm__body" id="adm-body"></div>
@@ -618,11 +647,13 @@ a{color:inherit}
       "items": [
         {
           "t": "연세대학교 대학원",
-          "s": "아동·가족학과 석사과정 · 인간생명혁신디자인 융합전공 (BK21)"
+          "s": "아동·가족학과 석사과정 · 인간생명혁신디자인 융합전공 (BK21)",
+          "y": "2025—"
         },
         {
           "t": "덕성여자대학교",
-          "s": "유아교육과 학사"
+          "s": "유아교육과 학사",
+          "y": "2019—2023"
         }
       ]
     },
@@ -631,19 +662,23 @@ a{color:inherit}
       "items": [
         {
           "t": "러닝스파크 (AskEdTech)",
-          "s": "콘텐츠 에디터 · 팀 리드"
+          "s": "콘텐츠 에디터 · 팀 리드",
+          "y": "2023—"
         },
         {
           "t": "두부핑퐁",
-          "s": "프리랜스 · 아동 사회성 AI 서비스"
+          "s": "프리랜스 · 아동 사회성 AI 서비스",
+          "y": "2025—"
         },
         {
           "t": "강북구육아종합지원센터",
-          "s": "영유아 보육 지원"
+          "s": "영유아 보육 지원",
+          "y": "2023"
         },
         {
           "t": "링크아트",
-          "s": "예술 교육"
+          "s": "예술 교육",
+          "y": "2022—2023"
         }
       ]
     },
@@ -652,19 +687,23 @@ a{color:inherit}
       "items": [
         {
           "t": "유치원 정교사 2급",
-          "s": ""
+          "s": "",
+          "y": ""
         },
         {
           "t": "보육교사",
-          "s": ""
+          "s": "",
+          "y": ""
         },
         {
           "t": "Methods",
-          "s": "Mplus · SEM · LPA · CLPM/RI-CLPM · 혼합연구"
+          "s": "Mplus · SEM · LPA · CLPM/RI-CLPM · 혼합연구",
+          "y": ""
         },
         {
           "t": "Build",
-          "s": "Firebase · Netlify · 웹 프론트엔드 · 일러스트레이션"
+          "s": "Firebase · Netlify · 웹 프론트엔드 · 일러스트레이션",
+          "y": ""
         }
       ]
     }
@@ -1375,6 +1414,35 @@ a{color:inherit}
       }
     ],
     "note": "© 2026 BAE YUJIN — 아동 발달 연구와 서비스 디자인 사이에서 일합니다."
+  },
+  "gallery": {
+    "groups": [
+      {
+        "h": "카드뉴스",
+        "d": "아동권리보장원 서포터즈 Translators 팀 제작 콘텐츠",
+        "items": []
+      },
+      {
+        "h": "인포그래픽",
+        "d": "통계·연구 결과를 현장에서 읽을 수 있는 형태로 옮긴 작업",
+        "items": []
+      },
+      {
+        "h": "포스터 · 발표자료",
+        "d": "학술대회 포스터 및 발표 자료",
+        "items": []
+      },
+      {
+        "h": "영상",
+        "d": "콘텐츠 영상 및 기록",
+        "items": []
+      },
+      {
+        "h": "일러스트레이션",
+        "d": "캐릭터 · 굿즈 · 삽화 작업",
+        "items": []
+      }
+    ]
   }
 }
 </script>
@@ -1477,7 +1545,7 @@ function renderSite(){
   $("#m-track").innerHTML = DATA.track.map(c=>`
     <div class="track__c">
       <div class="track__h">${esc(c.h)}</div>
-      <ul class="track__l">${c.items.map(i=>`<li><b>${esc(i.t)}</b>${i.s?`<span>${esc(i.s)}</span>`:""}</li>`).join("")}</ul>
+      <ul class="track__l">${c.items.map(i=>`<li>${i.y?`<span class="track__y">${esc(i.y)}</span>`:""}<b>${esc(i.t)}</b>${i.s?`<span>${esc(i.s)}</span>`:""}</li>`).join("")}</ul>
     </div>`).join("");
 
   const SK = DATA.skills;
@@ -1525,10 +1593,35 @@ function renderSite(){
   $("#m-pubs").innerHTML = DATA.pubs.map(p=>`
     <button class="pub" data-pub="${esc(p.id)}">
       <span class="pub__y">${esc(p.y)}</span>
-      <span class="pub__t">${esc(p.t)}${(p.media&&p.media.length)?'<span class="pub__m" title="첨부 자료 있음"></span>':""}${p.s?`<span>${esc(p.s)}</span>`:""}</span>
+      <span class="pub__t">${esc(p.t)}${(p.media&&p.media.length)?`<span class="pub__m">자료 ${p.media.length}</span>`:""}${p.s?`<span>${esc(p.s)}</span>`:""}</span>
       <span class="pub__k">${esc(p.k)}</span>
       <span class="pub__go" aria-hidden="true">↗</span>
     </button>`).join("");
+
+  const G = DATA.gallery || { groups: [] };
+  const nAll = G.groups.reduce((s,g)=>s+g.items.length,0);
+  $("#m-galcount").textContent = `${String(nAll).padStart(2,"0")} WORKS · ${G.groups.length} 구분`;
+  $("#m-gallery").innerHTML = G.groups.map((g,gi)=>`
+    <div class="gal__g">
+      <div class="gal__h">
+        <h3 class="gal__t">${esc(g.h)}</h3>
+        <span class="gal__n">${g.items.length} 점</span>
+      </div>
+      ${g.d?`<p class="gal__d">${esc(g.d)}</p>`:""}
+      <div class="gal__grid">
+        ${g.items.map((it,ii)=>{
+          const src = mediaSrc(it);
+          const thumb = it.t === "image" && src
+            ? `<img src="${esc(src)}" alt="${esc(it.c||"")}" loading="lazy"
+                 onerror="this.parentElement.innerHTML='<span class=&quot;gal__ph&quot;>${esc(it.t)}</span>'">`
+            : `<span class="gal__ph">${esc(({pdf:"PDF",embed:"VIDEO",link:"LINK"})[it.t] || "FILE")}</span>`;
+          return `<button class="gal__i" data-gal="${gi}:${ii}">
+            <span class="gal__th">${thumb}</span>
+            ${it.c?`<span class="gal__c">${esc(it.c)}</span>`:""}
+          </button>`;
+        }).join("")}
+      </div>
+    </div>`).join("") || `<p class="gal__d">등록된 작업물이 없습니다.</p>`;
 
   $("#m-footbig").innerHTML = esc(DATA.foot.big).replace(/\n/g,"<br>");
   $("#m-footlinks").innerHTML = DATA.foot.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
@@ -1572,8 +1665,10 @@ function openCase(id){
     ${p.blocks.map(b=>`<div class="case"><div class="case__k">${esc(b.k)}</div><p class="case__v">${esc(b.v)}</p></div>`).join("")}
     ${renderMedia(p.media)}
     ${p.links.length?`<div class="ov__links">${p.links.map(l=>`<a class="ov__link" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>`:""}`;
+  const wasOpen = ov.classList.contains("is-open");
   ov.classList.add("is-open"); ov.setAttribute("aria-hidden","false");
   document.body.classList.add("is-locked"); ov.scrollTop = 0; $("#ov-close").focus();
+  if(!wasOpen) pushLayer();
 }
 function openPub(id){
   const p = DATA.pubs.find(x=>x.id===id); if(!p) return;
@@ -1598,18 +1693,59 @@ function openPub(id){
       ${renderMedia(p.media)}
     </div>`:""}
     ${(p.links&&p.links.length)?`<div class="ov__links">${p.links.map(l=>`<a class="ov__link" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>`:""}`;
+  const wasOpen = ov.classList.contains("is-open");
   ov.classList.add("is-open"); ov.setAttribute("aria-hidden","false");
   document.body.classList.add("is-locked"); ov.scrollTop = 0; $("#ov-close").focus();
+  if(!wasOpen) pushLayer();
 }
 
-function closeCase(){
+/* 열려 있는 레이어를 브라우저 히스토리에 등록해, 뒤로가기로 닫히게 함 */
+let histDepth = 0;
+function pushLayer(){ histDepth++; history.pushState({ layer: histDepth }, ""); }
+function popLayer(){ if(histDepth > 0){ histDepth--; history.back(); } }
+
+function openGal(gi, ii){
+  const g = DATA.gallery?.groups?.[gi]; const it = g?.items?.[ii];
+  if(!it) return;
+  lastFocus = document.activeElement;
+  $("#ov-idx").textContent = `${g.h} — ${ii+1} / ${g.items.length}`;
+  $("#ov-body").innerHTML = `
+    <span class="eyebrow" style="color:rgba(255,255,255,.7)">${esc(g.h)}</span>
+    <h2 class="ov__title ov__title--pub" id="ov-title">${esc(it.c || g.h)}</h2>
+    ${it.note?`<p class="ov__ten">${esc(it.note)}</p>`:""}
+    <div class="ov__sec">
+      <span class="ov__lab">작업물</span>
+      ${renderMedia([{ ...it, c: "", w: "full" }])}
+    </div>`;
+  const wasOpen = ov.classList.contains("is-open");
+  ov.classList.add("is-open"); ov.setAttribute("aria-hidden","false");
+  document.body.classList.add("is-locked"); ov.scrollTop = 0; $("#ov-close").focus();
+  if(!wasOpen) pushLayer();
+}
+
+function closeCase(fromPop){
   ov.classList.remove("is-open"); ov.setAttribute("aria-hidden","true");
   document.body.classList.remove("is-locked");
   if(lastFocus && document.contains(lastFocus)) lastFocus.focus();
+  if(fromPop){ histDepth = Math.max(0, histDepth - 1); } else { popLayer(); }
 }
+
+function closeAdmin(fromPop){
+  adm.classList.remove("is-open"); adm.setAttribute("aria-hidden","true");
+  if(fromPop){ histDepth = Math.max(0, histDepth - 1); } else { popLayer(); }
+}
+
+window.addEventListener("popstate", ()=>{
+  if(ov.classList.contains("is-open")) closeCase(true);
+  else if(adm.classList.contains("is-open")) closeAdmin(true);
+  else if(gate.classList.contains("is-open")) gate.classList.remove("is-open");
+});
 function bindSite(){
   document.querySelectorAll(".mx__bar").forEach(r=>r.onclick=()=>openCase(r.dataset.id));
   document.querySelectorAll(".pub").forEach(r=>r.onclick=()=>openPub(r.dataset.pub));
+  document.querySelectorAll(".gal__i").forEach(r=>r.onclick=()=>{
+    const [gi,ii] = r.dataset.gal.split(":").map(Number); openGal(gi,ii);
+  });
   document.querySelectorAll(".axis").forEach(b=>b.onclick=()=>{
     applyFilter(b.dataset.axis);
     $("#archive").scrollIntoView({behavior:"smooth",block:"start"});
@@ -1622,7 +1758,15 @@ $("#ov-close").onclick = closeCase;
 const adm = $("#adm"), gate = $("#gate");
 let tab = "site";
 
-function askPw(){
+async function askPw(){
+  if(FB_ON){
+    // 이미 로그인된 세션이 있으면 인증 창을 건너뜀
+    try{
+      const a = await getAdmin();
+      const u = await a.ready;
+      if(u && (!ADMIN_EMAIL || u.email === ADMIN_EMAIL)){ openAdmin(); return; }
+    }catch(e){ console.warn(e); }
+  }
   gate.classList.add("is-open"); $("#gate-err").textContent = "";
   const box = $("#gate-box");
   if(FB_ON){
@@ -1679,8 +1823,9 @@ $("#gate-ok").onclick = tryPw;
 $("#gate-cancel").onclick = ()=>gate.classList.remove("is-open");
 $("#gate-pw").onkeydown = e=>{ if(e.key==="Enter") tryPw(); };
 
-function openAdmin(){ adm.classList.add("is-open"); adm.setAttribute("aria-hidden","false"); renderAdmin(); }
-$("#adm-close").onclick = ()=>{ adm.classList.remove("is-open"); adm.setAttribute("aria-hidden","true"); };
+function openAdmin(){ if(!adm.classList.contains("is-open")) pushLayer();
+  adm.classList.add("is-open"); adm.setAttribute("aria-hidden","false"); renderAdmin(); }
+$("#adm-close").onclick = ()=>closeAdmin();
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
   tab = t.dataset.tab;
   document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",String(x.dataset.tab===tab)));
@@ -1781,6 +1926,7 @@ function renderAdmin(){
           ${F("컬럼 제목",`track.${ci}.h`)}
           ${c.items.map((it,ii)=>`
             <div class="sub" data-sp="track.${ci}.items" data-si="${ii}">
+              ${F("연도",`track.${ci}.items.${ii}.y`,{hint:"비워두면 표시되지 않습니다."})}
               ${F("제목",`track.${ci}.items.${ii}.t`)}
               ${F("설명",`track.${ci}.items.${ii}.s`)}
               <div class="subrow subrow--sp">${SORTBAR(`track.${ci}.items`, ii, c.items.length)}<button class="btn btn--sm btn--del" data-del="trackitem:${ci}:${ii}">삭제</button></div>
@@ -1885,6 +2031,39 @@ function renderAdmin(){
       </div>`).join("") + `<button class="btn btn--go" data-add="pub">+ 새 항목</button>`;
   }
 
+  if(tab==="gal"){
+    const GG = DATA.gallery.groups;
+    B.innerHTML = GG.map((g,gi)=>`
+      <div class="card" data-sp="gallery.groups" data-si="${gi}">
+        <div class="card__top"><button class="card__h" data-toggle><span>${esc(g.h)}</span><small>${g.items.length} 점</small></button>${SORTBAR("gallery.groups", gi, GG.length)}</div>
+        <div class="card__b">
+          ${F("구분 이름",`gallery.groups.${gi}.h`)}
+          ${F("설명",`gallery.groups.${gi}.d`)}
+          ${g.items.map((it,ii)=>`
+            <div class="sub" data-sp="gallery.groups.${gi}.items" data-si="${ii}">
+              <div class="grid2">
+                ${SEL("종류",`gallery.groups.${gi}.items.${ii}.t`,MTYPES)}
+                ${SEL("비율",`gallery.groups.${gi}.items.${ii}.r`,MRATIO)}
+              </div>
+              ${F("제목 · 캡션",`gallery.groups.${gi}.items.${ii}.c`)}
+              ${F("설명",`gallery.groups.${gi}.items.${ii}.note`)}
+              ${F("URL",`gallery.groups.${gi}.items.${ii}.u`)}
+              <div class="subrow subrow--sp">
+                ${SORTBAR(`gallery.groups.${gi}.items`, ii, g.items.length)}
+                <span style="display:flex;gap:6px">
+                  ${FB_ON?`<label class="btn btn--sm" style="cursor:pointer">파일 업로드
+                    <input type="file" data-up="gallery.groups.${gi}.items.${ii}.u" hidden></label>`:""}
+                  <button class="btn btn--sm btn--del" data-del="galitem:${gi}:${ii}">삭제</button>
+                </span>
+              </div>
+            </div>`).join("")}
+          <button class="btn btn--sm" data-add="galitem:${gi}">+ 작업물 추가</button>
+          <div class="subrow"><button class="btn btn--sm btn--del" data-del="galgroup:${gi}">구분 삭제</button></div>
+        </div>
+      </div>`).join("") + `<button class="btn btn--go" data-add="galgroup">+ 새 구분</button>
+      <p class="hint" style="margin-top:10px">이미지는 목록에 미리보기가 뜨고, PDF·영상·링크는 종류 표시만 나옵니다. 카드를 누르면 상세로 열립니다.</p>`;
+  }
+
   if(tab==="foot"){
     B.innerHTML =
       F("큰 문구","foot.big",{area:true,hint:"줄바꿈이 그대로 반영됩니다."}) +
@@ -1925,8 +2104,8 @@ $("#adm-body").addEventListener("click", e=>{
   if(add){
     const [k,i] = add.split(":");
     if(k==="meta") DATA.site.meta.push("새 항목");
-    if(k==="track") DATA.track.push({h:"New",items:[{t:"제목",s:"설명"}]});
-    if(k==="trackitem") DATA.track[+i].items.push({t:"제목",s:"설명"});
+    if(k==="track") DATA.track.push({h:"New",items:[{y:"",t:"제목",s:"설명"}]});
+    if(k==="trackitem") DATA.track[+i].items.push({y:"",t:"제목",s:"설명"});
     if(k==="skgroup") DATA.skills.groups.push({h:"New",items:[{n:"도구",d:"설명",y:"1년",l:2}]});
     if(k==="skitem") DATA.skills.groups[+i].items.push({n:"도구",d:"설명",y:"1년",l:2});
     if(k==="proj") DATA.projects.unshift({id:"new"+Date.now(),year:"2026",live:false,feat:false,title:"새 프로젝트",en:"New project",desc:"한 줄 설명",tags:["디자인"],role:"역할",lead:"리드 문장",ev:[{v:"—",l:"라벨"}],blocks:[{k:"문제",v:""},{k:"접근 · 근거",v:""},{k:"만든 것",v:""},{k:"결과",v:""}],links:[]});
@@ -1938,6 +2117,8 @@ $("#adm-body").addEventListener("click", e=>{
     if(k==="blnk") (DATA.pubs[+i].links = DATA.pubs[+i].links||[]).push({label:"링크",url:"https://"});
     if(k==="pub") DATA.pubs.unshift({id:"pub"+Date.now(),y:"2026",t:"제목",tEn:"",s:"게재처",k:"구분",authors:"",venue:"",abstract:"",media:[],links:[]});
     if(k==="flink") DATA.foot.links.push({label:"Link",url:"https://"});
+    if(k==="galgroup") DATA.gallery.groups.push({h:"새 구분",d:"",items:[]});
+    if(k==="galitem") DATA.gallery.groups[+i].items.push({t:"image",u:"",c:"제목",note:"",w:"full",r:"a4"});
     renderSite(); renderAdmin(); return;
   }
 
@@ -1959,6 +2140,8 @@ $("#adm-body").addEventListener("click", e=>{
     if(k==="blnk") DATA.pubs[+a].links.splice(+b,1);
     if(k==="pub") DATA.pubs.splice(+a,1);
     if(k==="flink") DATA.foot.links.splice(+a,1);
+    if(k==="galgroup") DATA.gallery.groups.splice(+a,1);
+    if(k==="galitem") DATA.gallery.groups[+a].items.splice(+b,1);
     renderSite(); renderAdmin(); return;
   }
 
@@ -2032,7 +2215,7 @@ function normalizeData(d){
   d.site.nameEn = S(d.site.nameEn);
   d.site.thesis = S(d.site.thesis);
 
-  d.track = A(d.track).map(c => ({ h: S(c.h), items: A(c.items).map(i => ({ t: S(i.t), s: S(i.s) })) }));
+  d.track = A(d.track).map(c => ({ h: S(c.h), items: A(c.items).map(i => ({ y: S(i.y), t: S(i.t), s: S(i.s) })) }));
 
   d.skills = d.skills || {};
   d.skills.legend = A(d.skills.legend);
@@ -2061,6 +2244,13 @@ function normalizeData(d){
     id: S(p.id) || "pub" + (i + 1), y: S(p.y), t: S(p.t), tEn: S(p.tEn), s: S(p.s), k: S(p.k),
     authors: S(p.authors), venue: S(p.venue), abstract: S(p.abstract),
     links: LNK(p.links), media: MED(p.media)
+  }));
+
+  d.gallery = d.gallery || { groups: [] };
+  d.gallery.groups = A(d.gallery.groups).map(g => ({
+    h: S(g.h), d: S(g.d),
+    items: A(g.items).map(x => ({ t: S(x.t) || "image", u: S(x.u), c: S(x.c), note: S(x.note),
+      w: "full", r: S(x.r) || (S(x.t) === "embed" ? "wide" : "a4") }))
   }));
 
   d.foot = d.foot || {};
@@ -2095,9 +2285,23 @@ async function getAdmin(){
     import(FB_SDK + "firebase-auth.js"),
     import(FB_SDK + "firebase-storage.js")
   ]);
-  fbAdmin = { au, st, auth: au.getAuth(c.app), store: st.getStorage(c.app), user: null };
-  au.onAuthStateChanged(fbAdmin.auth, u => { fbAdmin.user = u; syncSaveBtn(); });
+  const auth = au.getAuth(c.app);
+  // 브라우저를 닫았다 열어도 로그인이 유지되도록 로컬 저장소 방식으로 고정
+  try{ await au.setPersistence(auth, au.browserLocalPersistence); }catch(e){ console.warn(e); }
+
+  fbAdmin = { au, st, auth, store: st.getStorage(c.app), user: null };
+  // 첫 인증 상태가 확정될 때까지 기다릴 수 있는 약속
+  fbAdmin.ready = new Promise(res=>{
+    const un = au.onAuthStateChanged(auth, u => { fbAdmin.user = u; syncSaveBtn(); un(); res(u); });
+  });
+  au.onAuthStateChanged(auth, u => { fbAdmin.user = u; syncSaveBtn(); });
   return fbAdmin;
+}
+
+async function fbLogout(){
+  const a = await getAdmin();
+  if(a?.auth) await a.au.signOut(a.auth);
+  syncSaveBtn();
 }
 
 async function fbLoad(){
@@ -2145,7 +2349,9 @@ function syncSaveBtn(){
   if(fbAdmin?.user){
     f.innerHTML = `<b>${esc(fbAdmin.user.email||"")}</b> 로그인됨 ·
       <button class="btn btn--sm" id="uid-copy">UID 복사</button>
+      <button class="btn btn--sm" id="uid-out">로그아웃</button>
       <span style="display:block;margin-top:6px;font-size:10.5px;word-break:break-all;opacity:.75">${esc(fbAdmin.user.uid)}</span>`;
+    $("#uid-out").onclick = async ()=>{ await fbLogout(); closeAdmin(); };
     $("#uid-copy").onclick = async ()=>{
       try{ await navigator.clipboard.writeText(fbAdmin.user.uid); $("#uid-copy").textContent = "복사됨 ✓"; }
       catch{ $("#uid-copy").textContent = "아래 값을 직접 복사하세요"; }
@@ -2181,7 +2387,7 @@ $("#adm-json").onclick = ()=>dl("portfolio-data.json", JSON.stringify(DATA,null,
 $("#adm-export").onclick = ()=>{
   const c = document.documentElement.cloneNode(true);
   c.querySelector("#site-data").textContent = "\n" + JSON.stringify(DATA,null,2) + "\n";
-  ["#m-eyebrow","#m-name","#m-thesis","#m-meta","#m-track","#m-skleg","#m-skill","#m-archive","#m-pubs","#m-footlinks","#m-footbig","#m-footnote","#ov-body","#ov-idx","#adm-body","#gate-err"]
+  ["#m-eyebrow","#m-name","#m-thesis","#m-meta","#m-track","#m-skleg","#m-skill","#m-gallery","#m-galcount","#m-archive","#m-pubs","#m-footlinks","#m-footbig","#m-footnote","#ov-body","#ov-idx","#adm-body","#gate-err"]
     .forEach(s=>{ const el=c.querySelector(s); if(el) el.innerHTML=""; });
   c.querySelector("#ov").classList.remove("is-open");
   c.querySelector("#ov").setAttribute("aria-hidden","true");
@@ -2201,7 +2407,7 @@ document.addEventListener("keydown", e=>{
   if(e.key==="Escape"){
     if(ov.classList.contains("is-open")) closeCase();
     else if(gate.classList.contains("is-open")) gate.classList.remove("is-open");
-    else if(adm.classList.contains("is-open")) $("#adm-close").click();
+    else if(adm.classList.contains("is-open")) closeAdmin();
   }
 });
 if(location.hash === "#admin") setTimeout(askPw, 400);
