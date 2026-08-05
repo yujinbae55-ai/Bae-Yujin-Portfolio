@@ -358,8 +358,11 @@ a{color:inherit}
 .pub__y{font-size:12px;font-weight:500;color:var(--mute);letter-spacing:.04em}
 .pub__t{font-size:15.5px;line-height:1.55;font-weight:500}
 .pub__s{display:block;font-size:13.5px;color:var(--mute);font-weight:400;margin-top:4px}
-.pub__k{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--point);white-space:nowrap}
-@media(max-width:720px){.pub{grid-template-columns:70px minmax(0,1fr) 22px}.pub__k{grid-column:2;margin-top:4px}}
+.pub__type{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--mute);margin-right:8px;vertical-align:1px}
+.pub__r{justify-self:end}
+.pub__aw{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.06em;white-space:nowrap;
+  background:var(--point);color:#fff;padding:4px 11px;border-radius:100px}
+@media(max-width:720px){.pub{grid-template-columns:70px minmax(0,1fr) 22px}.pub__r{grid-column:2;justify-self:start;margin-top:6px}}
 
 /* ── media gallery (overlay 내부) ──
    모든 카드를 동일 비율 상자로 맞춰 행 높이 불일치를 없앰 */
@@ -397,6 +400,8 @@ a{color:inherit}
 .galnav__c{font-size:11.5px;font-weight:600;letter-spacing:.14em;color:rgba(255,255,255,.75)}
 .ov__cite{font-size:13px;line-height:1.65;color:rgba(255,255,255,.72);margin:0;letter-spacing:.01em}
 .ov__cite--em{color:#fff;font-weight:600;margin-top:6px}
+.ov__award{display:inline-block;margin:14px 0 0;background:#fff;color:var(--point);
+  font-size:12.5px;font-weight:700;letter-spacing:.02em;padding:7px 15px;border-radius:100px}
 
 /* ─────────────────────────────────────────────
    FOOT
@@ -591,7 +596,7 @@ a{color:inherit}
 
 <section class="sec" id="pubs">
   <div class="sec__head rise">
-    <h2 class="sec__title">Publications &amp; Talks</h2>
+    <h2 class="sec__title">Publications &amp; Presentations</h2>
     <span class="sec__count">KCI · 국내외 학술대회</span>
   </div>
   <div class="pubs" id="m-pubs"></div>
@@ -1367,12 +1372,14 @@ a{color:inherit}
       "y": "2026",
       "t": "영유아교사 요가 웰니스 프로그램 '사이사이'의 효과",
       "s": "KCI 학술지 투고 · 수정 중",
-      "k": "KCI 투고",
+      "k": "KCI 투고 · 수정 중",
       "authors": "배유진 외",
       "venue": "KCI 등재지 (투고·수정 중)",
       "abstract": "영유아교사의 소진과 근골격계 통증을 줄이기 위한 요가 기반 웰니스 프로그램 '사이사이'를 개발하고, 3주 파일럿을 통해 MBI·PSS·NRS·HBM 사전·사후 변화와 사후 인터뷰를 분석했습니다.",
       "media": [],
-      "links": []
+      "links": [],
+      "type": "Journal Article",
+      "award": ""
     },
     {
       "id": "pub2",
@@ -1384,19 +1391,23 @@ a{color:inherit}
       "venue": "ISSBD 2026, 송도",
       "abstract": "또래 배척이 우울 증상을 매개로 스마트폰 과의존에 이르는 종단 경로를 검증하고, 성별에 따른 경로 차이를 확인했습니다.",
       "media": [],
-      "links": []
+      "links": [],
+      "type": "Oral",
+      "award": ""
     },
     {
       "id": "pub3",
       "y": "2026",
       "t": "영유아교사 웰니스 프로그램 파일럿 연구",
       "s": "한국육아지원학회 춘계학술대회 — 우수 포스터 수상",
-      "k": "우수 포스터",
+      "k": "",
       "authors": "배유진 외",
       "venue": "한국육아지원학회 춘계학술대회",
       "abstract": "'사이사이' 프로그램의 파일럿 결과를 포스터로 발표해 우수 포스터로 선정되었습니다.",
       "media": [],
-      "links": []
+      "links": [],
+      "type": "Poster",
+      "award": "우수 포스터 발표상"
     },
     {
       "id": "pub4",
@@ -1408,7 +1419,9 @@ a{color:inherit}
       "venue": "학술지 투고",
       "abstract": "해당 주제의 선행 연구를 체계적으로 수집·선별해 분석한 문헌고찰 연구입니다.",
       "media": [],
-      "links": []
+      "links": [],
+      "type": "Journal Article",
+      "award": ""
     },
     {
       "id": "pub5",
@@ -1420,7 +1433,9 @@ a{color:inherit}
       "venue": "한국디자인문화학회지",
       "abstract": "자기조절 이론에 기반해 SNS 사용 조절을 돕는 앱 Selftune을 설계하고 MVP 사용자 테스트로 검증했습니다.",
       "media": [],
-      "links": []
+      "links": [],
+      "type": "Journal Article",
+      "award": ""
     }
   ],
   "foot": {
@@ -1636,8 +1651,8 @@ function renderSite(){
   $("#m-pubs").innerHTML = DATA.pubs.map(p=>`
     <button class="pub" data-pub="${esc(p.id)}">
       <span class="pub__y">${esc(p.y)}</span>
-      <span class="pub__t">${esc(p.t)}<span class="pub__s">${esc(p.s)}${(p.media&&p.media.length)?`${p.s?" · ":""}<span class="pub__m">${esc(mediaKinds(p.media))}</span>`:""}</span></span>
-      <span class="pub__k">${esc(p.k)}</span>
+      <span class="pub__t">${p.type?`<span class="pub__type">[${esc(p.type)}]</span>`:""}${esc(p.t)}<span class="pub__s">${[esc(p.s), p.k?esc(p.k):"", (p.media&&p.media.length)?`<span class="pub__m">${esc(mediaKinds(p.media))}</span>`:""].filter(Boolean).join(" · ")}</span></span>
+      <span class="pub__r">${p.award?`<span class="pub__aw">★ ${esc(p.award)}</span>`:""}</span>
       <span class="pub__go" aria-hidden="true">↗</span>
     </button>`).join("");
 
@@ -1729,13 +1744,14 @@ function openPub(id){
   $("#ov-idx").textContent = `${p.y} — ${p.k}`;
   const cite = [p.authors, p.venue].filter(Boolean).join(" · ");
   $("#ov-body").innerHTML = `
-    <span class="eyebrow" style="color:rgba(255,255,255,.7)">${esc(p.k)}</span>
+    <span class="eyebrow" style="color:rgba(255,255,255,.7)">${esc([p.type,p.k].filter(Boolean).join(" · "))}</span>
     <h2 class="ov__title ov__title--pub" id="ov-title">${esc(p.t)}</h2>
     ${p.tEn?`<p class="ov__ten">${esc(p.tEn)}</p>`:""}
     <div class="ov__meta">
       ${p.authors?`<p class="ov__cite">${esc(p.authors)}</p>`:""}
       ${p.venue?`<p class="ov__cite">${esc(p.venue)}</p>`:""}
-      ${(p.s && p.s!==p.venue)?`<p class="ov__cite ov__cite--em">${esc(p.s)}</p>`:""}
+      ${(p.s && p.s!==p.venue)?`<p class="ov__cite">${esc(p.s)}</p>`:""}
+      ${p.award?`<p class="ov__award">★ ${esc(p.award)}</p>`:""}
     </div>
     <div class="ov__sec">
       <span class="ov__lab">초록</span>
@@ -1950,14 +1966,16 @@ function moveItem(path, from, to){
   return true;
 }
 
-function SEL(label, path, opts){
+function SEL(label, path, opts, num){
   const v = String(getPath(path) ?? "");
-  return `<div class="fld"><label>${label}</label><select data-p="${path}" data-num="1">${
+  return `<div class="fld"><label>${label}</label><select data-p="${path}"${num?' data-num="1"':""}>${
     opts.map(o=>`<option value="${o[0]}" ${String(o[0])===v?"selected":""}>${o[1]}</option>`).join("")
   }</select></div>`;
 }
 
 const MTYPES = [["image","이미지"],["pdf","PDF · 문서"],["embed","임베드 (영상 등)"],["link","링크 버튼"]];
+const PTYPES = [["","(표시 안 함)"],["Journal Article","Journal Article"],["Poster","Poster"],
+  ["Oral","Oral"],["Preprint","Preprint"],["Book Chapter","Book Chapter"],["Report","Report"],["Thesis","Thesis"]];
 const MWIDTH = [["half","절반 폭"],["full","전체 폭"]];
 const MRATIO = [["four3","가로 4:3 (기본)"],["wide","와이드 16:9"],["square","정사각 1:1"],["tall","세로 3:4"],["a4","세로 문서 A4"]];
 
@@ -2039,7 +2057,7 @@ function renderAdmin(){
               ${F("설명",`skills.groups.${gi}.items.${ii}.d`)}
               <div class="grid2">
                 ${F("사용 기간",`skills.groups.${gi}.items.${ii}.y`)}
-                ${SEL("숙련도",`skills.groups.${gi}.items.${ii}.l`,opts)}
+                ${SEL("숙련도",`skills.groups.${gi}.items.${ii}.l`,opts,true)}
               </div>
               <div class="subrow subrow--sp">${SORTBAR(`skills.groups.${gi}.items`, ii, g.items.length)}<button class="btn btn--sm btn--del" data-del="skitem:${gi}:${ii}">삭제</button></div>
             </div>`).join("")}
@@ -2097,7 +2115,8 @@ function renderAdmin(){
       <div class="card" data-sp="pubs" data-si="${i}">
         <div class="card__top"><button class="card__h" data-toggle><span>${esc(p.t.slice(0,28))}</span><small>${esc(p.y)}</small></button>${SORTBAR("pubs", i, DATA.pubs.length)}</div>
         <div class="card__b">
-          <div class="grid2">${F("연도",`pubs.${i}.y`)}${F("구분 배지",`pubs.${i}.k`)}</div>
+          <div class="grid2">${F("연도",`pubs.${i}.y`)}${SEL("유형 태그",`pubs.${i}.type`,PTYPES)}</div>
+          <div class="grid2">${F("게재 상태",`pubs.${i}.k`,{hint:"예: KCI 게재 / 투고 중"})}${F("수상",`pubs.${i}.award`,{hint:"입력하면 강조 표시됩니다."})}</div>
           ${F("ID (고유값)",`pubs.${i}.id`)}
           ${F("제목 (국문)",`pubs.${i}.t`,{area:true,hint:"엔터로 줄을 나누면 화면에도 그대로 반영됩니다."})}
           ${F("제목 (영문)",`pubs.${i}.tEn`,{area:true})}
@@ -2117,10 +2136,29 @@ function renderAdmin(){
 
   if(tab==="gal"){
     const GG = DATA.gallery.groups;
-    B.innerHTML = GG.map((g,gi)=>`
-      <div class="card" data-sp="gallery.groups" data-si="${gi}">
-        <div class="card__top"><button class="card__h" data-toggle><span>${esc(g.h)}</span><small>${g.items.length} 점</small></button>${SORTBAR("gallery.groups", gi, GG.length)}</div>
+    B.innerHTML = `
+      <div class="fld">
+        <label>기본 경로 (선택)</label>
+        <input type="text" id="gal-base" value="${esc(DATA.gallery.base||"images/")}" placeholder="images/">
+        <p class="hint">파일명만 붙여넣어도 이 경로가 앞에 붙습니다. <b>http</b>로 시작하는 주소는 그대로 씁니다.</p>
+      </div>` +
+      GG.map((g,gi)=>`
+      <div class="card${g.items.length?"":" is-open"}" data-sp="gallery.groups" data-si="${gi}">
+        <div class="card__top"><button class="card__h" data-toggle>
+          <span>${esc(g.h)}</span>
+          <small>${g.items.length ? g.items.length + " 점" : "비어 있음 · 공개 화면에 표시되지 않습니다"}</small>
+        </button>${SORTBAR("gallery.groups", gi, GG.length)}</div>
         <div class="card__b">
+          <div class="fld">
+            <label>여러 개 한꺼번에 추가</label>
+            <textarea data-bulk="${gi}" rows="4" placeholder="한 줄에 하나씩&#10;카드뉴스-01.jpg&#10;카드뉴스-02.png&#10;https://youtu.be/xxxx"></textarea>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+              <button class="btn btn--sm btn--go" data-bulkgo="${gi}">추가</button>
+              ${FB_ON?`<label class="btn btn--sm" style="cursor:pointer">파일 업로드
+                <input type="file" data-multi="${gi}" accept="image/*,video/*,application/pdf" multiple hidden></label>`:""}
+              <button class="btn btn--sm" data-add="galitem:${gi}">+ 빈 항목</button>
+            </div>
+          </div>
           ${F("구분 이름",`gallery.groups.${gi}.h`)}
           ${F("설명",`gallery.groups.${gi}.d`)}
           ${g.items.map((it,ii)=>`
@@ -2130,27 +2168,16 @@ function renderAdmin(){
                 ${SEL("비율",`gallery.groups.${gi}.items.${ii}.r`,MRATIO)}
               </div>
               ${F("제목 · 캡션",`gallery.groups.${gi}.items.${ii}.c`)}
-              ${F("설명",`gallery.groups.${gi}.items.${ii}.note`)}
-              ${F("URL",`gallery.groups.${gi}.items.${ii}.u`)}
+              ${F("URL · 경로",`gallery.groups.${gi}.items.${ii}.u`)}
               <div class="subrow subrow--sp">
                 ${SORTBAR(`gallery.groups.${gi}.items`, ii, g.items.length)}
-                <span style="display:flex;gap:6px">
-                  ${FB_ON?`<label class="btn btn--sm" style="cursor:pointer">파일 업로드
-                    <input type="file" data-up="gallery.groups.${gi}.items.${ii}.u" hidden></label>`:""}
-                  <button class="btn btn--sm btn--del" data-del="galitem:${gi}:${ii}">삭제</button>
-                </span>
+                <button class="btn btn--sm btn--del" data-del="galitem:${gi}:${ii}">삭제</button>
               </div>
             </div>`).join("")}
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            ${FB_ON?`<label class="btn btn--sm btn--go" style="cursor:pointer">파일 여러 개 올리기
-              <input type="file" data-multi="${gi}" accept="image/*,video/*,application/pdf" multiple hidden></label>`:""}
-            <button class="btn btn--sm" data-add="galitem:${gi}">+ 빈 항목 추가</button>
-          </div>
-          <p class="hint">파일을 여러 개 선택하면 각각 항목으로 자동 등록됩니다. 파일명이 캡션으로 들어가니 나중에 다듬으세요.</p>
           <div class="subrow"><button class="btn btn--sm btn--del" data-del="galgroup:${gi}">구분 삭제</button></div>
         </div>
       </div>`).join("") + `<button class="btn btn--go" data-add="galgroup">+ 새 구분</button>
-      <p class="hint" style="margin-top:10px">이미지는 목록에 미리보기가 뜨고, PDF·영상·링크는 종류 표시만 나옵니다. 카드를 누르면 상세로 열립니다.</p>`;
+      <p class="hint" style="margin-top:10px">항목이 없는 구분은 공개 화면에 나타나지 않습니다.</p>`;
   }
 
   if(tab==="foot"){
@@ -2189,6 +2216,33 @@ $("#adm-body").addEventListener("click", e=>{
   const tg = e.target.closest("[data-toggle]");
   if(tg){ tg.closest(".card")?.classList.toggle("is-open"); return; }
 
+  const bulk = e.target.closest("[data-bulkgo]")?.dataset.bulkgo;
+  if(bulk !== undefined){
+    const ta = $(`textarea[data-bulk="${bulk}"]`);
+    const lines = (ta?.value || "").split("\n").map(s=>s.trim()).filter(Boolean);
+    if(!lines.length){ alert("추가할 파일명이나 주소를 붙여넣어 주세요."); return; }
+
+    const base = ($("#gal-base")?.value || "").trim();
+    DATA.gallery.base = base;
+    const gi = +bulk;
+
+    lines.forEach(raw=>{
+      const u = /^(https?:)?\/\//.test(raw) ? raw : (base + raw.replace(/^\/+/, ""));
+      const low = u.toLowerCase();
+      const isVid = /youtube\.com|youtu\.be|\.(mp4|mov|webm)(\?|$)/.test(low);
+      const isPdf = /\.pdf(\?|$)/.test(low);
+      const name = decodeURIComponent(raw.split(/[?#]/)[0].split("/").pop() || "").replace(/\.[^.]+$/, "");
+      DATA.gallery.groups[gi].items.push({
+        t: isVid ? "embed" : (isPdf ? "pdf" : "image"),
+        u, c: name, note: "", w: "full", r: isVid ? "wide" : "four3"
+      });
+    });
+    ta.value = "";
+    renderSite(); renderAdmin();
+    alert(`${lines.length}개 항목을 추가했습니다. 저장 버튼을 눌러 반영하세요.`);
+    return;
+  }
+
   const add = e.target.closest("[data-add]")?.dataset.add;
   if(add){
     const [k,i] = add.split(":");
@@ -2204,7 +2258,7 @@ $("#adm-body").addEventListener("click", e=>{
     if(k==="pmed") (DATA.projects[+i].media = DATA.projects[+i].media||[]).push({t:"image",u:"",c:"",w:"half",r:"a4"});
     if(k==="bmed") (DATA.pubs[+i].media = DATA.pubs[+i].media||[]).push({t:"image",u:"",c:"",w:"half",r:"a4"});
     if(k==="blnk") (DATA.pubs[+i].links = DATA.pubs[+i].links||[]).push({label:"링크",url:"https://"});
-    if(k==="pub") DATA.pubs.unshift({id:"pub"+Date.now(),y:"2026",t:"제목",tEn:"",s:"게재처",k:"구분",authors:"",venue:"",abstract:"",media:[],links:[]});
+    if(k==="pub") DATA.pubs.unshift({id:"pub"+Date.now(),y:"2026",t:"제목",tEn:"",s:"게재처",k:"",type:"",award:"",authors:"",venue:"",abstract:"",media:[],links:[]});
     if(k==="flink") DATA.foot.links.push({label:"Link",url:"https://"});
     if(k==="galgroup") DATA.gallery.groups.push({h:"새 구분",d:"",items:[]});
     if(k==="galitem") DATA.gallery.groups[+i].items.push({t:"image",u:"",c:"제목",note:"",w:"full",r:"a4"});
@@ -2331,11 +2385,13 @@ function normalizeData(d){
 
   d.pubs = A(d.pubs).map((p, i) => ({
     id: S(p.id) || "pub" + (i + 1), y: S(p.y), t: S(p.t), tEn: S(p.tEn), s: S(p.s), k: S(p.k),
+    type: S(p.type), award: S(p.award),
     authors: S(p.authors), venue: S(p.venue), abstract: S(p.abstract),
     links: LNK(p.links), media: MED(p.media)
   }));
 
   d.gallery = d.gallery || { groups: [] };
+  d.gallery.base = S(d.gallery.base) || "images/";
   d.gallery.groups = A(d.gallery.groups).map(g => ({
     h: S(g.h), d: S(g.d),
     items: A(g.items).map(x => ({ t: S(x.t) || "image", u: S(x.u), c: S(x.c), note: S(x.note),
@@ -2423,9 +2479,12 @@ async function fbUpload(file){
   const a = await getAdmin();
   if(!a?.user){ alert("먼저 로그인해 주세요."); return null; }
   if(file.size > 20 * 1024 * 1024){ alert("20MB 이하 파일만 올릴 수 있습니다."); return null; }
+  // Storage가 활성화되지 않은 프로젝트에서는 요청이 무응답으로 지연되므로 15초에서 끊음
+  const guard = new Promise((_, rej)=>setTimeout(
+    ()=>rej(new Error("업로드가 응답하지 않습니다. Firebase Storage가 활성화되어 있는지(Blaze 요금제 필요) 확인해 주세요.")), 15000));
   const safe = file.name.replace(/[^\w.\-]/g, "_");
   const ref = a.st.ref(a.store, `media/${Date.now()}_${safe}`);
-  await a.st.uploadBytes(ref, file);
+  await Promise.race([a.st.uploadBytes(ref, file), guard]);
   return await a.st.getDownloadURL(ref);
 }
 
