@@ -1,0 +1,2648 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>배유진 — 아동 발달 연구 · 서비스 디자인 아카이브</title>
+<meta name="description" content="아동 발달을 연구하고, 그 근거로 서비스를 디자인하고, 직접 만듭니다. 배유진 프로젝트 아카이브.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://yujin-portfolio-e07ef-default-rtdb.asia-southeast1.firebasedatabase.app">
+<link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap">
+<noscript><link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap"></noscript>
+<!-- Pretendard: 동적 서브셋 + 렌더링 비차단 로드 -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<noscript><link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
+<style>
+/* ─────────────────────────────────────────────
+   TOKENS — 단일 폰트 스택
+   라틴/숫자는 Archivo, 한글은 Pretendard가 자동으로 받음
+   ───────────────────────────────────────────── */
+:root{
+  --paper:#FFFFFF;
+  --wash:#F0F0F2;
+  --ink:#0B0B0E;
+  --mute:#86868F;
+  --line:#E2E2E6;
+  --point:#2323FF;
+
+  --font:"Archivo","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+
+  --gut:clamp(20px,5vw,72px);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body.is-locked{overflow:hidden}
+button,input,textarea,select{font-family:var(--font)}
+
+a{color:inherit}
+:focus-visible{outline:2px solid var(--point);outline-offset:3px;border-radius:2px}
+.ov :focus-visible{outline-color:#fff}
+
+/* label 계열: 폰트는 같고 자간·대문자로만 구분 */
+.eyebrow{
+  font-size:11px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--mute);display:block;
+}
+
+/* ─────────────────────────────────────────────
+   NAV
+   ───────────────────────────────────────────── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px var(--gut);
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  font-size:11px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;
+}
+.nav__links{display:flex;gap:20px}
+.nav a{text-decoration:none;color:var(--mute);transition:color .2s}
+.nav a:hover{color:var(--point)}
+@media(max-width:900px){.nav__links a:nth-child(2),.nav__links a:nth-child(4){display:none}}
+@media(max-width:620px){.nav__links a:nth-child(3){display:none}}
+
+/* ─────────────────────────────────────────────
+   HERO
+   ───────────────────────────────────────────── */
+.hero{
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:120px var(--gut) 40px;
+}
+.hero__top{margin-bottom:auto;padding-top:6vh}
+.hero__name{
+  font-weight:800;font-stretch:118%;
+  font-size:clamp(2.6rem,9.5vw,8.5rem);
+  line-height:.87;letter-spacing:-.035em;
+  margin:0;text-transform:uppercase;
+}
+.hero__kr{
+  display:block;font-weight:800;font-stretch:100%;
+  font-size:clamp(1rem,2.7vw,1.9rem);
+  letter-spacing:-.025em;line-height:1.1;
+  margin-bottom:.4em;text-transform:none;
+}
+.hero__thesis{
+  font-size:clamp(1.15rem,3vw,2.05rem);
+  font-weight:500;line-height:1.45;letter-spacing:-.025em;
+  max-width:24ch;margin:clamp(28px,5vh,56px) 0 0;
+}
+.axis{
+  font:inherit;background:none;border:0;padding:0 .04em;
+  color:var(--point);cursor:pointer;position:relative;font-weight:800;
+}
+.axis::after{
+  content:"";position:absolute;left:0;right:0;bottom:.06em;
+  height:.09em;background:var(--point);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .35s var(--ease);
+}
+.axis:hover::after,.axis:focus-visible::after{transform:scaleX(1)}
+
+.hero__meta{
+  display:flex;flex-wrap:wrap;gap:8px 28px;
+  margin-top:clamp(32px,6vh,64px);
+  font-size:12px;font-weight:500;letter-spacing:.08em;color:var(--mute);
+}
+.hero__meta b{color:var(--ink);font-weight:600}
+
+/* ─────────────────────────────────────────────
+   SECTION FRAME
+   ───────────────────────────────────────────── */
+.sec{padding:clamp(72px,11vh,140px) 0}
+.sec--tight{padding-top:clamp(40px,6vh,80px)}
+.sec__head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;padding-inline:var(--gut);
+  margin-bottom:clamp(28px,5vh,52px);
+}
+.sec__title{
+  font-weight:700;font-stretch:112%;
+  font-size:clamp(1.4rem,3.4vw,2.6rem);
+  letter-spacing:-.025em;margin:0;text-transform:uppercase;
+}
+.sec__count{font-size:11px;font-weight:500;color:var(--mute);letter-spacing:.16em;text-transform:uppercase}
+
+/* filters */
+.filters{display:flex;gap:8px;flex-wrap:wrap;padding-inline:var(--gut);margin-bottom:22px}
+.chip{
+  font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  padding:7px 14px;border-radius:100px;
+  border:1px solid var(--line);background:transparent;color:var(--mute);
+  cursor:pointer;transition:all .22s var(--ease);
+}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--point);border-color:var(--point);color:#fff}
+
+/* ─────────────────────────────────────────────
+   TRACK
+   ───────────────────────────────────────────── */
+.track{margin-inline:var(--gut);display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.track__c{background:var(--paper);padding:26px 24px}
+.track__h{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--point);margin-bottom:16px}
+.track__l{list-style:none;margin:0;padding:0;font-size:14.5px;line-height:1.6}
+.track__l li{padding:11px 0;border-bottom:1px dashed var(--line)}
+.track__y{display:inline-block;background:var(--wash);color:var(--mute);font-size:10.5px;font-weight:500;letter-spacing:.08em;padding:3px 8px;border-radius:4px;margin-bottom:6px;line-height:1.3}
+.track__l li:last-child{border-bottom:0}
+.track__l b{font-weight:600}
+.track__s{display:block;color:var(--mute);font-size:13px;margin-top:2px}
+@media(max-width:760px){.track{grid-template-columns:1fr}}
+
+/* ─────────────────────────────────────────────
+   SKILL
+   ───────────────────────────────────────────── */
+.skleg{display:flex;flex-wrap:wrap;gap:10px 22px;padding-inline:var(--gut);margin:-24px 0 24px}
+.skleg__i{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.sk{margin-inline:var(--gut);display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.sk__c{background:var(--paper);padding:24px}
+.sk__h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--point);margin-bottom:14px}
+.sk__h small{font-size:10px;font-weight:500;color:var(--mute);letter-spacing:.1em}
+.sk__l{list-style:none;margin:0;padding:0}
+.sk__i{display:grid;grid-template-columns:minmax(0,1fr) auto 50px;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.sk__i:last-child{border-bottom:0}
+.sk__n{font-size:14px;font-weight:600;letter-spacing:-.01em;line-height:1.35}
+.sk__s{display:block;font-weight:400;font-size:11.5px;color:var(--mute);margin-top:2px;letter-spacing:0}
+.sk__y{font-size:11px;font-weight:500;color:var(--mute);letter-spacing:.06em;white-space:nowrap}
+.mtr{display:flex;gap:2px;justify-self:end}
+.mtr i{width:10px;height:4px;background:var(--line);border-radius:1px;transition:background .3s var(--ease)}
+.mtr i.on{background:var(--point)}
+@media(max-width:760px){.sk{grid-template-columns:1fr}}
+
+/* ─────────────────────────────────────────────
+   ARCHIVE ROWS
+   ───────────────────────────────────────────── */
+.mx{--ycol:104px;margin-inline:var(--gut);border-top:1px solid var(--line)}
+.mx__head{
+  display:grid;grid-template-columns:var(--ycol) repeat(3,minmax(0,1fr));
+  position:sticky;top:48px;z-index:20;
+  background:rgba(255,255,255,.93);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.mx__head span{padding:11px 14px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.mx__head span+span{border-left:1px solid var(--line)}
+.mx__head span.on{color:var(--point)}
+
+.mx__yr{
+  display:grid;grid-template-columns:var(--ycol) repeat(3,minmax(0,1fr));
+  gap:9px 0;padding:18px 0;border-bottom:1px solid var(--line);position:relative;
+}
+.mx__yr::before{
+  content:"";position:absolute;top:0;bottom:0;left:var(--ycol);right:0;pointer-events:none;
+  background:linear-gradient(90deg,
+    transparent calc(33.333% - .5px),var(--line) calc(33.333% - .5px),
+    var(--line) calc(33.333% + .5px),transparent calc(33.333% + .5px),
+    transparent calc(66.666% - .5px),var(--line) calc(66.666% - .5px),
+    var(--line) calc(66.666% + .5px),transparent calc(66.666% + .5px));
+}
+.mx__ylab{grid-column:1;grid-row:1/-1;padding:6px 14px 0 0}
+.mx__ylab b{display:block;font-weight:800;font-stretch:112%;font-size:clamp(1.15rem,2.8vw,1.8rem);letter-spacing:-.035em;line-height:1}
+.mx__ylab small{display:block;font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+
+.mx__bar{
+  position:relative;z-index:1;margin:0 7px;padding:13px 15px;
+  border:1px solid var(--line);border-radius:9px;background:var(--paper);
+  text-align:left;color:var(--ink);cursor:pointer;overflow:hidden;
+  transition:border-color .25s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.mx__bar:hover,.mx__bar:focus-visible{border-color:var(--point);transform:translateY(-2px);box-shadow:0 8px 22px rgba(35,35,255,.11)}
+.mx__bar--feat{background:var(--point);border-color:var(--point);color:#fff}
+.mx__bar--feat:hover{box-shadow:0 10px 26px rgba(35,35,255,.28)}
+.mx__t{display:block;font-size:14.5px;font-weight:700;letter-spacing:-.025em;line-height:1.3}
+.mx__t i{font-style:normal;color:var(--point);margin-left:5px}
+.mx__bar--feat .mx__t i{color:#fff}
+.mx__e{display:block;font-size:11.5px;line-height:1.45;color:var(--mute);margin-top:5px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mx__bar--feat .mx__e{color:rgba(255,255,255,.8)}
+.mx__bar[hidden],.mx__yr[hidden]{display:none}
+
+/* ── GALLERY ── */
+.gal{margin-inline:var(--gut)}
+.gal__g{margin-bottom:clamp(34px,5vh,58px)}
+.gal__h{display:flex;align-items:baseline;gap:12px;padding-bottom:11px;margin-bottom:18px;border-bottom:1px solid var(--ink)}
+.gal__t{font-size:13px;font-weight:700;letter-spacing:.04em;margin:0}
+.gal__n{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.gal__d{font-size:12.5px;color:var(--mute);margin:0 0 16px;line-height:1.55}
+.gal__row{position:relative}
+.gal__track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  padding-bottom:6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.gal__track::-webkit-scrollbar{height:5px}
+.gal__track::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.gal__track::-webkit-scrollbar-track{background:transparent}
+.gal__i{flex:0 0 clamp(168px,20vw,224px);scroll-snap-align:start}
+.gal__nav{position:absolute;top:calc(50% - 34px);transform:translateY(-50%);z-index:3;
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.94);
+  backdrop-filter:blur(6px);color:var(--ink);cursor:pointer;font-size:14px;line-height:1;padding:0;
+  box-shadow:0 3px 12px rgba(0,0,0,.09);transition:all .2s var(--ease)}
+.gal__nav:hover{border-color:var(--point);color:var(--point)}
+.gal__nav[disabled]{opacity:0;pointer-events:none}
+.gal__nav--prev{left:-13px}
+.gal__nav--next{right:-13px}
+@media(max-width:760px){.gal__nav{display:none}}
+.gal__i{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--paper);
+  cursor:pointer;padding:0;text-align:left;color:var(--ink);
+  transition:border-color .25s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease)}
+.gal__i:hover,.gal__i:focus-visible{border-color:var(--point);transform:translateY(-3px);box-shadow:0 9px 24px rgba(35,35,255,.12)}
+.gal__th{display:block;width:100%;aspect-ratio:4/3;background:var(--wash);overflow:hidden;position:relative}
+.gal__th img{width:100%;height:100%;object-fit:cover;display:block}
+.gal__ph{display:flex;align-items:center;justify-content:center;height:100%;
+  font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.gal__c{padding:10px 12px;font-size:12.5px;line-height:1.45;font-weight:500;border-top:1px solid var(--line)}
+.mxleg{display:flex;flex-wrap:wrap;gap:10px 22px;padding-inline:var(--gut);margin:-6px 0 22px;
+  font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--mute)}
+.mxleg__i{display:flex;align-items:center;gap:7px}
+.mxleg__s{width:22px;height:11px;border-radius:4px;border:1px solid var(--line);background:var(--paper)}
+.mxleg__s--feat{background:var(--point);border-color:var(--point)}
+
+@media(max-width:760px){
+  .mx{--ycol:46px}
+  .mx__head span{padding:9px 7px;font-size:9px;letter-spacing:.1em}
+  .mx__yr{padding:13px 0;gap:7px 0}
+  .mx__ylab{padding-right:7px}
+  .mx__ylab small{display:none}
+  .mx__bar{margin:0 3px;padding:9px 9px;border-radius:7px}
+  .mx__t{font-size:11.5px;letter-spacing:-.03em}
+  .mx__e{display:none}
+}
+
+/* ─────────────────────────────────────────────
+   OVERLAY
+   ───────────────────────────────────────────── */
+.ov{
+  position:fixed;inset:0;z-index:60;
+  background:var(--point);color:#fff;
+  overflow-y:auto;overscroll-behavior:contain;
+  transform:translateY(100%);
+  transition:transform .62s var(--ease);
+  visibility:hidden;
+}
+.ov.is-open{transform:translateY(0);visibility:visible}
+.ov__bar{
+  position:sticky;top:0;z-index:2;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px var(--gut);background:var(--point);
+  border-bottom:1px solid rgba(255,255,255,.22);
+  font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+}
+.ov__close{
+  font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  background:none;border:1px solid rgba(255,255,255,.45);
+  color:#fff;padding:6px 14px;border-radius:100px;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.ov__close:hover{background:#fff;color:var(--point)}
+.ov__body{padding:clamp(40px,8vh,96px) var(--gut) clamp(80px,14vh,160px);max-width:1180px}
+.ov__title{font-size:clamp(1.7rem,4vw,3.1rem);font-weight:800;letter-spacing:-.035em;line-height:1.12;margin:14px 0 0;max-width:20ch;white-space:pre-wrap}
+.ov__title--pub{font-size:clamp(1.5rem,3.4vw,2.65rem);line-height:1.2;max-width:24ch;letter-spacing:-.032em}
+.ov__ten{font-size:clamp(.95rem,1.5vw,1.15rem);font-weight:500;line-height:1.45;letter-spacing:-.01em;color:rgba(255,255,255,.72);margin:12px 0 0;max-width:44ch;white-space:pre-wrap}
+.ov__role{font-size:11.5px;font-weight:500;letter-spacing:.14em;color:rgba(255,255,255,.72);text-transform:uppercase;margin-top:18px}
+.ov__lead{white-space:pre-wrap;font-size:clamp(1.05rem,2.2vw,1.5rem);font-weight:500;line-height:1.55;letter-spacing:-.02em;max-width:34ch;margin:clamp(24px,4vh,44px) 0 0}
+
+.ev{display:flex;flex-wrap:wrap;gap:1px;background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.28);margin:clamp(36px,6vh,64px) 0}
+.ev__i{flex:1 1 130px;background:var(--point);padding:18px 20px}
+.ev__v{font-weight:700;font-stretch:112%;font-size:clamp(1.6rem,4vw,2.6rem);line-height:1;letter-spacing:-.035em}
+.ev__l{font-size:10.5px;font-weight:500;letter-spacing:.12em;color:rgba(255,255,255,.75);margin-top:9px;text-transform:uppercase}
+
+.case{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;padding:26px 0;border-top:1px solid rgba(255,255,255,.26)}
+.case:last-of-type{border-bottom:1px solid rgba(255,255,255,.26)}
+.case__k{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.72);padding-top:4px}
+.case__v{white-space:pre-wrap;font-size:clamp(.96rem,1.5vw,1.05rem);line-height:1.68;max-width:38em;margin:0}
+@media(max-width:720px){.case{grid-template-columns:1fr;gap:8px}}
+
+.ov__links{display:flex;gap:10px;flex-wrap:wrap;margin-top:36px}
+.ov__link{
+  font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.45);border-radius:100px;padding:9px 16px;
+  text-decoration:none;transition:background .2s,color .2s;
+}
+.ov__link:hover{background:#fff;color:var(--point)}
+
+/* ─────────────────────────────────────────────
+   PUBLICATIONS
+   ───────────────────────────────────────────── */
+.pubs{border-top:1px solid var(--line)}
+.pub{
+  display:grid;grid-template-columns:96px minmax(0,1fr) auto 28px;gap:20px;
+  width:100%;padding:20px var(--gut);border-bottom:1px solid var(--line);
+  align-items:baseline;background:none;border-left:0;border-right:0;border-top:0;
+  text-align:left;color:var(--ink);cursor:pointer;position:relative;
+  transition:background .28s var(--ease),padding-left .3s var(--ease);
+}
+.pub::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:0;background:var(--point);transition:width .3s var(--ease)}
+.pub:hover,.pub:focus-visible{background:var(--wash);padding-left:calc(var(--gut) + 12px)}
+.pub:hover::before,.pub:focus-visible::before{width:4px}
+.pub__go{font-size:15px;color:var(--line);justify-self:end;transition:color .25s,transform .3s var(--ease)}
+.pub:hover .pub__go{color:var(--point);transform:translate(3px,-3px)}
+.pub__m{color:var(--mute)}
+.pub__y{font-size:12px;font-weight:500;color:var(--mute);letter-spacing:.04em}
+.pub__t{font-size:15.5px;line-height:1.55;font-weight:500}
+.pub__s{display:block;font-size:13.5px;color:var(--mute);font-weight:400;margin-top:4px}
+.pub__type{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.04em;
+  color:var(--point);background:rgba(35,35,255,.08);border-radius:5px;padding:3px 8px;margin-right:9px;
+  vertical-align:2px;white-space:nowrap;transition:background .25s var(--ease),color .25s var(--ease)}
+.pub:hover .pub__type{background:var(--point);color:#fff}
+
+.pub__r{justify-self:end;display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.pub__st,.pub__aw{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.05em;
+  white-space:nowrap;padding:4px 11px;border-radius:100px;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .25s var(--ease)}
+.pub__st{border:1px solid var(--line);color:var(--mute)}
+.pub__aw{background:var(--point);color:#fff}
+.pub:hover .pub__st{border-color:var(--point);color:var(--point);transform:translateY(-2px)}
+.pub:hover .pub__aw{transform:translateY(-2px);box-shadow:0 5px 14px rgba(35,35,255,.3)}
+@media(max-width:720px){.pub{grid-template-columns:70px minmax(0,1fr) 22px}.pub__r{grid-column:2;justify-self:start;margin-top:6px}}
+
+/* ── media gallery (overlay 내부) ──
+   모든 카드를 동일 비율 상자로 맞춰 행 높이 불일치를 없앰 */
+.md{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,255px),1fr));gap:14px;align-items:start;margin:0}
+.md__i{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.3);border-radius:10px;overflow:hidden;
+  display:flex;flex-direction:column}
+.md__i--full{grid-column:1/-1}
+.md__f{display:block;position:relative;width:100%;aspect-ratio:var(--ar,4/3);max-height:76vh;
+  background:#fff;overflow:hidden;line-height:0}
+.md__f img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.md__f iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.md__c{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 13px;font-size:11.5px;line-height:1.45;color:rgba(255,255,255,.85);
+  border-top:1px solid rgba(255,255,255,.22);white-space:pre-wrap;margin-top:auto}
+.md__o{flex-shrink:0;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-decoration:none;
+  color:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.34);border-radius:100px;
+  padding:4px 9px;white-space:nowrap;transition:background .2s,color .2s}
+.md__o:hover{background:#fff;color:var(--point)}
+.md__err{padding:26px 14px;text-align:center;font-size:12px;color:#5b5b66;background:var(--wash);line-height:1.6}
+@media(max-width:720px){.md{grid-template-columns:1fr;gap:12px}.md__i--full{grid-column:auto}}
+.ov__abs{white-space:pre-wrap;font-size:clamp(.98rem,1.6vw,1.1rem);line-height:1.75;max-width:60ch;margin:26px 0 0;color:rgba(255,255,255,.94)}
+.ov__meta{margin:22px 0 38px}
+.ov__sec{border-top:1px solid rgba(255,255,255,.26);padding:24px 0}
+.ov__sec:last-of-type{border-bottom:1px solid rgba(255,255,255,.26)}
+.ov__lab{display:block;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.66);margin-bottom:14px}
+.ov__txt{white-space:pre-wrap;font-size:clamp(.96rem,1.5vw,1.05rem);line-height:1.72;max-width:36em;margin:0}
+.ov__sec .md{margin:0}
+.galnav{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:26px}
+.galnav__b{font-size:11.5px;font-weight:500;letter-spacing:.08em;background:none;
+  border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:100px;padding:9px 17px;cursor:pointer;
+  transition:background .2s,color .2s}
+.galnav__b:hover:not([disabled]){background:#fff;color:var(--point)}
+.galnav__b[disabled]{opacity:.32;cursor:default}
+.galnav__c{font-size:11.5px;font-weight:600;letter-spacing:.14em;color:rgba(255,255,255,.75)}
+.ov__cite{font-size:13px;line-height:1.65;color:rgba(255,255,255,.72);margin:0;letter-spacing:.01em}
+.ov__cite--em{color:#fff;font-weight:600;margin-top:6px}
+.ov__award{display:inline-block;margin:14px 0 0;background:#fff;color:var(--point);
+  font-size:12.5px;font-weight:700;letter-spacing:.02em;padding:7px 15px;border-radius:100px}
+
+/* ─────────────────────────────────────────────
+   FOOT
+   ───────────────────────────────────────────── */
+.foot{padding:clamp(80px,14vh,180px) var(--gut) 56px;border-top:1px solid var(--line)}
+.foot__big{font-weight:800;font-stretch:112%;font-size:clamp(1.5rem,4.2vw,3.1rem);line-height:1.22;letter-spacing:-.035em;margin:0 0 44px;max-width:22ch}
+.foot__row{display:flex;flex-wrap:wrap;gap:12px 32px;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+.foot__row a{text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;transition:border-color .2s,color .2s}
+.foot__row a:hover{color:var(--point);border-color:var(--point)}
+.foot__note{margin-top:44px;font-size:11px;color:var(--mute);letter-spacing:.06em}
+.foot__admin{background:none;border:0;color:var(--line);cursor:pointer;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:0;margin-top:18px;transition:color .2s}
+.foot__admin:hover{color:var(--point)}
+
+/* ─────────────────────────────────────────────
+   ADMIN
+   ───────────────────────────────────────────── */
+.adm{
+  position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);z-index:80;
+  background:var(--paper);border-left:1px solid var(--line);
+  box-shadow:-20px 0 60px rgba(0,0,0,.09);
+  transform:translateX(101%);transition:transform .48s var(--ease);
+  display:flex;flex-direction:column;visibility:hidden;
+}
+.adm.is-open{transform:none;visibility:visible}
+.adm__bar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 20px;border-bottom:1px solid var(--line);flex-shrink:0;
+}
+.adm__ttl{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
+.adm__acts{display:flex;gap:6px;flex-wrap:wrap}
+.btn{
+  font-size:11px;font-weight:500;letter-spacing:.08em;
+  padding:7px 12px;border-radius:6px;border:1px solid var(--line);
+  background:var(--paper);color:var(--ink);cursor:pointer;transition:all .18s;
+}
+.btn:hover{border-color:var(--ink)}
+.btn--go{background:var(--point);border-color:var(--point);color:#fff}
+.btn--go:hover{filter:brightness(1.12)}
+.btn--del{color:#C42B1C;border-color:#F0D2CE}
+.btn--del:hover{background:#C42B1C;border-color:#C42B1C;color:#fff}
+.btn--sm{font-size:10px;padding:5px 9px}
+
+.adm__tabs{display:flex;gap:2px;padding:10px 20px 0;border-bottom:1px solid var(--line);flex-shrink:0;overflow-x:auto}
+.tab{
+  font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  background:none;border:0;border-bottom:2px solid transparent;
+  padding:9px 10px;color:var(--mute);cursor:pointer;white-space:nowrap;
+}
+.tab[aria-selected="true"]{color:var(--point);border-bottom-color:var(--point)}
+
+.adm__body{flex:1;overflow-y:auto;padding:20px;overscroll-behavior:contain}
+.fld{margin-bottom:14px}
+.fld > label{display:block;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:5px}
+.fld input[type=text],.fld textarea,.fld select{
+  width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:6px;
+  font-size:14px;background:var(--paper);color:var(--ink);line-height:1.55;
+}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--point)}
+.fld textarea{resize:vertical;min-height:70px}
+.hint{font-size:11px;color:var(--mute);margin-top:5px;line-height:1.5}
+
+.card{border:1px solid var(--line);border-radius:10px;margin-bottom:12px;overflow:hidden}
+.card__h{
+  display:flex;align-items:center;gap:10px;padding:11px 13px;
+  background:var(--wash);cursor:pointer;border:0;width:100%;text-align:left;
+}
+.card__h span{flex:1;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.card__h small{font-size:10.5px;color:var(--mute);letter-spacing:.08em}
+.card__b{padding:15px 13px;border-top:1px solid var(--line);display:none}
+.card.is-open .card__b{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chks{display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
+.chks label{display:flex;align-items:center;gap:5px;cursor:pointer}
+.sub{border:1px dashed var(--line);border-radius:8px;padding:11px;margin-bottom:9px}
+.subrow{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:8px}
+.subrow--sp{justify-content:space-between}
+.card__top{display:flex;align-items:center;background:var(--wash);padding-right:9px}
+.card__top .card__h{flex:1;min-width:0}
+.sort{display:inline-flex;align-items:center;gap:3px;flex-shrink:0}
+.sort__g{cursor:grab;padding:3px 6px;color:var(--mute);font-size:14px;line-height:1;user-select:none;border-radius:5px}
+.sort__g:hover{color:var(--point);background:rgba(35,35,255,.07)}
+.sort__g:active{cursor:grabbing}
+.sort__b{border:1px solid var(--line);background:var(--paper);color:var(--mute);border-radius:5px;
+  width:23px;height:21px;font-size:9px;cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+.sort__b:disabled{opacity:.28;cursor:default}
+.sort__b:hover:not(:disabled){border-color:var(--point);color:var(--point)}
+.is-dragging{opacity:.35}
+.drop-mark{box-shadow:0 -3px 0 0 var(--point) inset}
+.drop-mark-after{box-shadow:0 3px 0 0 var(--point) inset}
+.adm__foot{padding:12px 20px;border-top:1px solid var(--line);flex-shrink:0;font-size:11px;color:var(--mute);line-height:1.5}
+
+/* gate */
+.gate{position:fixed;inset:0;z-index:90;background:rgba(11,11,14,.55);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+.gate.is-open{display:flex}
+.gate__box{background:var(--paper);border-radius:14px;padding:30px;width:min(360px,100%);text-align:center}
+.gate__t{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin:0 0 18px}
+.gate__box input{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;text-align:center;font-size:20px;letter-spacing:.4em;font-weight:600}
+.gate__box input:focus{outline:none;border-color:var(--point)}
+.gate__err{color:#C42B1C;font-size:12px;margin:10px 0 0;min-height:18px}
+.gate__lead{font-size:13px;color:var(--mute);margin:0 0 16px;line-height:1.55}
+.btn--wide{width:100%;padding:13px;font-size:13px;letter-spacing:.02em}
+.gate__acts{display:flex;gap:8px;margin-top:14px}
+.gate__acts .btn{flex:1;padding:11px}
+
+/* ─────────────────────────────────────────────
+   MOTION
+   ───────────────────────────────────────────── */
+.rise{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rise.in{opacity:1;transform:none}
+
+/* 부팅 커버 — DB 응답 전 옛 데이터가 스치는 것을 방지 */
+.boot{
+  position:fixed;inset:0;z-index:120;background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .38s var(--ease);
+}
+.boot.is-done{opacity:0;pointer-events:none}
+.boot__b{width:34px;height:2px;border-radius:2px;background:var(--line);overflow:hidden}
+.boot__b::after{
+  content:"";display:block;width:40%;height:100%;background:var(--point);
+  animation:bootslide 1s var(--ease) infinite;
+}
+@keyframes bootslide{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+@media(prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms !important;animation-duration:.01ms !important}
+  .rise{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="boot" id="boot" aria-hidden="true"><span class="boot__b"></span></div>
+
+<nav class="nav">
+  <a href="#top" style="color:var(--ink)">BAE YUJIN</a>
+  <div class="nav__links">
+    <a href="#track">Track</a>
+    <a href="#skill">Skill</a>
+    <a href="#archive">Archive</a>
+    <a href="#pubs">Publications</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero__top"><span class="eyebrow" id="m-eyebrow"></span></div>
+  <h1 class="hero__name" id="m-name"></h1>
+  <p class="hero__thesis" id="m-thesis"></p>
+  <div class="hero__meta" id="m-meta"></div>
+</header>
+
+<!-- TRACK — Archive보다 먼저 -->
+<section class="sec sec--tight" id="track">
+  <div class="sec__head rise">
+    <h2 class="sec__title">Track</h2>
+    <span class="sec__count">학력 · 경력 · 자격</span>
+  </div>
+  <div class="track rise" id="m-track"></div>
+</section>
+
+<!-- SKILL — Track 바로 아래 -->
+<section class="sec" id="skill">
+  <div class="sec__head rise">
+    <h2 class="sec__title">Skill</h2>
+    <span class="sec__count">도구 · 숙련도 · 사용 기간</span>
+  </div>
+  <div class="skleg rise" id="m-skleg"></div>
+  <div class="sk rise" id="m-skill"></div>
+</section>
+
+<section class="sec" id="archive">
+  <div class="sec__head rise">
+    <h2 class="sec__title">Archive</h2>
+    <span class="sec__count" id="m-count"></span>
+  </div>
+  <div class="filters rise">
+    <button class="chip" data-f="all" aria-pressed="true">전체</button>
+    <button class="chip" data-f="대표작" aria-pressed="false">대표작</button>
+    <button class="chip" data-f="연구" aria-pressed="false">연구</button>
+    <button class="chip" data-f="디자인" aria-pressed="false">디자인</button>
+    <button class="chip" data-f="개발" aria-pressed="false">개발</button>
+    <button class="chip" data-f="진행중" aria-pressed="false">진행 중</button>
+  </div>
+  <div class="mxleg rise">
+    <span class="mxleg__i"><span class="mxleg__s mxleg__s--feat"></span>대표작</span>
+    <span class="mxleg__i"><span class="mxleg__s"></span>아카이브</span>
+    <span class="mxleg__i">막대 길이 = 프로젝트가 걸친 축의 범위</span>
+  </div>
+  <div class="mx" id="m-archive"></div>
+</section>
+
+<section class="sec" id="pubs">
+  <div class="sec__head rise">
+    <h2 class="sec__title">Publications &amp; Presentations</h2>
+    <span class="sec__count">KCI · 국내외 학술대회</span>
+  </div>
+  <div class="pubs" id="m-pubs"></div>
+</section>
+
+<section class="sec" id="gallery">
+  <div class="sec__head rise">
+    <h2 class="sec__title">Gallery</h2>
+    <span class="sec__count" id="m-galcount"></span>
+  </div>
+  <div class="gal rise" id="m-gallery"></div>
+</section>
+
+<footer class="foot" id="contact">
+  <p class="foot__big rise" id="m-footbig"></p>
+  <div class="foot__row rise" id="m-footlinks"></div>
+  <p class="foot__note" id="m-footnote"></p>
+  <button class="foot__admin" id="admin-open">관리자</button>
+</footer>
+
+<!-- CASE OVERLAY -->
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ov-title" aria-hidden="true">
+  <div class="ov__bar">
+    <span id="ov-idx"></span>
+    <button class="ov__close" id="ov-close">닫기 ESC</button>
+  </div>
+  <div class="ov__body" id="ov-body"></div>
+</div>
+
+<!-- PASSWORD GATE -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-label="관리자 인증">
+  <div class="gate__box" id="gate-box">
+    <p class="gate__t">Admin</p>
+    <input type="password" id="gate-pw" inputmode="numeric" maxlength="8" autocomplete="off" aria-label="비밀번호">
+    <p class="gate__err" id="gate-err"></p>
+    <div class="gate__acts">
+      <button class="btn" id="gate-cancel">취소</button>
+      <button class="btn btn--go" id="gate-ok">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<aside class="adm" id="adm" aria-hidden="true" aria-label="관리자 대시보드">
+  <div class="adm__bar">
+    <span class="adm__ttl">Dashboard</span>
+    <div class="adm__acts">
+      <button class="btn btn--go" id="adm-save" hidden>저장</button>
+      <button class="btn btn--go" id="adm-export">HTML 내보내기</button>
+      <button class="btn" id="adm-json">JSON</button>
+      <button class="btn" id="adm-close">닫기</button>
+    </div>
+  </div>
+  <div class="adm__tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="site" aria-selected="true">기본정보</button>
+    <button class="tab" role="tab" data-tab="track" aria-selected="false">Track</button>
+    <button class="tab" role="tab" data-tab="skill" aria-selected="false">Skill</button>
+    <button class="tab" role="tab" data-tab="proj" aria-selected="false">프로젝트</button>
+    <button class="tab" role="tab" data-tab="pubs" aria-selected="false">논문·발표</button>
+    <button class="tab" role="tab" data-tab="gal" aria-selected="false">갤러리</button>
+    <button class="tab" role="tab" data-tab="foot" aria-selected="false">연락처</button>
+  </div>
+  <div class="adm__body" id="adm-body"></div>
+  <div class="adm__foot" id="adm-foot">수정은 즉시 화면에 반영됩니다. 영구 저장하려면 <b>HTML 내보내기</b>로 파일을 받아 다시 배포하세요.</div>
+</aside>
+
+<script type="application/json" id="site-data">
+{
+  "site": {
+    "eyebrow": "Archive — 아동 발달 · 서비스 디자인 · 프로덕트",
+    "nameKr": "배유진",
+    "nameEn": "Bae Yujin",
+    "thesis": "아동 발달을 [연구]하고,\n그 근거로 서비스를 [디자인]하고,\n직접 [개발|만듭니다].",
+    "meta": [
+      "연세대학교 대학원 *아동·가족학* 석사과정",
+      "인간생명혁신디자인 *융합전공*",
+      "*청소년 및 청년발달 연구실* · BK21"
+    ]
+  },
+  "track": [
+    {
+      "h": "Education",
+      "items": [
+        {
+          "t": "연세대학교 대학원",
+          "s": "아동·가족학과 석사과정 · 인간생명혁신디자인 융합전공 (BK21)",
+          "y": "2025—"
+        },
+        {
+          "t": "덕성여자대학교",
+          "s": "유아교육과 학사",
+          "y": "2019—2023"
+        }
+      ]
+    },
+    {
+      "h": "Experience",
+      "items": [
+        {
+          "t": "러닝스파크 (AskEdTech)",
+          "s": "콘텐츠 에디터 · 팀 리드",
+          "y": "2023—"
+        },
+        {
+          "t": "두부핑퐁",
+          "s": "프리랜스 · 아동 사회성 AI 서비스",
+          "y": "2025—"
+        },
+        {
+          "t": "강북구육아종합지원센터",
+          "s": "영유아 보육 지원",
+          "y": "2023"
+        },
+        {
+          "t": "링크아트",
+          "s": "예술 교육",
+          "y": "2022—2023"
+        }
+      ]
+    },
+    {
+      "h": "Credentials",
+      "items": [
+        {
+          "t": "유치원 정교사 2급",
+          "s": "",
+          "y": ""
+        },
+        {
+          "t": "보육교사",
+          "s": "",
+          "y": ""
+        },
+        {
+          "t": "Methods",
+          "s": "Mplus · SEM · LPA · CLPM/RI-CLPM · 혼합연구",
+          "y": ""
+        },
+        {
+          "t": "Build",
+          "s": "Firebase · Netlify · 웹 프론트엔드 · 일러스트레이션",
+          "y": ""
+        }
+      ]
+    }
+  ],
+  "skills": {
+    "legend": [
+      "입문",
+      "활용",
+      "능숙",
+      "전문"
+    ],
+    "groups": [
+      {
+        "h": "Design",
+        "items": [
+          {
+            "n": "Figma",
+            "d": "UI · 프로토타이핑",
+            "y": "3년",
+            "l": 4
+          },
+          {
+            "n": "Adobe Illustrator",
+            "d": "인포그래픽 · 캐릭터",
+            "y": "6년",
+            "l": 4
+          },
+          {
+            "n": "Adobe Photoshop",
+            "d": "이미지 편집 · 합성",
+            "y": "6년",
+            "l": 3
+          },
+          {
+            "n": "Procreate",
+            "d": "일러스트레이션",
+            "y": "5년",
+            "l": 4
+          },
+          {
+            "n": "Adobe Premiere Pro",
+            "d": "영상 편집",
+            "y": "3년",
+            "l": 2
+          },
+          {
+            "n": "Canva",
+            "d": "빠른 콘텐츠 제작",
+            "y": "3년",
+            "l": 3
+          }
+        ]
+      },
+      {
+        "h": "Research & Stats",
+        "items": [
+          {
+            "n": "SPSS",
+            "d": "기술통계 · 회귀 · 신뢰도",
+            "y": "4년",
+            "l": 3
+          },
+          {
+            "n": "Mplus",
+            "d": "SEM · LPA · CLPM/RI-CLPM",
+            "y": "2년",
+            "l": 3
+          },
+          {
+            "n": "Excel",
+            "d": "데이터 정리 · 코딩북",
+            "y": "6년",
+            "l": 3
+          },
+          {
+            "n": "질적 분석",
+            "d": "심층인터뷰 · 주제분석",
+            "y": "3년",
+            "l": 3
+          },
+          {
+            "n": "설문 설계",
+            "d": "척도 선정 · 문항 구성",
+            "y": "3년",
+            "l": 4
+          }
+        ]
+      },
+      {
+        "h": "Document & Office",
+        "items": [
+          {
+            "n": "PowerPoint",
+            "d": "발표자료 · 제안서",
+            "y": "8년",
+            "l": 4
+          },
+          {
+            "n": "Word",
+            "d": "논문 · 보고서 서식",
+            "y": "8년",
+            "l": 4
+          },
+          {
+            "n": "한글 (HWP)",
+            "d": "공문 · 국내 제출 서류",
+            "y": "8년",
+            "l": 4
+          },
+          {
+            "n": "Excel",
+            "d": "표 · 차트 · 단순 함수",
+            "y": "6년",
+            "l": 3
+          }
+        ]
+      },
+      {
+        "h": "Collaboration",
+        "items": [
+          {
+            "n": "Notion",
+            "d": "프로젝트 · 문서 관리",
+            "y": "4년",
+            "l": 4
+          },
+          {
+            "n": "Google Workspace",
+            "d": "Drive · Docs · Sheets",
+            "y": "6년",
+            "l": 4
+          },
+          {
+            "n": "Slack",
+            "d": "팀 커뮤니케이션",
+            "y": "2년",
+            "l": 3
+          },
+          {
+            "n": "Zotero",
+            "d": "문헌 관리 · 인용",
+            "y": "3년",
+            "l": 3
+          }
+        ]
+      },
+      {
+        "h": "Build & Dev",
+        "items": [
+          {
+            "n": "HTML · CSS",
+            "d": "웹 퍼블리싱",
+            "y": "3년",
+            "l": 3
+          },
+          {
+            "n": "JavaScript",
+            "d": "인터랙션 · 데이터 연동",
+            "y": "2년",
+            "l": 2
+          },
+          {
+            "n": "Firebase",
+            "d": "인증 · DB · 호스팅",
+            "y": "2년",
+            "l": 3
+          },
+          {
+            "n": "Netlify · GitHub",
+            "d": "배포 · 버전 관리",
+            "y": "2년",
+            "l": 3
+          }
+        ]
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "saisai",
+      "feat": true,
+      "year": "2025—26",
+      "live": true,
+      "title": "사이사이 · 온숨",
+      "en": "Wellness for ECE teachers",
+      "desc": "영유아교사 웰니스 프로그램 · 웹 플랫폼 · 파일럿 연구",
+      "tags": [
+        "연구",
+        "디자인",
+        "개발"
+      ],
+      "role": "연구 설계 · 서비스 디자인 · 프론트엔드 · 파일럿 운영",
+      "lead": "영유아교사의 소진을 줄이기 위해, 하루의 '사이사이'에 실행하는 웰니스 프로그램을 설계하고 웹 플랫폼으로 구현해 3주 파일럿까지 직접 돌렸습니다.",
+      "ev": [
+        {
+          "v": "3주",
+          "l": "파일럿 운영"
+        },
+        {
+          "v": "N=3",
+          "l": "참여 교사"
+        },
+        {
+          "v": "4종",
+          "l": "사전·사후 척도"
+        },
+        {
+          "v": "우수",
+          "l": "학회 포스터 수상"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "문제",
+          "v": "영유아교사는 근무 중 자기 몸을 돌볼 시간이 거의 없습니다. 기존 웰니스 프로그램은 별도의 시간과 장소를 요구해 현장에서 지속되지 못했습니다."
+        },
+        {
+          "k": "접근 · 근거",
+          "v": "교사의 실제 근무 리듬을 기준으로, 짧게 쪼개 수행 가능한 요가·호흡 루틴으로 프로그램을 재구성했습니다. 효과 검증은 MBI(소진), PSS(지각된 스트레스), NRS(통증), HBM(건강신념) 사전·사후 측정과 사후 심층인터뷰를 함께 설계했습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "Firebase 기반 웹 플랫폼을 직접 구축했습니다. 주차별 루틴 제공, 수행 기록, 주간 웰니스 리포트 자동 생성까지 파일럿 운영에 필요한 기능을 담았습니다."
+        },
+        {
+          "k": "결과",
+          "v": "3주 파일럿을 완료하고 사전·사후 척도와 사후 인터뷰를 분석했습니다. 한국육아지원학회 춘계학술대회에서 우수 포스터로 선정되었고, KCI 학술지 투고 후 수정 단계에 있습니다."
+        }
+      ],
+      "links": [
+        {
+          "label": "플랫폼 열기",
+          "url": "https://saisai42.netlify.app"
+        }
+      ],
+      "media": []
+    },
+    {
+      "id": "kidlink",
+      "feat": false,
+      "year": "2025",
+      "live": false,
+      "title": "키드링크 KidLink",
+      "en": "Complaint communication platform",
+      "desc": "어린이집 민원 커뮤니케이션 플랫폼 · SK AI Impact Solution",
+      "tags": [
+        "연구",
+        "디자인"
+      ],
+      "role": "문제 정의 · 사용자 리서치 · 서비스 디자인",
+      "lead": "어린이집 교사와 학부모 사이의 민원 커뮤니케이션을 기록 가능한 구조로 바꾸는 플랫폼입니다. SK AI Impact Solution 공모전에 제출했습니다.",
+      "ev": [
+        {
+          "v": "68",
+          "l": "교사 설문 응답"
+        },
+        {
+          "v": "7",
+          "l": "심층 인터뷰"
+        },
+        {
+          "v": "3",
+          "l": "사용자 페르소나"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "문제",
+          "v": "민원은 교사 소진의 큰 축인데, 실제로는 개인 메신저와 구두로 처리되어 기록도 기준도 남지 않습니다. 같은 갈등이 반복되어도 축적되는 것이 없습니다."
+        },
+        {
+          "k": "접근 · 근거",
+          "v": "교사 68명을 대상으로 소진·근골격계 건강·건강증진행위를 설문하고, 7명과 심층 인터뷰를 진행했습니다. 여기서 도출한 3종 페르소나가 이후 기능 우선순위의 기준이 되었습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "민원의 접수–분류–응대–기록을 하나의 흐름으로 묶은 플랫폼 컨셉과 프로토타입을 설계했습니다."
+        },
+        {
+          "k": "결과",
+          "v": "SK AI Impact Solution 공모전 제출. 이 과정에서 축적한 교사 리서치 자산이 이후 사이사이·온숨 프로그램 설계의 근거가 되었습니다."
+        }
+      ],
+      "links": [],
+      "media": []
+    },
+    {
+      "id": "selftune",
+      "feat": true,
+      "year": "2024—25",
+      "live": false,
+      "title": "셀프튠 Selftune",
+      "en": "SNS self-regulation app",
+      "desc": "SNS 자기조절 앱 · MVP 테스트 · KCI 게재",
+      "tags": [
+        "연구",
+        "디자인"
+      ],
+      "role": "리서치 · UX 디자인 · MVP 사용자 테스트 · 논문 집필",
+      "lead": "SNS 사용을 스스로 조절하도록 돕는 앱입니다. 첫 KCI 게재 논문의 바탕이 된 프로젝트입니다.",
+      "ev": [
+        {
+          "v": "KCI",
+          "l": "학술지 게재"
+        },
+        {
+          "v": "MVP",
+          "l": "사용자 테스트"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "문제",
+          "v": "SNS 과사용에 대한 대응은 대부분 '차단'에 머무릅니다. 차단은 사용을 멈추게 할 뿐, 스스로 조절하는 능력을 길러주지는 못합니다."
+        },
+        {
+          "k": "접근 · 근거",
+          "v": "자기조절 이론을 근거로, 사용 인식 → 목표 설정 → 피드백이라는 순환 구조를 그대로 앱의 정보구조로 번역했습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "MVP 프로토타입을 제작하고 사용자 테스트를 진행했습니다."
+        },
+        {
+          "k": "결과",
+          "v": "한국디자인문화학회 학술지에 게재되었습니다. 연구와 프로덕트를 한 흐름으로 잇는 첫 사례가 되었습니다."
+        }
+      ],
+      "links": [],
+      "media": []
+    },
+    {
+      "id": "safety",
+      "feat": false,
+      "year": "2026",
+      "live": true,
+      "title": "어린이집 안전사고 통계",
+      "en": "Safety statistics infographic",
+      "desc": "어린이집안전공제회 2025 통계 보고서 인포그래픽",
+      "tags": [
+        "디자인"
+      ],
+      "role": "정보 설계 · 인포그래픽 디자인",
+      "lead": "어린이집안전공제회 2025 안전사고 통계 보고서를, 현장 교사가 읽고 바로 쓸 수 있는 인포그래픽으로 다시 만들고 있습니다.",
+      "ev": [
+        {
+          "v": "2025",
+          "l": "기준 연도 통계"
+        },
+        {
+          "v": "A4",
+          "l": "세로형 파일럿 완료"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "문제",
+          "v": "통계는 이미 있지만, 표와 수치의 형태로는 교사가 자기 하루에 대입해 읽기 어렵습니다."
+        },
+        {
+          "k": "접근 · 근거",
+          "v": "사고 유형·시간대·장소별 분포를 통계 항목 순서가 아니라 교사의 하루 동선 순서로 재배열했습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "A4 세로형 파일럿 시안을 완성했고, 본 제작을 진행하고 있습니다."
+        },
+        {
+          "k": "결과",
+          "v": "진행 중 — 데이터 검증 항목 정리 후 최종본 제작 예정입니다."
+        }
+      ],
+      "links": [],
+      "media": []
+    },
+    {
+      "id": "aibook",
+      "feat": false,
+      "year": "2026",
+      "live": true,
+      "title": "AI 리터러시 그림책",
+      "en": "AI literacy picture book",
+      "desc": "만 5세 대상 그림책 개발 · 교사 인터뷰 연구",
+      "tags": [
+        "연구",
+        "디자인"
+      ],
+      "role": "연구 설계 · 인터뷰 프로토콜 · 콘텐츠 개발",
+      "lead": "만 5세 유아를 위한 AI 리터러시 그림책을 개발하고, 두 참여자 집단의 교사 인터뷰로 개념 난이도를 검증하고 있습니다.",
+      "ev": [
+        {
+          "v": "만 5세",
+          "l": "대상 연령"
+        },
+        {
+          "v": "2집단",
+          "l": "교사 인터뷰"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "문제",
+          "v": "유아는 이미 일상에서 AI를 만나고 있지만, 발달 수준에 맞게 AI 개념을 다루는 자료는 거의 없습니다."
+        },
+        {
+          "k": "접근 · 근거",
+          "v": "두 참여자 집단을 대상으로 한 교사 심층 인터뷰 프로토콜을 설계해, 현장 교사의 언어로 개념의 난이도와 전달 순서를 조정하고 있습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "그림책 초안과 교사 인터뷰 프로토콜."
+        },
+        {
+          "k": "결과",
+          "v": "진행 중 — 인터뷰 자료 수집 및 분석 단계."
+        }
+      ],
+      "links": [],
+      "media": []
+    },
+    {
+      "id": "addier",
+      "feat": true,
+      "year": "2025",
+      "live": false,
+      "title": "ADDI+er",
+      "en": "Team management web app",
+      "desc": "콘텐츠 에디터 팀 관리 웹앱 · 실무 운영 중",
+      "tags": [
+        "개발",
+        "디자인"
+      ],
+      "role": "기획 · 디자인 · 개발 · 팀 운영 적용",
+      "lead": "러닝스파크 에디터 팀을 위해 만든 팀 관리 웹앱입니다. 팀장으로서 매일 쓰는 도구를 직접 만들었습니다.",
+      "ev": [
+        {
+          "v": "실무",
+          "l": "팀 운영 적용"
+        },
+        {
+          "v": "Firebase",
+          "l": "+ Netlify"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "문제",
+          "v": "에디터 팀의 업무 배분과 진행 상황이 여러 곳에 흩어져 있어, 리드가 매번 수동으로 취합해야 했습니다."
+        },
+        {
+          "k": "접근 · 근거",
+          "v": "가상의 요구사항이 아니라, 실제 팀 운영에서 반복적으로 발생한 병목만을 기준으로 기능 범위를 좁혔습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "Firebase + Netlify 기반 웹앱. 업무 배정, 진행 현황, 팀원별 뷰를 제공합니다."
+        },
+        {
+          "k": "결과",
+          "v": "실무 팀에 적용해 운영 중이며, 사용 피드백을 받아 반복 개선했습니다."
+        }
+      ],
+      "links": [],
+      "media": []
+    },
+    {
+      "id": "calmroom",
+      "feat": false,
+      "year": "2024",
+      "live": false,
+      "title": "Calm-room",
+      "en": "Sensory calming space",
+      "desc": "자폐 스펙트럼 아동을 위한 진정 공간 · KT&G 사회혁신 공모전 입선",
+      "tags": [
+        "디자인",
+        "연구"
+      ],
+      "role": "리서치 · 공간 컨셉 디자인",
+      "lead": "감각 과부하 상황에서 아동이 스스로 회복할 수 있는 공간을 설계했습니다. KT&G 사회혁신 공모전 입선작입니다.",
+      "ev": [
+        {
+          "v": "입선",
+          "l": "KT&G 사회혁신"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "문제",
+          "v": "감각 과부하가 왔을 때 아이가 스스로 진정할 수 있는 물리적 공간이 기관 안에 거의 없습니다. 대개 복도나 교실 구석으로 데려갈 뿐입니다."
+        },
+        {
+          "k": "접근 · 근거",
+          "v": "감각 조절 관점에서 빛·소리·촉감·동선을 각각 조절 가능한 요소로 분해하고, 아동이 직접 강도를 고를 수 있게 구성했습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "공간 구성안과 시각화 자료."
+        },
+        {
+          "k": "결과",
+          "v": "KT&G 사회혁신 공모전 입선."
+        }
+      ],
+      "links": [],
+      "media": []
+    },
+    {
+      "id": "childrights",
+      "feat": false,
+      "year": "2025—26",
+      "live": false,
+      "title": "아동권리보장원 서포터즈 5기",
+      "en": "Child rights content",
+      "desc": "Translators 팀 · 아동권리 카드뉴스 및 영상 제작",
+      "tags": [
+        "디자인"
+      ],
+      "role": "콘텐츠 기획 · 카드뉴스 · 영상 제작",
+      "lead": "아동권리보장원 5기 서포터즈 Translators 팀에서, 어려운 아동권리 제도를 일반 독자의 언어로 옮기는 콘텐츠를 만들었습니다.",
+      "ev": [
+        {
+          "v": "5기",
+          "l": "서포터즈 활동"
+        },
+        {
+          "v": "3주제",
+          "l": "가정위탁·입양·후견"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "문제",
+          "v": "가정위탁, 입양, 후견 같은 제도는 정작 필요한 사람에게 가장 어렵게 쓰여 있습니다."
+        },
+        {
+          "k": "접근 · 근거",
+          "v": "제도 용어를 당사자가 실제로 겪는 상황 순서로 다시 배열하는 방식으로 콘텐츠를 구성했습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "주제별 카드뉴스와 영상 콘텐츠."
+        },
+        {
+          "k": "결과",
+          "v": "5기 서포터즈 활동 완료."
+        }
+      ],
+      "links": [],
+      "media": []
+    },
+    {
+      "id": "voicewell",
+      "feat": false,
+      "year": "2024",
+      "live": false,
+      "title": "VoiceWell",
+      "en": "Accessibility app concept",
+      "desc": "시각장애 성인 대상 앱 컨셉",
+      "tags": [
+        "디자인"
+      ],
+      "role": "리서치 · UX 디자인",
+      "lead": "시각장애 성인의 일상 정보 접근을 돕기 위한 앱 컨셉입니다.",
+      "ev": [
+        {
+          "v": "컨셉",
+          "l": "프로토타입 단계"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "문제",
+          "v": "시각 정보 중심으로 설계된 서비스는 비시각 사용자에게 정보 자체를 닫아버립니다."
+        },
+        {
+          "k": "접근 · 근거",
+          "v": "음성을 보조 수단이 아니라 기본 인터페이스로 놓고 정보 구조를 다시 설계했습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "앱 컨셉 및 프로토타입."
+        },
+        {
+          "k": "결과",
+          "v": "아카이브 항목 — 상세 내용 보강 예정."
+        }
+      ],
+      "links": [],
+      "media": []
+    },
+    {
+      "id": "uni",
+      "feat": false,
+      "year": "2023—",
+      "live": false,
+      "title": "유니 UNI",
+      "en": "Original mascot character",
+      "desc": "오리지널 마스코트 캐릭터 · 굿즈 라이선싱",
+      "tags": [
+        "디자인"
+      ],
+      "role": "캐릭터 디자인 · 일러스트레이션",
+      "lead": "직접 그린 오리지널 마스코트 캐릭터입니다. 학생회 굿즈로 라이선싱되어 실제 상품으로 제작되었습니다.",
+      "ev": [
+        {
+          "v": "라이선싱",
+          "l": "굿즈 상품화"
+        }
+      ],
+      "blocks": [
+        {
+          "k": "배경",
+          "v": "고등학교 애니메이션 전공에서 시작된 작업이, 지금은 프로젝트의 톤을 잡는 시각 언어로 이어지고 있습니다."
+        },
+        {
+          "k": "만든 것",
+          "v": "캐릭터 디자인, 표정·포즈 세트, 굿즈 적용 시안."
+        },
+        {
+          "k": "결과",
+          "v": "학생회 굿즈로 라이선싱되어 실제 상품 제작."
+        }
+      ],
+      "links": [],
+      "media": []
+    }
+  ],
+  "pubs": [
+    {
+      "id": "pub1",
+      "y": "2026",
+      "t": "영유아교사 요가 웰니스 프로그램 '사이사이'의 효과",
+      "s": "KCI 학술지 투고 · 수정 중",
+      "k": "KCI 투고 · 수정 중",
+      "authors": "배유진 외",
+      "venue": "KCI 등재지 (투고·수정 중)",
+      "abstract": "영유아교사의 소진과 근골격계 통증을 줄이기 위한 요가 기반 웰니스 프로그램 '사이사이'를 개발하고, 3주 파일럿을 통해 MBI·PSS·NRS·HBM 사전·사후 변화와 사후 인터뷰를 분석했습니다.",
+      "media": [],
+      "links": [],
+      "type": "Journal Article",
+      "award": ""
+    },
+    {
+      "id": "pub2",
+      "y": "2026",
+      "t": "또래 배척 · 우울 증상 · 스마트폰 과의존의 종단적 관계",
+      "s": "성별에 따른 경로 차이 — ISSBD 2026, 송도",
+      "k": "국제학술대회",
+      "authors": "배유진 외",
+      "venue": "ISSBD 2026, 송도",
+      "abstract": "또래 배척이 우울 증상을 매개로 스마트폰 과의존에 이르는 종단 경로를 검증하고, 성별에 따른 경로 차이를 확인했습니다.",
+      "media": [],
+      "links": [],
+      "type": "Oral",
+      "award": ""
+    },
+    {
+      "id": "pub3",
+      "y": "2026",
+      "t": "영유아교사 웰니스 프로그램 파일럿 연구",
+      "s": "한국육아지원학회 춘계학술대회 — 우수 포스터 수상",
+      "k": "",
+      "authors": "배유진 외",
+      "venue": "한국육아지원학회 춘계학술대회",
+      "abstract": "'사이사이' 프로그램의 파일럿 결과를 포스터로 발표해 우수 포스터로 선정되었습니다.",
+      "media": [],
+      "links": [],
+      "type": "Poster",
+      "award": "우수 포스터 발표상"
+    },
+    {
+      "id": "pub4",
+      "y": "2025",
+      "t": "체계적 문헌고찰 (지도교수 공저)",
+      "s": "학술지 투고",
+      "k": "투고",
+      "authors": "배유진, 지도교수",
+      "venue": "학술지 투고",
+      "abstract": "해당 주제의 선행 연구를 체계적으로 수집·선별해 분석한 문헌고찰 연구입니다.",
+      "media": [],
+      "links": [],
+      "type": "Journal Article",
+      "award": ""
+    },
+    {
+      "id": "pub5",
+      "y": "2025",
+      "t": "SNS 자기조절 앱 Selftune 개발 연구",
+      "s": "한국디자인문화학회지 — 제1저자",
+      "k": "KCI 게재",
+      "authors": "배유진 외",
+      "venue": "한국디자인문화학회지",
+      "abstract": "자기조절 이론에 기반해 SNS 사용 조절을 돕는 앱 Selftune을 설계하고 MVP 사용자 테스트로 검증했습니다.",
+      "media": [],
+      "links": [],
+      "type": "Journal Article",
+      "award": ""
+    }
+  ],
+  "foot": {
+    "big": "좋은 아이디어를,\n함께 현실로 만들고 싶습니다.",
+    "links": [
+      {
+        "label": "Email",
+        "url": "mailto:yujinbae55@gmail.com"
+      },
+      {
+        "label": "GitHub",
+        "url": "#"
+      },
+      {
+        "label": "LinkedIn",
+        "url": "#"
+      },
+      {
+        "label": "Saisai",
+        "url": "https://saisai42.netlify.app"
+      }
+    ],
+    "note": "© 2026 BAE YUJIN — 아동 발달 연구와 서비스 디자인 사이에서 일합니다."
+  },
+  "gallery": {
+    "groups": [
+      {
+        "h": "카드뉴스",
+        "d": "아동권리보장원 서포터즈 Translators 팀 제작 콘텐츠",
+        "items": []
+      },
+      {
+        "h": "인포그래픽",
+        "d": "통계·연구 결과를 현장에서 읽을 수 있는 형태로 옮긴 작업",
+        "items": []
+      },
+      {
+        "h": "영상 · 숏폼",
+        "d": "콘텐츠 영상 및 기록",
+        "items": []
+      },
+      {
+        "h": "인쇄물",
+        "d": "포스터 · 리플릿 등 인쇄 매체",
+        "items": []
+      },
+      {
+        "h": "발표자료",
+        "d": "학술대회 및 프로젝트 발표 자료",
+        "items": []
+      },
+      {
+        "h": "일러스트레이션",
+        "d": "캐릭터 · 굿즈 · 삽화 작업",
+        "items": []
+      }
+    ]
+  }
+}
+</script>
+
+<script>
+"use strict";
+
+/* ═══════════════════════════════════════════════
+   FIREBASE (선택) — 비워두면 로컬 모드로 동작합니다.
+   Firebase 콘솔 → 프로젝트 설정 → 웹앱 config를 붙여넣으세요.
+   ═══════════════════════════════════════════════ */
+const FB_CONFIG = {
+  apiKey: "AIzaSyBulBXePn7kfRNoHgUskhme3QCg4AyloBw",
+  authDomain: "yujin-portfolio-e07ef.firebaseapp.com",
+  databaseURL: "https://yujin-portfolio-e07ef-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "yujin-portfolio-e07ef",
+  storageBucket: "yujin-portfolio-e07ef.firebasestorage.app",
+  messagingSenderId: "153300357769",
+  appId: "1:153300357769:web:6fb148501cef28565fec58"
+};
+const FB_ON = !!FB_CONFIG.apiKey;
+
+/* Firebase 사용 시 관리자 계정. 비밀번호만 입력하면 되도록 이메일은 고정합니다. */
+const ADMIN_EMAIL = "yujinbae55@gmail.com";
+
+const PW = "1734";
+const TAGS = ["연구","디자인","개발"];
+
+/* ── 미디어 URL 정규화: Drive / Docs / YouTube 자동 변환 ── */
+function mediaSrc(m){
+  const u = String(m.u || "").trim();
+  if(!u) return "";
+  let x;
+  // Google Drive 파일
+  if((x = u.match(/drive\.google\.com\/file\/d\/([\w-]{20,})/) || u.match(/drive\.google\.com\/[^]*[?&]id=([\w-]{20,})/))){
+    return m.t === "image"
+      ? `https://drive.google.com/thumbnail?id=${x[1]}&sz=w1600`
+      : `https://drive.google.com/file/d/${x[1]}/preview`;
+  }
+  // Google Docs / Slides / Sheets
+  if((x = u.match(/docs\.google\.com\/(document|presentation|spreadsheets)\/d\/([\w-]{20,})/))){
+    return `https://docs.google.com/${x[1]}/d/${x[2]}/preview`;
+  }
+  // YouTube
+  if((x = u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{6,})/))){
+    return `https://www.youtube.com/embed/${x[1]}`;
+  }
+  return u;
+}
+
+let DATA = JSON.parse(document.getElementById("site-data").textContent);
+
+const $   = s => document.querySelector(s);
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const bold = s => esc(s).replace(/\*([^*]+)\*/g,"<b>$1</b>");
+
+const MKIND = { image:"사진", pdf:"PDF", embed:"영상", link:"링크" };
+function mediaKinds(list){
+  const seen = [];
+  (list||[]).forEach(m=>{ const k = MKIND[m.t] || "자료"; if(!seen.includes(k)) seen.push(k); });
+  return seen.join(" · ");
+}
+
+const RATIOS = { a4:"1/1.414", wide:"16/9", four3:"4/3", square:"1/1", tall:"3/4" };
+
+function renderMedia(list){
+  if(!list || !list.length) return "";
+  const items = list.map(m=>{
+    const src = mediaSrc(m);
+    if(!src) return "";
+    if(m.t === "link")
+      return `<a class="ov__link" href="${esc(src)}" target="_blank" rel="noopener">${esc(m.c || "자료 열기")} ↗</a>`;
+
+    const full = (m.w || (m.t === "image" ? "half" : "full")) === "full";
+    // 비율은 항목별 설정을 따르고, 없으면 영상은 16:9, 그 외는 4:3
+    const ar = RATIOS[m.r] || (m.t === "embed" ? RATIOS.wide : RATIOS.four3);
+    const frame = m.t === "image"
+      ? `<span class="md__f" style="--ar:${ar}"><img src="${esc(src)}" alt="${esc(m.c||"")}" loading="lazy"
+           onerror="this.closest('.md__f').innerHTML='<span class=&quot;md__err&quot;>이미지를 불러오지 못했습니다.<br>공유 설정이 공개인지 확인해 주세요.</span>'"></span>`
+      : `<span class="md__f" style="--ar:${ar}"><iframe src="${esc(src)}" loading="lazy" allowfullscreen title="${esc(m.c||"첨부 자료")}"></iframe></span>`;
+
+    return `<div class="md__i${full?" md__i--full":""}">${frame}
+      <div class="md__c"><span>${esc(m.c||"")}</span>
+        <a class="md__o" href="${esc(m.u)}" target="_blank" rel="noopener">원본 ↗</a></div>
+    </div>`;
+  }).filter(Boolean);
+
+  const links = items.filter(x=>x.startsWith("<a"));
+  const cards = items.filter(x=>!x.startsWith("<a"));
+  return (cards.length ? `<div class="md">${cards.join("")}</div>` : "")
+       + (links.length ? `<div class="ov__links">${links.join("")}</div>` : "");
+}
+
+/* ═══════════ RENDER SITE ═══════════ */
+function renderSite(){
+  const S = DATA.site;
+  $("#m-eyebrow").textContent = S.eyebrow;
+  $("#m-name").innerHTML = `<span class="hero__kr">${esc(S.nameKr)}</span>${esc(S.nameEn)}`;
+  $("#m-thesis").innerHTML = esc(S.thesis)
+    .split("\n")
+    .map(l=>l.replace(/\[([^\]]+)\]/g,(_,x)=>{
+      const [ax,lb] = x.split("|");
+      return `<button class="axis" data-axis="${esc(ax)}">${esc(lb||ax)}</button>`;
+    }))
+    .join("<br>");
+  $("#m-meta").innerHTML = S.meta.map(m=>`<span>${bold(m)}</span>`).join("");
+
+  $("#m-track").innerHTML = DATA.track.map(c=>`
+    <div class="track__c">
+      <div class="track__h">${esc(c.h)}</div>
+      <ul class="track__l">${c.items.map(i=>`<li>${i.y?`<span class="track__y">${esc(i.y)}</span>`:""}<b>${esc(i.t)}</b>${i.s?`<span class="track__s">${esc(i.s)}</span>`:""}</li>`).join("")}</ul>
+    </div>`).join("");
+
+  const SK = DATA.skills;
+  const meter = l => `<span class="mtr">${[1,2,3,4].map(i=>`<i class="${i<=+l?"on":""}"></i>`).join("")}</span>`;
+  $("#m-skleg").innerHTML = SK.legend.map((lb,i)=>
+    `<span class="skleg__i">${meter(i+1)}${esc(lb)}</span>`).join("");
+  $("#m-skill").innerHTML = SK.groups.map(g=>`
+    <div class="sk__c">
+      <div class="sk__h"><span>${esc(g.h)}</span><small>${g.items.length}</small></div>
+      <ul class="sk__l">${g.items.map(it=>`
+        <li class="sk__i">
+          <span class="sk__n">${esc(it.n)}${it.d?`<span class="sk__s">${esc(it.d)}</span>`:""}</span>
+          <span class="sk__y">${esc(it.y)}</span>
+          ${meter(it.l)}
+        </li>`).join("")}</ul>
+    </div>`).join("");
+
+  const AX = ["연구","디자인","개발"];
+  const gy = p => (String(p.year).match(/\d{4}/) || ["0"])[0];
+  const buckets = {};
+  DATA.projects.forEach(p => (buckets[gy(p)] = buckets[gy(p)] || []).push(p));
+  const years = Object.keys(buckets).sort((a,b)=>b-a);
+
+  $("#m-archive").innerHTML =
+    `<div class="mx__head"><span></span>${AX.map(a=>`<span data-col="${a}">${a}</span>`).join("")}</div>` +
+    years.map(y=>{
+      const items = buckets[y].slice().sort((a,b)=>(b.feat?1:0)-(a.feat?1:0));
+      return `<div class="mx__yr">
+        <div class="mx__ylab"><b>${esc(y)}</b><small>${items.length} 건</small></div>
+        ${items.map(p=>{
+          const ix = p.tags.map(t=>AX.indexOf(t)).filter(i=>i>=0);
+          const s = ix.length ? Math.min(...ix)+2 : 2;
+          const e = ix.length ? Math.max(...ix)+3 : 5;
+          const ev = p.ev.slice(0,2).map(x=>`${x.v} ${x.l}`).join(" · ");
+          return `<button class="mx__bar${p.feat?" mx__bar--feat":""}" style="grid-column:${s}/${e}"
+            data-id="${esc(p.id)}" data-tags="${esc(p.tags.join(" "))}${p.live?" 진행중":""}${p.feat?" 대표작":""}"
+            title="${esc(p.title)} — ${esc(p.desc)}">
+            <span class="mx__t">${esc(p.title)}${p.live?'<i>●</i>':""}</span>
+            <span class="mx__e">${esc(ev || p.desc)}</span>
+          </button>`;
+        }).join("")}
+      </div>`;
+    }).join("");
+
+  $("#m-pubs").innerHTML = DATA.pubs.map(p=>`
+    <button class="pub" data-pub="${esc(p.id)}">
+      <span class="pub__y">${esc(p.y)}</span>
+      <span class="pub__t">${p.type?`<span class="pub__type">[${esc(p.type)}]</span>`:""}${esc(p.t)}<span class="pub__s">${[esc(p.s), (p.media&&p.media.length)?`<span class="pub__m">${esc(mediaKinds(p.media))}</span>`:""].filter(Boolean).join(" · ")}</span></span>
+      <span class="pub__r">${p.k?`<span class="pub__st">${esc(p.k)}</span>`:""}${p.award?`<span class="pub__aw">★ ${esc(p.award)}</span>`:""}</span>
+      <span class="pub__go" aria-hidden="true">↗</span>
+    </button>`).join("");
+
+  const G = DATA.gallery || { groups: [] };
+  const shown = G.groups.filter(g => g.items.length > 0);   // 빈 구획은 공개 화면에서 숨김
+  const nAll = shown.reduce((s,g)=>s+g.items.length,0);
+  $("#m-galcount").textContent = shown.length
+    ? `${String(nAll).padStart(2,"0")} WORKS · ${shown.length} 구분` : "";
+  $("#gallery").hidden = shown.length === 0;
+
+  $("#m-gallery").innerHTML = shown.map(g=>{
+    const gi = G.groups.indexOf(g);
+    return `<div class="gal__g">
+      <div class="gal__h">
+        <h3 class="gal__t">${esc(g.h)}</h3>
+        <span class="gal__n">${g.items.length} 점</span>
+      </div>
+      ${g.d?`<p class="gal__d">${esc(g.d)}</p>`:""}
+      <div class="gal__row">
+        <button class="gal__nav gal__nav--prev" data-scroll="-1" aria-label="이전" disabled>‹</button>
+        <div class="gal__track">
+        ${g.items.map((it,ii)=>{
+          const src = mediaSrc(it);
+          const thumb = it.t === "image" && src
+            ? `<img src="${esc(src)}" alt="${esc(it.c||"")}" loading="lazy"
+                 onerror="this.parentElement.innerHTML='<span class=&quot;gal__ph&quot;>IMAGE</span>'">`
+            : `<span class="gal__ph">${esc(({pdf:"PDF",embed:"VIDEO",link:"LINK"})[it.t] || "FILE")}</span>`;
+          return `<button class="gal__i" data-gal="${gi}:${ii}">
+            <span class="gal__th">${thumb}</span>
+            ${it.c?`<span class="gal__c">${esc(it.c)}</span>`:""}
+          </button>`;
+        }).join("")}
+        </div>
+        <button class="gal__nav gal__nav--next" data-scroll="1" aria-label="다음">›</button>
+      </div>
+    </div>`;
+  }).join("");
+
+  $("#m-footbig").innerHTML = esc(DATA.foot.big).replace(/\n/g,"<br>");
+  $("#m-footlinks").innerHTML = DATA.foot.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
+  $("#m-footnote").textContent = DATA.foot.note;
+
+  bindSite();
+  applyFilter(curFilter);
+  document.querySelectorAll(".rise").forEach(el=>el.classList.add("in"));
+}
+
+/* ═══════════ FILTER + OVERLAY ═══════════ */
+let curFilter = "all";
+function applyFilter(f){
+  curFilter = f;
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.f===f)));
+  let n = 0;
+  document.querySelectorAll(".mx__yr").forEach(g=>{
+    let vis = 0;
+    g.querySelectorAll(".mx__bar").forEach(b=>{
+      const ok = f==="all" || b.dataset.tags.split(" ").includes(f);
+      b.hidden = !ok; if(ok){ vis++; n++; }
+    });
+    g.hidden = vis === 0;
+    const s = g.querySelector(".mx__ylab small"); if(s) s.textContent = `${vis} 건`;
+  });
+  document.querySelectorAll(".mx__head [data-col]").forEach(c=>c.classList.toggle("on", c.dataset.col===f));
+  $("#m-count").textContent = `${String(n).padStart(2,"0")} / ${String(DATA.projects.length).padStart(2,"0")} PROJECTS`;
+}
+
+const ov = $("#ov"); let lastFocus = null;
+function openCase(id){
+  const p = DATA.projects.find(x=>x.id===id); if(!p) return;
+  lastFocus = document.activeElement;
+  $("#ov-idx").textContent = `${p.year} — ${p.en}`;
+  $("#ov-body").innerHTML = `
+    <span class="eyebrow" style="color:rgba(255,255,255,.7)">${esc(p.tags.join(" · "))}${p.live?" · 진행 중":""}</span>
+    <h2 class="ov__title" id="ov-title">${esc(p.title)}</h2>
+    <p class="ov__role">${esc(p.role)}</p>
+    <p class="ov__lead">${esc(p.lead)}</p>
+    ${p.ev.length?`<div class="ev">${p.ev.map(e=>`<div class="ev__i"><div class="ev__v">${esc(e.v)}</div><div class="ev__l">${esc(e.l)}</div></div>`).join("")}</div>`:""}
+    ${p.blocks.map(b=>`<div class="case"><div class="case__k">${esc(b.k)}</div><p class="case__v">${esc(b.v)}</p></div>`).join("")}
+    ${renderMedia(p.media)}
+    ${p.links.length?`<div class="ov__links">${p.links.map(l=>`<a class="ov__link" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>`:""}`;
+  const wasOpen = ov.classList.contains("is-open");
+  ov.classList.add("is-open"); ov.setAttribute("aria-hidden","false");
+  document.body.classList.add("is-locked"); ov.scrollTop = 0; $("#ov-close").focus();
+  if(!wasOpen) pushLayer();
+}
+function openPub(id){
+  const p = DATA.pubs.find(x=>x.id===id); if(!p) return;
+  lastFocus = document.activeElement;
+  $("#ov-idx").textContent = `${p.y} — ${p.k}`;
+  const cite = [p.authors, p.venue].filter(Boolean).join(" · ");
+  $("#ov-body").innerHTML = `
+    <span class="eyebrow" style="color:rgba(255,255,255,.7)">${esc([p.type,p.k].filter(Boolean).join(" · "))}</span>
+    <h2 class="ov__title ov__title--pub" id="ov-title">${esc(p.t)}</h2>
+    ${p.tEn?`<p class="ov__ten">${esc(p.tEn)}</p>`:""}
+    <div class="ov__meta">
+      ${p.authors?`<p class="ov__cite">${esc(p.authors)}</p>`:""}
+      ${p.venue?`<p class="ov__cite">${esc(p.venue)}</p>`:""}
+      ${(p.s && p.s!==p.venue)?`<p class="ov__cite">${esc(p.s)}</p>`:""}
+      ${p.award?`<p class="ov__award">★ ${esc(p.award)}</p>`:""}
+    </div>
+    <div class="ov__sec">
+      <span class="ov__lab">초록</span>
+      <p class="ov__txt">${p.abstract ? esc(p.abstract) : "초록이 아직 등록되지 않았습니다."}</p>
+    </div>
+    ${(p.media&&p.media.length)?`<div class="ov__sec">
+      <span class="ov__lab">자료</span>
+      ${renderMedia(p.media)}
+    </div>`:""}
+    ${(p.links&&p.links.length)?`<div class="ov__links">${p.links.map(l=>`<a class="ov__link" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>`:""}`;
+  const wasOpen = ov.classList.contains("is-open");
+  ov.classList.add("is-open"); ov.setAttribute("aria-hidden","false");
+  document.body.classList.add("is-locked"); ov.scrollTop = 0; $("#ov-close").focus();
+  if(!wasOpen) pushLayer();
+}
+
+/* 열려 있는 레이어를 브라우저 히스토리에 등록해, 뒤로가기로 닫히게 함 */
+let histDepth = 0;
+function pushLayer(){ histDepth++; history.pushState({ layer: histDepth }, ""); }
+function popLayer(){ if(histDepth > 0){ histDepth--; history.back(); } }
+
+let galPos = null;   // 현재 보고 있는 갤러리 위치
+
+function openGal(gi, ii){
+  const g = DATA.gallery?.groups?.[gi]; const it = g?.items?.[ii];
+  if(!it) return;
+  const first = galPos === null;
+  galPos = { gi, ii };
+  if(first) lastFocus = document.activeElement;
+
+  $("#ov-idx").textContent = `${g.h} — ${ii+1} / ${g.items.length}`;
+  $("#ov-body").innerHTML = `
+    <span class="eyebrow" style="color:rgba(255,255,255,.7)">${esc(g.h)}</span>
+    <h2 class="ov__title ov__title--pub" id="ov-title">${esc(it.c || g.h)}</h2>
+    ${it.note?`<p class="ov__ten">${esc(it.note)}</p>`:""}
+    <div class="ov__sec">
+      <span class="ov__lab">작업물</span>
+      ${renderMedia([{ ...it, c: "", w: "full" }])}
+    </div>
+    ${g.items.length > 1 ? `<div class="galnav">
+      <button class="galnav__b" data-step="-1" ${ii===0?"disabled":""}>‹ 이전</button>
+      <span class="galnav__c">${ii+1} / ${g.items.length}</span>
+      <button class="galnav__b" data-step="1" ${ii===g.items.length-1?"disabled":""}>다음 ›</button>
+    </div>` : ""}`;
+
+  $("#ov-body").querySelectorAll("[data-step]").forEach(b=>b.onclick=()=>{
+    openGal(gi, ii + Number(b.dataset.step));
+  });
+
+  const wasOpen = ov.classList.contains("is-open");
+  ov.classList.add("is-open"); ov.setAttribute("aria-hidden","false");
+  document.body.classList.add("is-locked");
+  if(first){ ov.scrollTop = 0; $("#ov-close").focus(); pushLayer(); }
+}
+
+function closeCase(fromPop){
+  galPos = null;
+  ov.classList.remove("is-open"); ov.setAttribute("aria-hidden","true");
+  document.body.classList.remove("is-locked");
+  if(lastFocus && document.contains(lastFocus)) lastFocus.focus();
+  if(fromPop){ histDepth = Math.max(0, histDepth - 1); } else { popLayer(); }
+}
+
+function closeAdmin(fromPop){
+  adm.classList.remove("is-open"); adm.setAttribute("aria-hidden","true");
+  if(fromPop){ histDepth = Math.max(0, histDepth - 1); } else { popLayer(); }
+}
+
+window.addEventListener("popstate", ()=>{
+  if(ov.classList.contains("is-open")) closeCase(true);
+  else if(adm.classList.contains("is-open")) closeAdmin(true);
+  else if(gate.classList.contains("is-open")) gate.classList.remove("is-open");
+});
+function bindSite(){
+  document.querySelectorAll(".mx__bar").forEach(r=>r.onclick=()=>openCase(r.dataset.id));
+  document.querySelectorAll(".pub").forEach(r=>r.onclick=()=>openPub(r.dataset.pub));
+  document.querySelectorAll(".gal__i").forEach(r=>r.onclick=()=>{
+    const [gi,ii] = r.dataset.gal.split(":").map(Number); openGal(gi,ii);
+  });
+  document.querySelectorAll(".gal__row").forEach(row=>{
+    const track = row.querySelector(".gal__track");
+    const prev = row.querySelector(".gal__nav--prev");
+    const next = row.querySelector(".gal__nav--next");
+    const step = () => track.clientWidth * 0.8;
+    prev.onclick = ()=>track.scrollBy({ left: -step(), behavior: "smooth" });
+    next.onclick = ()=>track.scrollBy({ left:  step(), behavior: "smooth" });
+    const sync = ()=>{
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft < 8;
+      next.disabled = track.scrollLeft > max - 8;
+    };
+    track.addEventListener("scroll", sync, { passive: true });
+    sync();
+  });
+  document.querySelectorAll(".axis").forEach(b=>b.onclick=()=>{
+    applyFilter(b.dataset.axis);
+    $("#archive").scrollIntoView({behavior:"smooth",block:"start"});
+  });
+}
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>applyFilter(c.dataset.f));
+$("#ov-close").onclick = closeCase;
+
+/* ═══════════ ADMIN ═══════════ */
+const adm = $("#adm"), gate = $("#gate");
+let tab = "site";
+
+async function askPw(){
+  if(FB_ON){
+    // 이미 로그인된 세션이 있으면 인증 창을 건너뜀
+    try{
+      const a = await getAdmin();
+      const u = await a.ready;
+      if(u && (!ADMIN_EMAIL || u.email === ADMIN_EMAIL)){ openAdmin(); return; }
+    }catch(e){ console.warn(e); }
+  }
+  gate.classList.add("is-open"); $("#gate-err").textContent = "";
+  const box = $("#gate-box");
+  if(FB_ON){
+    box.innerHTML = `<p class="gate__t">Admin</p>
+      <p class="gate__lead">관리자 구글 계정으로 로그인하세요.</p>
+      <button class="btn btn--go btn--wide" id="gate-google">Google로 로그인</button>
+      <p class="gate__err" id="gate-err2"></p>
+      <div class="gate__acts"><button class="btn" id="gate-cancel2">취소</button></div>`;
+    $("#gate-cancel2").onclick = ()=>gate.classList.remove("is-open");
+    $("#gate-google").onclick = fbLogin;
+    setTimeout(()=>$("#gate-google").focus(), 60);
+  } else {
+    $("#gate-pw").value = ""; setTimeout(()=>$("#gate-pw").focus(), 60);
+  }
+}
+
+const AUTH_MSG = {
+  "auth/operation-not-allowed":   "콘솔에서 Google 로그인을 켜 주세요.",
+  "auth/unauthorized-domain":     "이 도메인이 Firebase 승인 목록에 없습니다.",
+  "auth/popup-blocked":           "팝업이 차단되었습니다. 브라우저에서 허용해 주세요.",
+  "auth/popup-closed-by-user":    "로그인 창이 닫혔습니다.",
+  "auth/cancelled-popup-request": "로그인 창이 닫혔습니다.",
+  "auth/too-many-requests":       "시도가 많았습니다. 잠시 후 다시 해주세요.",
+  "auth/network-request-failed":  "네트워크 연결을 확인해 주세요."
+};
+
+async function fbLogin(){
+  const err = $("#gate-err2");
+  err.textContent = "로그인 창을 여는 중…";
+  try{
+    const a = await getAdmin();
+    const provider = new a.au.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+    const res = await a.au.signInWithPopup(a.auth, provider);
+
+    // 관리자 계정이 아니면 즉시 로그아웃
+    if(ADMIN_EMAIL && res.user.email !== ADMIN_EMAIL){
+      await a.au.signOut(a.auth);
+      err.textContent = "이 계정에는 관리자 권한이 없습니다.";
+      return;
+    }
+    gate.classList.remove("is-open"); openAdmin();
+  }catch(e){
+    console.error(e.code, e.message);
+    err.textContent = AUTH_MSG[e.code] || ("로그인 실패 — " + e.code);
+  }
+}
+function tryPw(){
+  if($("#gate-pw").value === PW){ gate.classList.remove("is-open"); openAdmin(); }
+  else { $("#gate-err").textContent = "비밀번호가 맞지 않습니다."; $("#gate-pw").select(); }
+}
+$("#admin-open").onclick = askPw;
+$("#gate-ok").onclick = tryPw;
+$("#gate-cancel").onclick = ()=>gate.classList.remove("is-open");
+$("#gate-pw").onkeydown = e=>{ if(e.key==="Enter") tryPw(); };
+
+function openAdmin(){ if(!adm.classList.contains("is-open")) pushLayer();
+  adm.classList.add("is-open"); adm.setAttribute("aria-hidden","false"); renderAdmin(); }
+$("#adm-close").onclick = ()=>closeAdmin();
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
+  tab = t.dataset.tab;
+  document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",String(x.dataset.tab===tab)));
+  renderAdmin();
+});
+
+/* field helpers — path 기반 양방향 바인딩 */
+function getPath(p){ return p.split(".").reduce((o,k)=>o?.[/^\d+$/.test(k)?+k:k], DATA); }
+function setPath(p,v){
+  const parts = p.split(".");
+  const last = parts.pop();
+  const tgt = parts.reduce((o,k)=>o[/^\d+$/.test(k)?+k:k], DATA);
+  tgt[/^\d+$/.test(last)?+last:last] = v;
+}
+function F(label, path, {area=false, hint=""}={}){
+  const v = esc(getPath(path));
+  const el = area
+    ? `<textarea data-p="${path}">${v}</textarea>`
+    : `<input type="text" data-p="${path}" value="${v}">`;
+  return `<div class="fld"><label>${label}</label>${el}${hint?`<p class="hint">${hint}</p>`:""}</div>`;
+}
+
+/* 순서 변경 컨트롤 — 드래그 핸들 + ▲▼ (터치·키보드 대체 수단) */
+function SORTBAR(path, i, len){
+  if(len < 2) return "";
+  return `<span class="sort">
+    <span class="sort__g" draggable="true" data-sp="${path}" data-si="${i}" title="드래그해서 순서 변경" aria-hidden="true">⠿</span>
+    <button class="sort__b" data-mv="${path}:${i}:-1" ${i===0?"disabled":""} title="위로" aria-label="위로">▲</button>
+    <button class="sort__b" data-mv="${path}:${i}:1" ${i===len-1?"disabled":""} title="아래로" aria-label="아래로">▼</button>
+  </span>`;
+}
+
+function moveItem(path, from, to){
+  const arr = getPath(path);
+  if(!Array.isArray(arr)) return false;
+  if(to < 0 || to >= arr.length || from === to) return false;
+  arr.splice(to, 0, arr.splice(from, 1)[0]);
+  return true;
+}
+
+function SEL(label, path, opts, num){
+  const v = String(getPath(path) ?? "");
+  return `<div class="fld"><label>${label}</label><select data-p="${path}"${num?' data-num="1"':""}>${
+    opts.map(o=>`<option value="${o[0]}" ${String(o[0])===v?"selected":""}>${o[1]}</option>`).join("")
+  }</select></div>`;
+}
+
+const MTYPES = [["image","이미지"],["pdf","PDF · 문서"],["embed","임베드 (영상 등)"],["link","링크 버튼"]];
+const PTYPES = [["","(표시 안 함)"],["Journal Article","Journal Article"],["Poster","Poster"],
+  ["Oral","Oral"],["Preprint","Preprint"],["Book Chapter","Book Chapter"],["Report","Report"],["Thesis","Thesis"]];
+const MWIDTH = [["half","절반 폭"],["full","전체 폭"]];
+const MRATIO = [["four3","가로 4:3 (기본)"],["wide","와이드 16:9"],["square","정사각 1:1"],["tall","세로 3:4"],["a4","세로 문서 A4"]];
+
+/* 미디어 편집 블록 — projects / pubs 공용 */
+function MEDIA(base, list, key){
+  return `<div class="fld"><label>첨부 자료</label>
+    ${list.map((m,j)=>`<div class="sub" data-sp="${base}" data-si="${j}">
+      <div class="grid2">
+        ${SEL("종류",`${base}.${j}.t`,MTYPES)}
+        ${SEL("폭",`${base}.${j}.w`,MWIDTH)}
+      </div>
+      ${m.t!=="link"?`<div class="grid2">${SEL("비율",`${base}.${j}.r`,MRATIO)}<div></div></div>`:""}
+      ${F("캡션",`${base}.${j}.c`)}
+      ${F("URL",`${base}.${j}.u`)}
+      <div class="subrow subrow--sp">
+        ${SORTBAR(base, j, list.length)}
+        <span style="display:flex;gap:6px">
+          ${FB_ON?`<label class="btn btn--sm" style="cursor:pointer">파일 업로드
+            <input type="file" data-up="${base}.${j}.u" hidden></label>`:""}
+          <button class="btn btn--sm btn--del" data-del="${key}:${j}">삭제</button>
+        </span>
+      </div>
+    </div>`).join("")}
+    <button class="btn btn--sm" data-add="${key}">+ 자료 추가</button>
+    <p class="hint">Google Drive 링크는 붙여넣기만 하면 자동으로 임베드 주소로 변환됩니다. <b>공유 → 링크가 있는 모든 사용자</b>로 설정해야 보입니다.</p>
+  </div>`;
+}
+
+function renderAdmin(){
+  const B = $("#adm-body");
+  if(tab==="site"){
+    B.innerHTML =
+      F("Eyebrow (상단 소제목)","site.eyebrow") +
+      `<div class="grid2">${F("이름 (한글)","site.nameKr")}${F("이름 (영문)","site.nameEn")}</div>` +
+      F("Thesis 문장","site.thesis",{area:true,hint:"줄바꿈 = 실제 줄바꿈. <b>[연구]</b> 형태로 감싸면 필터 버튼이 됩니다. 표시 글자를 다르게 하려면 <b>[개발|만듭니다]</b>."}) +
+      `<div class="fld"><label>Meta 항목</label><div id="metaList"></div>
+        <button class="btn btn--sm" data-add="meta">+ 항목 추가</button>
+        <p class="hint">*별표*로 감싼 부분이 진하게 표시됩니다.</p></div>`;
+    const ml = $("#metaList");
+    ml.innerHTML = DATA.site.meta.map((m,i)=>
+      `<div class="sub" data-sp="site.meta" data-si="${i}"><input type="text" data-p="site.meta.${i}" value="${esc(m)}">
+       <div class="subrow subrow--sp">${SORTBAR("site.meta", i, DATA.site.meta.length)}<button class="btn btn--sm btn--del" data-del="meta:${i}">삭제</button></div></div>`).join("");
+  }
+
+  if(tab==="track"){
+    B.innerHTML = DATA.track.map((c,ci)=>`
+      <div class="card is-open" data-sp="track" data-si="${ci}">
+        <div class="card__top"><button class="card__h" data-toggle><span>${esc(c.h)}</span><small>${c.items.length} 항목</small></button>${SORTBAR("track", ci, DATA.track.length)}</div>
+        <div class="card__b">
+          ${F("컬럼 제목",`track.${ci}.h`)}
+          ${c.items.map((it,ii)=>`
+            <div class="sub" data-sp="track.${ci}.items" data-si="${ii}">
+              ${F("연도",`track.${ci}.items.${ii}.y`,{hint:"비워두면 표시되지 않습니다."})}
+              ${F("제목",`track.${ci}.items.${ii}.t`)}
+              ${F("설명",`track.${ci}.items.${ii}.s`)}
+              <div class="subrow subrow--sp">${SORTBAR(`track.${ci}.items`, ii, c.items.length)}<button class="btn btn--sm btn--del" data-del="trackitem:${ci}:${ii}">삭제</button></div>
+            </div>`).join("")}
+          <button class="btn btn--sm" data-add="trackitem:${ci}">+ 항목 추가</button>
+          <div class="subrow"><button class="btn btn--sm btn--del" data-del="track:${ci}">컬럼 삭제</button></div>
+        </div>
+      </div>`).join("") + `<button class="btn" data-add="track">+ 컬럼 추가</button>`;
+  }
+
+  if(tab==="skill"){
+    const L = DATA.skills.legend;
+    const opts = L.map((lb,i)=>[i+1, `${i+1} · ${lb}`]);
+    B.innerHTML =
+      `<div class="fld"><label>숙련도 단계 이름</label><div class="grid2">
+        ${L.map((lb,i)=>`<input type="text" data-p="skills.legend.${i}" value="${esc(lb)}">`).join("")}
+      </div><p class="hint">1단계부터 4단계까지의 표기입니다.</p></div>` +
+      DATA.skills.groups.map((g,gi)=>`
+      <div class="card" data-sp="skills.groups" data-si="${gi}">
+        <div class="card__top"><button class="card__h" data-toggle><span>${esc(g.h)}</span><small>${g.items.length} 항목</small></button>${SORTBAR("skills.groups", gi, DATA.skills.groups.length)}</div>
+        <div class="card__b">
+          ${F("구획 제목",`skills.groups.${gi}.h`)}
+          ${g.items.map((it,ii)=>`
+            <div class="sub" data-sp="skills.groups.${gi}.items" data-si="${ii}">
+              ${F("도구명",`skills.groups.${gi}.items.${ii}.n`)}
+              ${F("설명",`skills.groups.${gi}.items.${ii}.d`)}
+              <div class="grid2">
+                ${F("사용 기간",`skills.groups.${gi}.items.${ii}.y`)}
+                ${SEL("숙련도",`skills.groups.${gi}.items.${ii}.l`,opts,true)}
+              </div>
+              <div class="subrow subrow--sp">${SORTBAR(`skills.groups.${gi}.items`, ii, g.items.length)}<button class="btn btn--sm btn--del" data-del="skitem:${gi}:${ii}">삭제</button></div>
+            </div>`).join("")}
+          <button class="btn btn--sm" data-add="skitem:${gi}">+ 도구 추가</button>
+          <div class="subrow"><button class="btn btn--sm btn--del" data-del="skgroup:${gi}">구획 삭제</button></div>
+        </div>
+      </div>`).join("") + `<button class="btn btn--go" data-add="skgroup">+ 새 구획</button>`;
+  }
+
+  if(tab==="proj"){
+    B.innerHTML = DATA.projects.map((p,i)=>`
+      <div class="card" data-sp="projects" data-si="${i}">
+        <div class="card__top"><button class="card__h" data-toggle><span>${esc(p.title)}</span><small>${esc(p.year)}</small></button>${SORTBAR("projects", i, DATA.projects.length)}</div>
+        <div class="card__b">
+          <div class="grid2">${F("연도",`projects.${i}.year`)}${F("ID (고유값)",`projects.${i}.id`)}</div>
+          ${F("제목",`projects.${i}.title`)}
+          ${F("영문 부제",`projects.${i}.en`)}
+          ${F("목록 설명",`projects.${i}.desc`)}
+          ${F("역할",`projects.${i}.role`)}
+          ${F("리드 문장",`projects.${i}.lead`,{area:true})}
+          <div class="fld"><label>축 태그</label><div class="chks">
+            ${TAGS.map(t=>`<label><input type="checkbox" data-tag="${i}:${t}" ${p.tags.includes(t)?"checked":""}>${t}</label>`).join("")}
+            <label><input type="checkbox" data-live="${i}" ${p.live?"checked":""}>진행 중</label>
+            <label><input type="checkbox" data-feat="${i}" ${p.feat?"checked":""}><b>대표작</b></label>
+          </div><p class="hint">축 태그가 매트릭스에서 막대의 <b>가로 범위</b>를 결정합니다. 대표작은 파란 솔리드로 표시됩니다.</p></div>
+
+          <div class="fld"><label>증거 수치</label>
+            ${p.ev.map((e,j)=>`<div class="sub" data-sp="projects.${i}.ev" data-si="${j}"><div class="grid2">
+              ${F("값",`projects.${i}.ev.${j}.v`)}${F("라벨",`projects.${i}.ev.${j}.l`)}</div>
+              <div class="subrow subrow--sp">${SORTBAR(`projects.${i}.ev`, j, p.ev.length)}<button class="btn btn--sm btn--del" data-del="ev:${i}:${j}">삭제</button></div></div>`).join("")}
+            <button class="btn btn--sm" data-add="ev:${i}">+ 수치 추가</button></div>
+
+          <div class="fld"><label>케이스 블록</label>
+            ${p.blocks.map((b,j)=>`<div class="sub" data-sp="projects.${i}.blocks" data-si="${j}">
+              ${F("항목명",`projects.${i}.blocks.${j}.k`)}
+              ${F("내용",`projects.${i}.blocks.${j}.v`,{area:true})}
+              <div class="subrow subrow--sp">${SORTBAR(`projects.${i}.blocks`, j, p.blocks.length)}<button class="btn btn--sm btn--del" data-del="blk:${i}:${j}">삭제</button></div></div>`).join("")}
+            <button class="btn btn--sm" data-add="blk:${i}">+ 블록 추가</button></div>
+
+          ${MEDIA(`projects.${i}.media`, p.media||[], `pmed:${i}`)}
+
+          <div class="fld"><label>링크</label>
+            ${p.links.map((l,j)=>`<div class="sub" data-sp="projects.${i}.links" data-si="${j}"><div class="grid2">
+              ${F("표시명",`projects.${i}.links.${j}.label`)}${F("URL",`projects.${i}.links.${j}.url`)}</div>
+              <div class="subrow subrow--sp">${SORTBAR(`projects.${i}.links`, j, p.links.length)}<button class="btn btn--sm btn--del" data-del="lnk:${i}:${j}">삭제</button></div></div>`).join("")}
+            <button class="btn btn--sm" data-add="lnk:${i}">+ 링크 추가</button></div>
+
+          <div class="subrow"><button class="btn btn--sm btn--del" data-del="proj:${i}">프로젝트 삭제</button></div>
+        </div>
+      </div>`).join("") + `<button class="btn btn--go" data-add="proj">+ 새 프로젝트</button>`;
+  }
+
+  if(tab==="pubs"){
+    B.innerHTML = DATA.pubs.map((p,i)=>`
+      <div class="card" data-sp="pubs" data-si="${i}">
+        <div class="card__top"><button class="card__h" data-toggle><span>${esc(p.t.slice(0,28))}</span><small>${esc(p.y)}</small></button>${SORTBAR("pubs", i, DATA.pubs.length)}</div>
+        <div class="card__b">
+          <div class="grid2">${F("연도",`pubs.${i}.y`)}${SEL("유형 태그",`pubs.${i}.type`,PTYPES)}</div>
+          <div class="grid2">${F("게재 상태",`pubs.${i}.k`,{hint:"예: KCI 게재 / 투고 중"})}${F("수상",`pubs.${i}.award`,{hint:"입력하면 강조 표시됩니다."})}</div>
+          ${F("ID (고유값)",`pubs.${i}.id`)}
+          ${F("제목 (국문)",`pubs.${i}.t`,{area:true,hint:"엔터로 줄을 나누면 화면에도 그대로 반영됩니다."})}
+          ${F("제목 (영문)",`pubs.${i}.tEn`,{area:true})}
+          ${F("목록 표시 문구",`pubs.${i}.s`)}
+          <div class="grid2">${F("저자",`pubs.${i}.authors`)}${F("게재처 · 학회",`pubs.${i}.venue`)}</div>
+          ${F("초록 · 요약",`pubs.${i}.abstract`,{area:true})}
+          ${MEDIA(`pubs.${i}.media`, p.media||[], `bmed:${i}`)}
+          <div class="fld"><label>링크</label>
+            ${(p.links||[]).map((l,j)=>`<div class="sub" data-sp="pubs.${i}.links" data-si="${j}"><div class="grid2">
+              ${F("표시명",`pubs.${i}.links.${j}.label`)}${F("URL",`pubs.${i}.links.${j}.url`)}</div>
+              <div class="subrow subrow--sp">${SORTBAR(`pubs.${i}.links`, j, (p.links||[]).length)}<button class="btn btn--sm btn--del" data-del="blnk:${i}:${j}">삭제</button></div></div>`).join("")}
+            <button class="btn btn--sm" data-add="blnk:${i}">+ 링크 추가</button></div>
+          <div class="subrow"><button class="btn btn--sm btn--del" data-del="pub:${i}">삭제</button></div>
+        </div>
+      </div>`).join("") + `<button class="btn btn--go" data-add="pub">+ 새 항목</button>`;
+  }
+
+  if(tab==="gal"){
+    const GG = DATA.gallery.groups;
+    B.innerHTML = `
+      <div class="fld">
+        <label>기본 경로 (선택)</label>
+        <input type="text" id="gal-base" value="${esc(DATA.gallery.base||"images/")}" placeholder="images/">
+        <p class="hint">파일명만 붙여넣어도 이 경로가 앞에 붙습니다. <b>http</b>로 시작하는 주소는 그대로 씁니다.</p>
+      </div>` +
+      GG.map((g,gi)=>`
+      <div class="card${g.items.length?"":" is-open"}" data-sp="gallery.groups" data-si="${gi}">
+        <div class="card__top"><button class="card__h" data-toggle>
+          <span>${esc(g.h)}</span>
+          <small>${g.items.length ? g.items.length + " 점" : "비어 있음 · 공개 화면에 표시되지 않습니다"}</small>
+        </button>${SORTBAR("gallery.groups", gi, GG.length)}</div>
+        <div class="card__b">
+          <div class="fld">
+            <label>여러 개 한꺼번에 추가</label>
+            <textarea data-bulk="${gi}" rows="4" placeholder="한 줄에 하나씩&#10;카드뉴스-01.jpg&#10;카드뉴스-02.png&#10;https://youtu.be/xxxx"></textarea>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+              <button class="btn btn--sm btn--go" data-bulkgo="${gi}">추가</button>
+              ${FB_ON?`<label class="btn btn--sm" style="cursor:pointer">파일 업로드
+                <input type="file" data-multi="${gi}" accept="image/*,video/*,application/pdf" multiple hidden></label>`:""}
+              <button class="btn btn--sm" data-add="galitem:${gi}">+ 빈 항목</button>
+            </div>
+          </div>
+          ${F("구분 이름",`gallery.groups.${gi}.h`)}
+          ${F("설명",`gallery.groups.${gi}.d`)}
+          ${g.items.map((it,ii)=>`
+            <div class="sub" data-sp="gallery.groups.${gi}.items" data-si="${ii}">
+              <div class="grid2">
+                ${SEL("종류",`gallery.groups.${gi}.items.${ii}.t`,MTYPES)}
+                ${SEL("비율",`gallery.groups.${gi}.items.${ii}.r`,MRATIO)}
+              </div>
+              ${F("제목 · 캡션",`gallery.groups.${gi}.items.${ii}.c`)}
+              ${F("URL · 경로",`gallery.groups.${gi}.items.${ii}.u`)}
+              <div class="subrow subrow--sp">
+                ${SORTBAR(`gallery.groups.${gi}.items`, ii, g.items.length)}
+                <button class="btn btn--sm btn--del" data-del="galitem:${gi}:${ii}">삭제</button>
+              </div>
+            </div>`).join("")}
+          <div class="subrow"><button class="btn btn--sm btn--del" data-del="galgroup:${gi}">구분 삭제</button></div>
+        </div>
+      </div>`).join("") + `<button class="btn btn--go" data-add="galgroup">+ 새 구분</button>
+      <p class="hint" style="margin-top:10px">항목이 없는 구분은 공개 화면에 나타나지 않습니다.</p>`;
+  }
+
+  if(tab==="foot"){
+    B.innerHTML =
+      F("큰 문구","foot.big",{area:true,hint:"줄바꿈이 그대로 반영됩니다."}) +
+      `<div class="fld"><label>링크</label>
+        ${DATA.foot.links.map((l,i)=>`<div class="sub" data-sp="foot.links" data-si="${i}"><div class="grid2">
+          ${F("표시명",`foot.links.${i}.label`)}${F("URL",`foot.links.${i}.url`)}</div>
+          <div class="subrow subrow--sp">${SORTBAR("foot.links", i, DATA.foot.links.length)}<button class="btn btn--sm btn--del" data-del="flink:${i}">삭제</button></div></div>`).join("")}
+        <button class="btn btn--sm" data-add="flink">+ 링크 추가</button></div>` +
+      F("하단 문구","foot.note");
+  }
+}
+
+/* admin events (delegated) */
+let rsTimer = null;
+function renderSoon(){ clearTimeout(rsTimer); rsTimer = setTimeout(renderSite, 180); }
+
+$("#adm-body").addEventListener("input", e=>{
+  const t = e.target;
+  if(t.dataset.p){ setPath(t.dataset.p, t.dataset.num ? +t.value : t.value); renderSoon(); }
+});
+$("#adm-body").addEventListener("change", e=>{
+  const t = e.target;
+  if(t.dataset.tag){
+    const [i,tag] = t.dataset.tag.split(":");
+    const arr = DATA.projects[+i].tags;
+    if(t.checked){ if(!arr.includes(tag)) arr.push(tag); }
+    else { DATA.projects[+i].tags = arr.filter(x=>x!==tag); }
+    renderSite();
+  }
+  if(t.dataset.live){ DATA.projects[+t.dataset.live].live = t.checked; renderSite(); }
+  if(t.dataset.feat){ DATA.projects[+t.dataset.feat].feat = t.checked; renderSite(); }
+});
+$("#adm-body").addEventListener("click", e=>{
+  const tg = e.target.closest("[data-toggle]");
+  if(tg){ tg.closest(".card")?.classList.toggle("is-open"); return; }
+
+  const bulk = e.target.closest("[data-bulkgo]")?.dataset.bulkgo;
+  if(bulk !== undefined){
+    const ta = $(`textarea[data-bulk="${bulk}"]`);
+    const lines = (ta?.value || "").split("\n").map(s=>s.trim()).filter(Boolean);
+    if(!lines.length){ alert("추가할 파일명이나 주소를 붙여넣어 주세요."); return; }
+
+    const base = ($("#gal-base")?.value || "").trim();
+    DATA.gallery.base = base;
+    const gi = +bulk;
+
+    lines.forEach(raw=>{
+      const u = /^(https?:)?\/\//.test(raw) ? raw : (base + raw.replace(/^\/+/, ""));
+      const low = u.toLowerCase();
+      const isVid = /youtube\.com|youtu\.be|\.(mp4|mov|webm)(\?|$)/.test(low);
+      const isPdf = /\.pdf(\?|$)/.test(low);
+      const name = decodeURIComponent(raw.split(/[?#]/)[0].split("/").pop() || "").replace(/\.[^.]+$/, "");
+      DATA.gallery.groups[gi].items.push({
+        t: isVid ? "embed" : (isPdf ? "pdf" : "image"),
+        u, c: name, note: "", w: "full", r: isVid ? "wide" : "four3"
+      });
+    });
+    ta.value = "";
+    renderSite(); renderAdmin();
+    alert(`${lines.length}개 항목을 추가했습니다. 저장 버튼을 눌러 반영하세요.`);
+    return;
+  }
+
+  const add = e.target.closest("[data-add]")?.dataset.add;
+  if(add){
+    const [k,i] = add.split(":");
+    if(k==="meta") DATA.site.meta.push("새 항목");
+    if(k==="track") DATA.track.push({h:"New",items:[{y:"",t:"제목",s:"설명"}]});
+    if(k==="trackitem") DATA.track[+i].items.push({y:"",t:"제목",s:"설명"});
+    if(k==="skgroup") DATA.skills.groups.push({h:"New",items:[{n:"도구",d:"설명",y:"1년",l:2}]});
+    if(k==="skitem") DATA.skills.groups[+i].items.push({n:"도구",d:"설명",y:"1년",l:2});
+    if(k==="proj") DATA.projects.unshift({id:"new"+Date.now(),year:"2026",live:false,feat:false,title:"새 프로젝트",en:"New project",desc:"한 줄 설명",tags:["디자인"],role:"역할",lead:"리드 문장",ev:[{v:"—",l:"라벨"}],blocks:[{k:"문제",v:""},{k:"접근 · 근거",v:""},{k:"만든 것",v:""},{k:"결과",v:""}],links:[]});
+    if(k==="ev") DATA.projects[+i].ev.push({v:"—",l:"라벨"});
+    if(k==="blk") DATA.projects[+i].blocks.push({k:"항목",v:""});
+    if(k==="lnk") DATA.projects[+i].links.push({label:"링크",url:"https://"});
+    if(k==="pmed") (DATA.projects[+i].media = DATA.projects[+i].media||[]).push({t:"image",u:"",c:"",w:"half",r:"a4"});
+    if(k==="bmed") (DATA.pubs[+i].media = DATA.pubs[+i].media||[]).push({t:"image",u:"",c:"",w:"half",r:"a4"});
+    if(k==="blnk") (DATA.pubs[+i].links = DATA.pubs[+i].links||[]).push({label:"링크",url:"https://"});
+    if(k==="pub") DATA.pubs.unshift({id:"pub"+Date.now(),y:"2026",t:"제목",tEn:"",s:"게재처",k:"",type:"",award:"",authors:"",venue:"",abstract:"",media:[],links:[]});
+    if(k==="flink") DATA.foot.links.push({label:"Link",url:"https://"});
+    if(k==="galgroup") DATA.gallery.groups.push({h:"새 구분",d:"",items:[]});
+    if(k==="galitem") DATA.gallery.groups[+i].items.push({t:"image",u:"",c:"제목",note:"",w:"full",r:"a4"});
+    renderSite(); renderAdmin(); return;
+  }
+
+  const del = e.target.closest("[data-del]")?.dataset.del;
+  if(del){
+    if(!confirm("삭제할까요?")) return;
+    const [k,a,b] = del.split(":");
+    if(k==="meta") DATA.site.meta.splice(+a,1);
+    if(k==="track") DATA.track.splice(+a,1);
+    if(k==="trackitem") DATA.track[+a].items.splice(+b,1);
+    if(k==="skgroup") DATA.skills.groups.splice(+a,1);
+    if(k==="skitem") DATA.skills.groups[+a].items.splice(+b,1);
+    if(k==="proj") DATA.projects.splice(+a,1);
+    if(k==="ev") DATA.projects[+a].ev.splice(+b,1);
+    if(k==="blk") DATA.projects[+a].blocks.splice(+b,1);
+    if(k==="lnk") DATA.projects[+a].links.splice(+b,1);
+    if(k==="pmed") DATA.projects[+a].media.splice(+b,1);
+    if(k==="bmed") DATA.pubs[+a].media.splice(+b,1);
+    if(k==="blnk") DATA.pubs[+a].links.splice(+b,1);
+    if(k==="pub") DATA.pubs.splice(+a,1);
+    if(k==="flink") DATA.foot.links.splice(+a,1);
+    if(k==="galgroup") DATA.gallery.groups.splice(+a,1);
+    if(k==="galitem") DATA.gallery.groups[+a].items.splice(+b,1);
+    renderSite(); renderAdmin(); return;
+  }
+
+  const mv = e.target.closest("[data-mv]")?.dataset.mv;
+  if(mv){
+    const k = mv.lastIndexOf(":"), k2 = mv.lastIndexOf(":", k-1);
+    const path = mv.slice(0, k2), from = +mv.slice(k2+1, k), dir = +mv.slice(k+1);
+    if(moveItem(path, from, from + dir)){ renderSite(); renderAdmin(); }
+  }
+});
+
+/* ── 드래그 앤 드롭 정렬 ── */
+let dragSrc = null;
+const admBody = $("#adm-body");
+
+admBody.addEventListener("dragstart", e=>{
+  const g = e.target.closest("[data-sp][draggable]");
+  if(!g) return;
+  dragSrc = { path: g.dataset.sp, i: +g.dataset.si };
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", "");
+  const host = g.closest("[data-sp][data-si]:not([draggable])");
+  if(host) host.classList.add("is-dragging");
+});
+
+admBody.addEventListener("dragover", e=>{
+  if(!dragSrc) return;
+  const t = e.target.closest(`[data-sp="${CSS.escape(dragSrc.path)}"][data-si]:not([draggable])`);
+  if(!t) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "move";
+  clearMarks();
+  const r = t.getBoundingClientRect();
+  t.classList.add(e.clientY < r.top + r.height/2 ? "drop-mark" : "drop-mark-after");
+});
+
+admBody.addEventListener("drop", e=>{
+  if(!dragSrc) return;
+  const t = e.target.closest(`[data-sp="${CSS.escape(dragSrc.path)}"][data-si]:not([draggable])`);
+  clearMarks();
+  if(!t){ dragSrc = null; return; }
+  e.preventDefault();
+  const r = t.getBoundingClientRect();
+  let to = +t.dataset.si + (e.clientY < r.top + r.height/2 ? 0 : 1);
+  if(to > dragSrc.i) to--;
+  const moved = moveItem(dragSrc.path, dragSrc.i, to);
+  dragSrc = null;
+  if(moved){ renderSite(); renderAdmin(); }
+});
+
+admBody.addEventListener("dragend", ()=>{ clearMarks(); dragSrc = null; });
+
+function clearMarks(){
+  admBody.querySelectorAll(".drop-mark,.drop-mark-after,.is-dragging")
+    .forEach(el=>el.classList.remove("drop-mark","drop-mark-after","is-dragging"));
+}
+
+/* ═══════════ FIREBASE LAYER (Realtime Database) ═══════════ */
+let fb = null;
+
+/* RTDB는 빈 배열·빈 객체를 저장하지 않고 삭제합니다.
+   불러온 뒤 누락된 필드를 반드시 되살려야 렌더링이 깨지지 않습니다. */
+function normalizeData(d){
+  const A = v => Array.isArray(v) ? v : [];
+  const S = v => (typeof v === "string" ? v : "");
+  d = d || {};
+  d.site = d.site || {};
+  d.site.meta = A(d.site.meta);
+  d.site.eyebrow = S(d.site.eyebrow);
+  d.site.nameKr = S(d.site.nameKr);
+  d.site.nameEn = S(d.site.nameEn);
+  d.site.thesis = S(d.site.thesis);
+
+  d.track = A(d.track).map(c => ({ h: S(c.h), items: A(c.items).map(i => ({ y: S(i.y), t: S(i.t), s: S(i.s) })) }));
+
+  d.skills = d.skills || {};
+  d.skills.legend = A(d.skills.legend);
+  if(d.skills.legend.length !== 4) d.skills.legend = ["입문","활용","능숙","전문"];
+  d.skills.groups = A(d.skills.groups).map(g => ({
+    h: S(g.h),
+    items: A(g.items).map(i => ({ n: S(i.n), d: S(i.d), y: S(i.y), l: Number(i.l) || 1 }))
+  }));
+
+  const MED = m => A(m).map(x => ({ t: S(x.t) || "image", u: S(x.u), c: S(x.c),
+    w: S(x.w) || (S(x.t) === "image" ? "half" : "full"),
+    r: S(x.r) || (S(x.t) === "embed" ? "wide" : "four3") }));
+  const LNK = l => A(l).map(x => ({ label: S(x.label), url: S(x.url) }));
+
+  d.projects = A(d.projects).map(p => ({
+    id: S(p.id), year: S(p.year), title: S(p.title), en: S(p.en), desc: S(p.desc),
+    role: S(p.role), lead: S(p.lead),
+    live: !!p.live, feat: !!p.feat,
+    tags: A(p.tags),
+    ev: A(p.ev).map(e => ({ v: S(e.v), l: S(e.l) })),
+    blocks: A(p.blocks).map(b => ({ k: S(b.k), v: S(b.v) })),
+    links: LNK(p.links), media: MED(p.media)
+  }));
+
+  d.pubs = A(d.pubs).map((p, i) => ({
+    id: S(p.id) || "pub" + (i + 1), y: S(p.y), t: S(p.t), tEn: S(p.tEn), s: S(p.s), k: S(p.k),
+    type: S(p.type), award: S(p.award),
+    authors: S(p.authors), venue: S(p.venue), abstract: S(p.abstract),
+    links: LNK(p.links), media: MED(p.media)
+  }));
+
+  d.gallery = d.gallery || { groups: [] };
+  d.gallery.base = S(d.gallery.base) || "images/";
+  d.gallery.groups = A(d.gallery.groups).map(g => ({
+    h: S(g.h), d: S(g.d),
+    items: A(g.items).map(x => ({ t: S(x.t) || "image", u: S(x.u), c: S(x.c), note: S(x.note),
+      w: "full", r: S(x.r) || (S(x.t) === "embed" ? "wide" : "a4") }))
+  }));
+
+  d.foot = d.foot || {};
+  d.foot.big = S(d.foot.big);
+  d.foot.note = S(d.foot.note);
+  d.foot.links = LNK(d.foot.links);
+  return d;
+}
+
+/* 방문자에게 필요한 최소 모듈(app+database)만 먼저 불러옵니다.
+   auth·storage는 관리자가 로그인할 때 처음 불러옵니다. */
+const FB_SDK = "https://www.gstatic.com/firebasejs/10.12.2/";
+let fbCore = null, fbAdmin = null;
+
+async function getCore(){
+  if(!FB_ON) return null;
+  if(fbCore) return fbCore;
+  const [appMod, rt] = await Promise.all([
+    import(FB_SDK + "firebase-app.js"),
+    import(FB_SDK + "firebase-database.js")
+  ]);
+  const app = appMod.initializeApp(FB_CONFIG);
+  fbCore = { app, rt, db: rt.getDatabase(app) };
+  return fbCore;
+}
+
+async function getAdmin(){
+  if(fbAdmin) return fbAdmin;
+  const c = await getCore();
+  if(!c) return null;
+  const [au, st] = await Promise.all([
+    import(FB_SDK + "firebase-auth.js"),
+    import(FB_SDK + "firebase-storage.js")
+  ]);
+  const auth = au.getAuth(c.app);
+  // 브라우저를 닫았다 열어도 로그인이 유지되도록 로컬 저장소 방식으로 고정
+  try{ await au.setPersistence(auth, au.browserLocalPersistence); }catch(e){ console.warn(e); }
+
+  fbAdmin = { au, st, auth, store: st.getStorage(c.app), user: null };
+  // 첫 인증 상태가 확정될 때까지 기다릴 수 있는 약속
+  fbAdmin.ready = new Promise(res=>{
+    const un = au.onAuthStateChanged(auth, u => { fbAdmin.user = u; syncSaveBtn(); un(); res(u); });
+  });
+  au.onAuthStateChanged(auth, u => { fbAdmin.user = u; syncSaveBtn(); });
+  return fbAdmin;
+}
+
+async function fbLogout(){
+  const a = await getAdmin();
+  if(a?.auth) await a.au.signOut(a.auth);
+  syncSaveBtn();
+}
+
+async function fbLoad(){
+  try{
+    const c = await getCore(); if(!c) return false;
+    const snap = await c.rt.get(c.rt.ref(c.db, "site/content"));
+    if(snap.exists()){ DATA = normalizeData(snap.val()); renderSite(); return true; }
+    console.info("DB가 비어 있습니다. 내장 데이터를 표시하고, 저장 시 업로드됩니다.");
+  }catch(e){ console.warn("DB 로드 실패 — 내장 데이터로 표시합니다.", e); }
+  return false;
+}
+
+async function fbSave(){
+  const a = await getAdmin();
+  if(!a?.user) return alert("먼저 로그인해 주세요.");
+  const c = await getCore();
+  const b = $("#adm-save"); const t0 = b.textContent;
+  b.textContent = "저장 중…"; b.disabled = true;
+  try{
+    await c.rt.set(c.rt.ref(c.db, "site/content"), JSON.parse(JSON.stringify(normalizeData(DATA))));
+    b.textContent = "저장됨 ✓";
+    setTimeout(()=>{ b.textContent = "저장"; b.disabled = false; }, 1600);
+  }catch(e){
+    console.error(e); alert("저장에 실패했습니다: " + e.message);
+    b.textContent = t0; b.disabled = false;
+  }
+}
+
+async function fbUpload(file){
+  const a = await getAdmin();
+  if(!a?.user){ alert("먼저 로그인해 주세요."); return null; }
+  if(file.size > 20 * 1024 * 1024){ alert("20MB 이하 파일만 올릴 수 있습니다."); return null; }
+  // Storage가 활성화되지 않은 프로젝트에서는 요청이 무응답으로 지연되므로 15초에서 끊음
+  const guard = new Promise((_, rej)=>setTimeout(
+    ()=>rej(new Error("업로드가 응답하지 않습니다. Firebase Storage가 활성화되어 있는지(Blaze 요금제 필요) 확인해 주세요.")), 15000));
+  const safe = file.name.replace(/[^\w.\-]/g, "_");
+  const ref = a.st.ref(a.store, `media/${Date.now()}_${safe}`);
+  await Promise.race([a.st.uploadBytes(ref, file), guard]);
+  return await a.st.getDownloadURL(ref);
+}
+
+function syncSaveBtn(){
+  const b = $("#adm-save"); if(!b) return;
+  b.hidden = !FB_ON;
+  b.textContent = fbAdmin?.user ? "저장" : "로그인 필요";
+
+  const f = $("#adm-foot"); if(!f) return;
+  if(fbAdmin?.user){
+    f.innerHTML = `<b>${esc(fbAdmin.user.email||"")}</b> 로그인됨 ·
+      <button class="btn btn--sm" id="uid-copy">UID 복사</button>
+      <button class="btn btn--sm" id="uid-out">로그아웃</button>
+      <span style="display:block;margin-top:6px;font-size:10.5px;word-break:break-all;opacity:.75">${esc(fbAdmin.user.uid)}</span>`;
+    $("#uid-out").onclick = async ()=>{ await fbLogout(); closeAdmin(); };
+    $("#uid-copy").onclick = async ()=>{
+      try{ await navigator.clipboard.writeText(fbAdmin.user.uid); $("#uid-copy").textContent = "복사됨 ✓"; }
+      catch{ $("#uid-copy").textContent = "아래 값을 직접 복사하세요"; }
+    };
+  } else {
+    f.textContent = FB_ON ? "로그인하면 저장 버튼이 활성화됩니다."
+      : "수정은 즉시 반영됩니다. 영구 저장은 HTML 내보내기로 파일을 받아 재배포하세요.";
+  }
+}
+
+/* 파일 업로드 (미디어 편집 블록) */
+$("#adm-body").addEventListener("change", async e=>{
+  const inp = e.target;
+
+  // 갤러리 다중 업로드
+  if(inp.dataset.multi !== undefined && inp.files?.length){
+    const gi = +inp.dataset.multi;
+    const files = [...inp.files];
+    const lbl = inp.closest("label");
+    const orig0 = lbl.firstChild.nodeValue;
+    let done = 0, failed = 0;
+    for(const f of files){
+      lbl.firstChild.nodeValue = `올리는 중 ${done+1}/${files.length} `;
+      try{
+        const url = await fbUpload(f);
+        if(url){
+          DATA.gallery.groups[gi].items.push({
+            t: f.type.startsWith("video/") ? "embed" : (f.type === "application/pdf" ? "pdf" : "image"),
+            u: url, c: f.name.replace(/\.[^.]+$/, ""), note: "", w: "full",
+            r: f.type.startsWith("video/") ? "wide" : "four3"
+          });
+          done++;
+        } else failed++;
+      }catch(err){ console.error(err); failed++; }
+    }
+    lbl.firstChild.nodeValue = orig0;
+    inp.value = "";
+    renderSite(); renderAdmin();
+    if(failed) alert(`${done}개 등록, ${failed}개 실패했습니다.`);
+    return;
+  }
+
+  if(!inp.dataset.up || !inp.files?.length) return;
+  const lbl = inp.closest("label"); const orig = lbl.firstChild.nodeValue;
+  lbl.firstChild.nodeValue = "업로드 중… ";
+  try{
+    const url = await fbUpload(inp.files[0]);
+    if(url){ setPath(inp.dataset.up, url); renderSite(); renderAdmin(); }
+  }catch(err){ console.error(err); alert("업로드 실패: " + err.message); }
+  finally{ if(lbl.firstChild) lbl.firstChild.nodeValue = orig; }
+});
+
+/* export */
+function dl(name, text, type){
+  const b = new Blob([text],{type});
+  const u = URL.createObjectURL(b);
+  const a = document.createElement("a");
+  a.href = u; a.download = name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(u), 1500);
+}
+$("#adm-json").onclick = ()=>dl("portfolio-data.json", JSON.stringify(DATA,null,2), "application/json");
+$("#adm-export").onclick = ()=>{
+  const c = document.documentElement.cloneNode(true);
+  c.querySelector("#site-data").textContent = "\n" + JSON.stringify(DATA,null,2) + "\n";
+  ["#m-eyebrow","#m-name","#m-thesis","#m-meta","#m-track","#m-skleg","#m-skill","#m-gallery","#m-galcount","#m-archive","#m-pubs","#m-footlinks","#m-footbig","#m-footnote","#ov-body","#ov-idx","#adm-body","#gate-err"]
+    .forEach(s=>{ const el=c.querySelector(s); if(el) el.innerHTML=""; });
+  c.querySelector("#ov").classList.remove("is-open");
+  c.querySelector("#ov").setAttribute("aria-hidden","true");
+  c.querySelector("#adm").classList.remove("is-open");
+  c.querySelector("#adm").setAttribute("aria-hidden","true");
+  c.querySelector("#gate").classList.remove("is-open");
+  c.querySelector("#gate-box").innerHTML = GATE_HTML;
+  const bt = c.querySelector("#boot");
+  if(bt){ bt.classList.remove("is-done"); bt.removeAttribute("style"); }
+  c.querySelector("body").className = "";
+  c.querySelectorAll(".rise").forEach(el=>el.classList.remove("in"));
+  dl("index.html", "<!DOCTYPE html>\n<html lang=\"ko\">" + c.innerHTML + "</html>", "text/html");
+};
+
+/* global keys */
+document.addEventListener("keydown", e=>{
+  if(galPos && ov.classList.contains("is-open") && (e.key==="ArrowLeft" || e.key==="ArrowRight")){
+    const g = DATA.gallery.groups[galPos.gi];
+    const next = galPos.ii + (e.key==="ArrowRight" ? 1 : -1);
+    if(next >= 0 && next < g.items.length){ e.preventDefault(); openGal(galPos.gi, next); }
+    return;
+  }
+  if(e.key==="Escape"){
+    if(ov.classList.contains("is-open")) closeCase();
+    else if(gate.classList.contains("is-open")) gate.classList.remove("is-open");
+    else if(adm.classList.contains("is-open")) closeAdmin();
+  }
+});
+if(location.hash === "#admin") setTimeout(askPw, 400);
+
+/* boot */
+const GATE_HTML = $("#gate-box").innerHTML;
+$("#adm-save").onclick = fbSave;
+
+function bootDone(){
+  const b = $("#boot");
+  if(!b || b.classList.contains("is-done")) return;
+  b.classList.add("is-done");
+  setTimeout(()=>{ b.style.display = "none"; }, 420);
+}
+
+function withTimeout(promise, ms){
+  return Promise.race([promise, new Promise(r=>setTimeout(()=>r("timeout"), ms))]);
+}
+
+(async function boot(){
+  DATA = normalizeData(DATA);
+
+  if(FB_ON){
+    // DB 응답을 기다렸다가 한 번만 그린다. 실패·지연 시 내장 데이터로 폴백.
+    let res;
+    try{ res = await withTimeout(fbLoad(), 2500); }
+    catch(e){ console.warn(e); }
+    if(res !== true) renderSite();   // fbLoad는 성공 시 스스로 렌더링함
+  } else {
+    renderSite();
+  }
+
+  syncSaveBtn();
+  bootDone();
+
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("in"); });
+  },{threshold:.12});
+  document.querySelectorAll(".rise").forEach(el=>io.observe(el));
+})();
+
+/* 스크립트가 어떤 이유로든 멈춰도 화면이 잠기지 않게 하는 안전장치 */
+setTimeout(bootDone, 5000);
+</script>
+</body>
+</html>
