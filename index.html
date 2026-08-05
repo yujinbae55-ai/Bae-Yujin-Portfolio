@@ -358,10 +358,19 @@ a{color:inherit}
 .pub__y{font-size:12px;font-weight:500;color:var(--mute);letter-spacing:.04em}
 .pub__t{font-size:15.5px;line-height:1.55;font-weight:500}
 .pub__s{display:block;font-size:13.5px;color:var(--mute);font-weight:400;margin-top:4px}
-.pub__type{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--mute);margin-right:8px;vertical-align:1px}
-.pub__r{justify-self:end}
-.pub__aw{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.06em;white-space:nowrap;
-  background:var(--point);color:#fff;padding:4px 11px;border-radius:100px}
+.pub__type{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.04em;
+  color:#5a5a63;background:var(--wash);border-radius:5px;padding:3px 8px;margin-right:9px;
+  vertical-align:2px;white-space:nowrap;transition:background .25s var(--ease),color .25s var(--ease)}
+.pub:hover .pub__type{background:#e6e6ea;color:var(--ink)}
+
+.pub__r{justify-self:end;display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.pub__st,.pub__aw{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.05em;
+  white-space:nowrap;padding:4px 11px;border-radius:100px;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .25s var(--ease)}
+.pub__st{border:1px solid var(--line);color:var(--mute)}
+.pub__aw{background:var(--point);color:#fff}
+.pub:hover .pub__st{border-color:var(--point);color:var(--point);transform:translateY(-2px)}
+.pub:hover .pub__aw{transform:translateY(-2px);box-shadow:0 5px 14px rgba(35,35,255,.3)}
 @media(max-width:720px){.pub{grid-template-columns:70px minmax(0,1fr) 22px}.pub__r{grid-column:2;justify-self:start;margin-top:6px}}
 
 /* ── media gallery (overlay 내부) ──
@@ -1651,8 +1660,8 @@ function renderSite(){
   $("#m-pubs").innerHTML = DATA.pubs.map(p=>`
     <button class="pub" data-pub="${esc(p.id)}">
       <span class="pub__y">${esc(p.y)}</span>
-      <span class="pub__t">${p.type?`<span class="pub__type">[${esc(p.type)}]</span>`:""}${esc(p.t)}<span class="pub__s">${[esc(p.s), p.k?esc(p.k):"", (p.media&&p.media.length)?`<span class="pub__m">${esc(mediaKinds(p.media))}</span>`:""].filter(Boolean).join(" · ")}</span></span>
-      <span class="pub__r">${p.award?`<span class="pub__aw">★ ${esc(p.award)}</span>`:""}</span>
+      <span class="pub__t">${p.type?`<span class="pub__type">[${esc(p.type)}]</span>`:""}${esc(p.t)}<span class="pub__s">${[esc(p.s), (p.media&&p.media.length)?`<span class="pub__m">${esc(mediaKinds(p.media))}</span>`:""].filter(Boolean).join(" · ")}</span></span>
+      <span class="pub__r">${p.k?`<span class="pub__st">${esc(p.k)}</span>`:""}${p.award?`<span class="pub__aw">★ ${esc(p.award)}</span>`:""}</span>
       <span class="pub__go" aria-hidden="true">↗</span>
     </button>`).join("");
 
