@@ -244,7 +244,22 @@ a{color:inherit}
 .gal__t{font-size:13px;font-weight:700;letter-spacing:.04em;margin:0}
 .gal__n{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .gal__d{font-size:12.5px;color:var(--mute);margin:0 0 16px;line-height:1.55}
-.gal__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,215px),1fr));gap:14px}
+.gal__row{position:relative}
+.gal__track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  padding-bottom:6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.gal__track::-webkit-scrollbar{height:5px}
+.gal__track::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.gal__track::-webkit-scrollbar-track{background:transparent}
+.gal__i{flex:0 0 clamp(168px,20vw,224px);scroll-snap-align:start}
+.gal__nav{position:absolute;top:calc(50% - 34px);transform:translateY(-50%);z-index:3;
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.94);
+  backdrop-filter:blur(6px);color:var(--ink);cursor:pointer;font-size:14px;line-height:1;padding:0;
+  box-shadow:0 3px 12px rgba(0,0,0,.09);transition:all .2s var(--ease)}
+.gal__nav:hover{border-color:var(--point);color:var(--point)}
+.gal__nav[disabled]{opacity:0;pointer-events:none}
+.gal__nav--prev{left:-13px}
+.gal__nav--next{right:-13px}
+@media(max-width:760px){.gal__nav{display:none}}
 .gal__i{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--paper);
   cursor:pointer;padding:0;text-align:left;color:var(--ink);
   transition:border-color .25s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease)}
@@ -346,16 +361,24 @@ a{color:inherit}
 .pub__k{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--point);white-space:nowrap}
 @media(max-width:720px){.pub{grid-template-columns:70px minmax(0,1fr) 22px}.pub__k{grid-column:2;margin-top:4px}}
 
-/* ── media gallery (overlay 내부) ── */
-.md{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start;margin:clamp(28px,5vh,52px) 0}
-.md__i{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.3);border-radius:10px;overflow:hidden}
+/* ── media gallery (overlay 내부) ──
+   모든 카드를 동일 비율 상자로 맞춰 행 높이 불일치를 없앰 */
+.md{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,255px),1fr));gap:14px;align-items:start;margin:0}
+.md__i{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.3);border-radius:10px;overflow:hidden;
+  display:flex;flex-direction:column}
 .md__i--full{grid-column:1/-1}
-.md__f{display:block;width:100%;background:#fff;line-height:0}
-.md__f img{display:block;width:100%;height:auto}
-.md__f iframe{display:block;width:100%;aspect-ratio:var(--ar,1/1.414);border:0;background:#fff}
-.md__c{padding:11px 14px;font-size:11.5px;line-height:1.5;color:rgba(255,255,255,.85);
-  border-top:1px solid rgba(255,255,255,.22);white-space:pre-wrap}
-.md__err{padding:30px 16px;text-align:center;font-size:12px;color:#5b5b66;background:var(--wash);line-height:1.6}
+.md__f{display:block;position:relative;width:100%;aspect-ratio:var(--ar,4/3);max-height:76vh;
+  background:#fff;overflow:hidden;line-height:0}
+.md__f img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.md__f iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.md__c{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 13px;font-size:11.5px;line-height:1.45;color:rgba(255,255,255,.85);
+  border-top:1px solid rgba(255,255,255,.22);white-space:pre-wrap;margin-top:auto}
+.md__o{flex-shrink:0;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-decoration:none;
+  color:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.34);border-radius:100px;
+  padding:4px 9px;white-space:nowrap;transition:background .2s,color .2s}
+.md__o:hover{background:#fff;color:var(--point)}
+.md__err{padding:26px 14px;text-align:center;font-size:12px;color:#5b5b66;background:var(--wash);line-height:1.6}
 @media(max-width:720px){.md{grid-template-columns:1fr;gap:12px}.md__i--full{grid-column:auto}}
 .ov__abs{white-space:pre-wrap;font-size:clamp(.98rem,1.6vw,1.1rem);line-height:1.75;max-width:60ch;margin:26px 0 0;color:rgba(255,255,255,.94)}
 .ov__meta{margin:22px 0 38px}
@@ -365,6 +388,13 @@ a{color:inherit}
   color:rgba(255,255,255,.66);margin-bottom:14px}
 .ov__txt{white-space:pre-wrap;font-size:clamp(.96rem,1.5vw,1.05rem);line-height:1.72;max-width:36em;margin:0}
 .ov__sec .md{margin:0}
+.galnav{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:26px}
+.galnav__b{font-size:11.5px;font-weight:500;letter-spacing:.08em;background:none;
+  border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:100px;padding:9px 17px;cursor:pointer;
+  transition:background .2s,color .2s}
+.galnav__b:hover:not([disabled]){background:#fff;color:var(--point)}
+.galnav__b[disabled]{opacity:.32;cursor:default}
+.galnav__c{font-size:11.5px;font-weight:600;letter-spacing:.14em;color:rgba(255,255,255,.75)}
 .ov__cite{font-size:13px;line-height:1.65;color:rgba(255,255,255,.72);margin:0;letter-spacing:.01em}
 .ov__cite--em{color:#fff;font-weight:600;margin-top:6px}
 
@@ -1428,13 +1458,18 @@ a{color:inherit}
         "items": []
       },
       {
-        "h": "포스터 · 발표자료",
-        "d": "학술대회 포스터 및 발표 자료",
+        "h": "영상 · 숏폼",
+        "d": "콘텐츠 영상 및 기록",
         "items": []
       },
       {
-        "h": "영상",
-        "d": "콘텐츠 영상 및 기록",
+        "h": "인쇄물",
+        "d": "포스터 · 리플릿 등 인쇄 매체",
+        "items": []
+      },
+      {
+        "h": "발표자료",
+        "d": "학술대회 및 프로젝트 발표 자료",
         "items": []
       },
       {
@@ -1499,6 +1534,13 @@ const $   = s => document.querySelector(s);
 const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const bold = s => esc(s).replace(/\*([^*]+)\*/g,"<b>$1</b>");
 
+const MKIND = { image:"사진", pdf:"PDF", embed:"영상", link:"링크" };
+function mediaKinds(list){
+  const seen = [];
+  (list||[]).forEach(m=>{ const k = MKIND[m.t] || "자료"; if(!seen.includes(k)) seen.push(k); });
+  return seen.join(" · ");
+}
+
 const RATIOS = { a4:"1/1.414", wide:"16/9", four3:"4/3", square:"1/1", tall:"3/4" };
 
 function renderMedia(list){
@@ -1509,17 +1551,18 @@ function renderMedia(list){
     if(m.t === "link")
       return `<a class="ov__link" href="${esc(src)}" target="_blank" rel="noopener">${esc(m.c || "자료 열기")} ↗</a>`;
 
-    // 폭: 지정값이 없으면 이미지는 절반, 문서·영상은 전체
     const full = (m.w || (m.t === "image" ? "half" : "full")) === "full";
-    let frame;
-    if(m.t === "image"){
-      frame = `<span class="md__f"><img src="${esc(src)}" alt="${esc(m.c||"")}" loading="lazy"
-        onerror="this.closest('.md__f').innerHTML='<span class=&quot;md__err&quot;>이미지를 불러오지 못했습니다.<br>공유 설정이 공개인지 확인해 주세요.</span>'"></span>`;
-    } else {
-      const ar = RATIOS[m.r] || (m.t === "embed" ? RATIOS.wide : RATIOS.a4);
-      frame = `<span class="md__f"><iframe style="--ar:${ar}" src="${esc(src)}" loading="lazy" allowfullscreen title="${esc(m.c||"첨부 자료")}"></iframe></span>`;
-    }
-    return `<div class="md__i${full?" md__i--full":""}">${frame}${m.c?`<div class="md__c">${esc(m.c)}</div>`:""}</div>`;
+    // 비율은 항목별 설정을 따르고, 없으면 영상은 16:9, 그 외는 4:3
+    const ar = RATIOS[m.r] || (m.t === "embed" ? RATIOS.wide : RATIOS.four3);
+    const frame = m.t === "image"
+      ? `<span class="md__f" style="--ar:${ar}"><img src="${esc(src)}" alt="${esc(m.c||"")}" loading="lazy"
+           onerror="this.closest('.md__f').innerHTML='<span class=&quot;md__err&quot;>이미지를 불러오지 못했습니다.<br>공유 설정이 공개인지 확인해 주세요.</span>'"></span>`
+      : `<span class="md__f" style="--ar:${ar}"><iframe src="${esc(src)}" loading="lazy" allowfullscreen title="${esc(m.c||"첨부 자료")}"></iframe></span>`;
+
+    return `<div class="md__i${full?" md__i--full":""}">${frame}
+      <div class="md__c"><span>${esc(m.c||"")}</span>
+        <a class="md__o" href="${esc(m.u)}" target="_blank" rel="noopener">원본 ↗</a></div>
+    </div>`;
   }).filter(Boolean);
 
   const links = items.filter(x=>x.startsWith("<a"));
@@ -1593,35 +1636,45 @@ function renderSite(){
   $("#m-pubs").innerHTML = DATA.pubs.map(p=>`
     <button class="pub" data-pub="${esc(p.id)}">
       <span class="pub__y">${esc(p.y)}</span>
-      <span class="pub__t">${esc(p.t)}<span class="pub__s">${esc(p.s)}${(p.media&&p.media.length)?`${p.s?" · ":""}<span class="pub__m">자료 ${p.media.length}</span>`:""}</span></span>
+      <span class="pub__t">${esc(p.t)}<span class="pub__s">${esc(p.s)}${(p.media&&p.media.length)?`${p.s?" · ":""}<span class="pub__m">${esc(mediaKinds(p.media))}</span>`:""}</span></span>
       <span class="pub__k">${esc(p.k)}</span>
       <span class="pub__go" aria-hidden="true">↗</span>
     </button>`).join("");
 
   const G = DATA.gallery || { groups: [] };
-  const nAll = G.groups.reduce((s,g)=>s+g.items.length,0);
-  $("#m-galcount").textContent = `${String(nAll).padStart(2,"0")} WORKS · ${G.groups.length} 구분`;
-  $("#m-gallery").innerHTML = G.groups.map((g,gi)=>`
-    <div class="gal__g">
+  const shown = G.groups.filter(g => g.items.length > 0);   // 빈 구획은 공개 화면에서 숨김
+  const nAll = shown.reduce((s,g)=>s+g.items.length,0);
+  $("#m-galcount").textContent = shown.length
+    ? `${String(nAll).padStart(2,"0")} WORKS · ${shown.length} 구분` : "";
+  $("#gallery").hidden = shown.length === 0;
+
+  $("#m-gallery").innerHTML = shown.map(g=>{
+    const gi = G.groups.indexOf(g);
+    return `<div class="gal__g">
       <div class="gal__h">
         <h3 class="gal__t">${esc(g.h)}</h3>
         <span class="gal__n">${g.items.length} 점</span>
       </div>
       ${g.d?`<p class="gal__d">${esc(g.d)}</p>`:""}
-      <div class="gal__grid">
+      <div class="gal__row">
+        <button class="gal__nav gal__nav--prev" data-scroll="-1" aria-label="이전" disabled>‹</button>
+        <div class="gal__track">
         ${g.items.map((it,ii)=>{
           const src = mediaSrc(it);
           const thumb = it.t === "image" && src
             ? `<img src="${esc(src)}" alt="${esc(it.c||"")}" loading="lazy"
-                 onerror="this.parentElement.innerHTML='<span class=&quot;gal__ph&quot;>${esc(it.t)}</span>'">`
+                 onerror="this.parentElement.innerHTML='<span class=&quot;gal__ph&quot;>IMAGE</span>'">`
             : `<span class="gal__ph">${esc(({pdf:"PDF",embed:"VIDEO",link:"LINK"})[it.t] || "FILE")}</span>`;
           return `<button class="gal__i" data-gal="${gi}:${ii}">
             <span class="gal__th">${thumb}</span>
             ${it.c?`<span class="gal__c">${esc(it.c)}</span>`:""}
           </button>`;
         }).join("")}
+        </div>
+        <button class="gal__nav gal__nav--next" data-scroll="1" aria-label="다음">›</button>
       </div>
-    </div>`).join("") || `<p class="gal__d">등록된 작업물이 없습니다.</p>`;
+    </div>`;
+  }).join("");
 
   $("#m-footbig").innerHTML = esc(DATA.foot.big).replace(/\n/g,"<br>");
   $("#m-footlinks").innerHTML = DATA.foot.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
@@ -1704,10 +1757,15 @@ let histDepth = 0;
 function pushLayer(){ histDepth++; history.pushState({ layer: histDepth }, ""); }
 function popLayer(){ if(histDepth > 0){ histDepth--; history.back(); } }
 
+let galPos = null;   // 현재 보고 있는 갤러리 위치
+
 function openGal(gi, ii){
   const g = DATA.gallery?.groups?.[gi]; const it = g?.items?.[ii];
   if(!it) return;
-  lastFocus = document.activeElement;
+  const first = galPos === null;
+  galPos = { gi, ii };
+  if(first) lastFocus = document.activeElement;
+
   $("#ov-idx").textContent = `${g.h} — ${ii+1} / ${g.items.length}`;
   $("#ov-body").innerHTML = `
     <span class="eyebrow" style="color:rgba(255,255,255,.7)">${esc(g.h)}</span>
@@ -1716,14 +1774,25 @@ function openGal(gi, ii){
     <div class="ov__sec">
       <span class="ov__lab">작업물</span>
       ${renderMedia([{ ...it, c: "", w: "full" }])}
-    </div>`;
+    </div>
+    ${g.items.length > 1 ? `<div class="galnav">
+      <button class="galnav__b" data-step="-1" ${ii===0?"disabled":""}>‹ 이전</button>
+      <span class="galnav__c">${ii+1} / ${g.items.length}</span>
+      <button class="galnav__b" data-step="1" ${ii===g.items.length-1?"disabled":""}>다음 ›</button>
+    </div>` : ""}`;
+
+  $("#ov-body").querySelectorAll("[data-step]").forEach(b=>b.onclick=()=>{
+    openGal(gi, ii + Number(b.dataset.step));
+  });
+
   const wasOpen = ov.classList.contains("is-open");
   ov.classList.add("is-open"); ov.setAttribute("aria-hidden","false");
-  document.body.classList.add("is-locked"); ov.scrollTop = 0; $("#ov-close").focus();
-  if(!wasOpen) pushLayer();
+  document.body.classList.add("is-locked");
+  if(first){ ov.scrollTop = 0; $("#ov-close").focus(); pushLayer(); }
 }
 
 function closeCase(fromPop){
+  galPos = null;
   ov.classList.remove("is-open"); ov.setAttribute("aria-hidden","true");
   document.body.classList.remove("is-locked");
   if(lastFocus && document.contains(lastFocus)) lastFocus.focus();
@@ -1745,6 +1814,21 @@ function bindSite(){
   document.querySelectorAll(".pub").forEach(r=>r.onclick=()=>openPub(r.dataset.pub));
   document.querySelectorAll(".gal__i").forEach(r=>r.onclick=()=>{
     const [gi,ii] = r.dataset.gal.split(":").map(Number); openGal(gi,ii);
+  });
+  document.querySelectorAll(".gal__row").forEach(row=>{
+    const track = row.querySelector(".gal__track");
+    const prev = row.querySelector(".gal__nav--prev");
+    const next = row.querySelector(".gal__nav--next");
+    const step = () => track.clientWidth * 0.8;
+    prev.onclick = ()=>track.scrollBy({ left: -step(), behavior: "smooth" });
+    next.onclick = ()=>track.scrollBy({ left:  step(), behavior: "smooth" });
+    const sync = ()=>{
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft < 8;
+      next.disabled = track.scrollLeft > max - 8;
+    };
+    track.addEventListener("scroll", sync, { passive: true });
+    sync();
   });
   document.querySelectorAll(".axis").forEach(b=>b.onclick=()=>{
     applyFilter(b.dataset.axis);
@@ -1875,7 +1959,7 @@ function SEL(label, path, opts){
 
 const MTYPES = [["image","이미지"],["pdf","PDF · 문서"],["embed","임베드 (영상 등)"],["link","링크 버튼"]];
 const MWIDTH = [["half","절반 폭"],["full","전체 폭"]];
-const MRATIO = [["a4","세로 문서 (A4)"],["four3","4:3"],["square","정사각"],["wide","가로 영상 16:9"],["tall","가로 4:3 낮게"]];
+const MRATIO = [["four3","가로 4:3 (기본)"],["wide","와이드 16:9"],["square","정사각 1:1"],["tall","세로 3:4"],["a4","세로 문서 A4"]];
 
 /* 미디어 편집 블록 — projects / pubs 공용 */
 function MEDIA(base, list, key){
@@ -1885,7 +1969,7 @@ function MEDIA(base, list, key){
         ${SEL("종류",`${base}.${j}.t`,MTYPES)}
         ${SEL("폭",`${base}.${j}.w`,MWIDTH)}
       </div>
-      ${m.t!=="image"&&m.t!=="link"?`<div class="grid2">${SEL("비율",`${base}.${j}.r`,MRATIO)}<div></div></div>`:""}
+      ${m.t!=="link"?`<div class="grid2">${SEL("비율",`${base}.${j}.r`,MRATIO)}<div></div></div>`:""}
       ${F("캡션",`${base}.${j}.c`)}
       ${F("URL",`${base}.${j}.u`)}
       <div class="subrow subrow--sp">
@@ -2057,7 +2141,12 @@ function renderAdmin(){
                 </span>
               </div>
             </div>`).join("")}
-          <button class="btn btn--sm" data-add="galitem:${gi}">+ 작업물 추가</button>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${FB_ON?`<label class="btn btn--sm btn--go" style="cursor:pointer">파일 여러 개 올리기
+              <input type="file" data-multi="${gi}" accept="image/*,video/*,application/pdf" multiple hidden></label>`:""}
+            <button class="btn btn--sm" data-add="galitem:${gi}">+ 빈 항목 추가</button>
+          </div>
+          <p class="hint">파일을 여러 개 선택하면 각각 항목으로 자동 등록됩니다. 파일명이 캡션으로 들어가니 나중에 다듬으세요.</p>
           <div class="subrow"><button class="btn btn--sm btn--del" data-del="galgroup:${gi}">구분 삭제</button></div>
         </div>
       </div>`).join("") + `<button class="btn btn--go" data-add="galgroup">+ 새 구분</button>
@@ -2227,7 +2316,7 @@ function normalizeData(d){
 
   const MED = m => A(m).map(x => ({ t: S(x.t) || "image", u: S(x.u), c: S(x.c),
     w: S(x.w) || (S(x.t) === "image" ? "half" : "full"),
-    r: S(x.r) || (S(x.t) === "embed" ? "wide" : "a4") }));
+    r: S(x.r) || (S(x.t) === "embed" ? "wide" : "four3") }));
   const LNK = l => A(l).map(x => ({ label: S(x.label), url: S(x.url) }));
 
   d.projects = A(d.projects).map(p => ({
@@ -2365,6 +2454,35 @@ function syncSaveBtn(){
 /* 파일 업로드 (미디어 편집 블록) */
 $("#adm-body").addEventListener("change", async e=>{
   const inp = e.target;
+
+  // 갤러리 다중 업로드
+  if(inp.dataset.multi !== undefined && inp.files?.length){
+    const gi = +inp.dataset.multi;
+    const files = [...inp.files];
+    const lbl = inp.closest("label");
+    const orig0 = lbl.firstChild.nodeValue;
+    let done = 0, failed = 0;
+    for(const f of files){
+      lbl.firstChild.nodeValue = `올리는 중 ${done+1}/${files.length} `;
+      try{
+        const url = await fbUpload(f);
+        if(url){
+          DATA.gallery.groups[gi].items.push({
+            t: f.type.startsWith("video/") ? "embed" : (f.type === "application/pdf" ? "pdf" : "image"),
+            u: url, c: f.name.replace(/\.[^.]+$/, ""), note: "", w: "full",
+            r: f.type.startsWith("video/") ? "wide" : "four3"
+          });
+          done++;
+        } else failed++;
+      }catch(err){ console.error(err); failed++; }
+    }
+    lbl.firstChild.nodeValue = orig0;
+    inp.value = "";
+    renderSite(); renderAdmin();
+    if(failed) alert(`${done}개 등록, ${failed}개 실패했습니다.`);
+    return;
+  }
+
   if(!inp.dataset.up || !inp.files?.length) return;
   const lbl = inp.closest("label"); const orig = lbl.firstChild.nodeValue;
   lbl.firstChild.nodeValue = "업로드 중… ";
@@ -2404,6 +2522,12 @@ $("#adm-export").onclick = ()=>{
 
 /* global keys */
 document.addEventListener("keydown", e=>{
+  if(galPos && ov.classList.contains("is-open") && (e.key==="ArrowLeft" || e.key==="ArrowRight")){
+    const g = DATA.gallery.groups[galPos.gi];
+    const next = galPos.ii + (e.key==="ArrowRight" ? 1 : -1);
+    if(next >= 0 && next < g.items.length){ e.preventDefault(); openGal(galPos.gi, next); }
+    return;
+  }
   if(e.key==="Escape"){
     if(ov.classList.contains("is-open")) closeCase();
     else if(gate.classList.contains("is-open")) gate.classList.remove("is-open");
